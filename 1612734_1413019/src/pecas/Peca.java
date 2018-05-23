@@ -5,6 +5,7 @@ public abstract class Peca
 	private int x;
 	private int y;
 	private char cor;
+	boolean viva = true;
 	
 	public Peca(int x, int y, char cor)
 	{
