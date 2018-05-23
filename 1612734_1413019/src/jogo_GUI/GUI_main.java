@@ -1,5 +1,9 @@
 package jogo_GUI;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JFrame;
 
 import tabuleiro.Tabuleiro;
@@ -19,11 +23,10 @@ public class GUI_main {
 		
 	}
 	
-	private static void desenhaTabuleiro()
-	{
+	public void desenhaCasa(Graphics g) 
+    {
 		
-		
-	}
+    }
 
 	public static void main(String[] args)
 	{

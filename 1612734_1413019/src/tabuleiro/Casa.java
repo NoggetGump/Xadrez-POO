@@ -4,8 +4,11 @@ public class Casa {
 
 	int x, y;
 	
-	public Casa()
+	public Casa(final int x, final int y)
 	{
-		
+		this.x = x;
+		this.y = y;
 	}
+
+	public Casa() {}
 }
