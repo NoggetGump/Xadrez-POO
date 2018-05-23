@@ -45,6 +45,6 @@ public abstract class Peca{
 		return this.cor;
 	}	
 	
-	public abstract boolean movimentoValido (int x_inicial, int y_inicial, int x_final, int y_final);
+	public abstract int[][] movimentosPossiveis (int [] v);
 
 }
