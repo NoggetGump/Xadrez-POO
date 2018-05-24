@@ -1,10 +1,13 @@
 package pecas;
 
-public abstract class Peca {
+import java.util.ArrayList;
 
-	protected int v[] = new int[2];
-	protected char cor;
-	protected boolean vivo;
+public abstract class Peca {
+	/*Variaveis propositalmente sem modificador 
+	* para serem acessada somente dentro do mesmo pacote*/
+	int v[] = new int[2];	//Vetor coordenada x e y.
+	char cor;				//Cor preta "p" ou branca "b".
+	boolean vivo;			//1 para peça viva e 0 para peça comida.
 
 	public Peca(int x, int y, char cor) {
 		this.v[0] = x;
@@ -37,6 +40,6 @@ public abstract class Peca {
 		return this.cor;
 	}
 
-	public abstract int[][] movimentoValido(int[] v);
+	public abstract ArrayList<int[]> movimentoValido(int[] v);
 
 }
