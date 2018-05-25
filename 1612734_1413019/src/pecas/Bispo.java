@@ -2,6 +2,8 @@ package pecas;
 
 import java.util.ArrayList;
 
+import movimentos.Diagonal;
+
 public class Bispo extends Peca 
 {
 	public Bispo(int x, int y, char cor)
@@ -12,9 +14,9 @@ public class Bispo extends Peca
 	public ArrayList<int[]> movimentoValido(int[] v)
 	{
 		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// Todos os movimentos validos para esse tipo de peça
-		
-		AllMoves = Movimentos.allMovDiag(v);
-		
+
+		AllMoves = Diagonal.allMovDiag(v);
+	
 		return AllMoves;
 	}
 }

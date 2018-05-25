@@ -2,6 +2,8 @@ package pecas;
 
 import java.util.ArrayList;
 
+import movimentos.Lmove;
+
 public class Cavalo extends Peca
 {
 	public Cavalo(int x, int y, char cor)
@@ -13,7 +15,7 @@ public class Cavalo extends Peca
 	{
 		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// Todos os movimentos validos para esse tipo de peça
 		
-		AllMoves = Movimentos.movL(v);
+		AllMoves = Lmove.movL(v);
 		
 		return AllMoves;
 	}

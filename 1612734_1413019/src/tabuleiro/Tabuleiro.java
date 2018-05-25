@@ -5,8 +5,7 @@ import javax.swing.*;
 import java.awt.Graphics2D;
 
 public class Tabuleiro extends JComponent{
-	
-<<<<<<< HEAD
+
 	private Object casa[][];
 	
 	private static void janelaPrincipal()
@@ -36,6 +35,4 @@ public class Tabuleiro extends JComponent{
 		janelaPrincipal();
 		
 	}
-=======
->>>>>>> add31c8ecaa1e66018735f309eaecf61348cb276
 }

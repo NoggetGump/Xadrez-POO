@@ -1,39 +1,40 @@
 package pecas;
 
 import java.util.ArrayList;
+import tabuleiro.Consts;
 
 public abstract class Peca {
 	/*Variaveis propositalmente sem modificador 
 	* para serem acessada somente dentro do mesmo pacote*/
 	int v[] = new int[2];	//Vetor coordenada x e y.
 	char cor;				//Cor preta "p" ou branca "b".
-	boolean vivo;			//1 para peca viva e 0 para peca comida.
+	boolean vivo;			//Consts.y para peca viva e Consts.x para peca comida.
 
 	public Peca(int x, int y, char cor) {
-		this.v[0] = x;
-		this.v[1] = y;
+		this.v[Consts.x] = x;
+		this.v[Consts.y] = y;
 		this.cor = cor;
 	}
 
 	public int getX() {
-		return v[0];
+		return v[Consts.x];
 	}
 
 	public void setX(int x) {
-		this.v[0] = x;
+		this.v[Consts.x] = x;
 	}
 
 	public int getY() {
-		return v[1];
+		return v[Consts.y];
 	}
 
 	public void setY(int y) {
-		this.v[1] = y;
+		this.v[Consts.y] = y;
 	}
 
 	public void setv(int x, int y) {
-		this.v[0] = x;
-		this.v[1] = y;
+		this.v[Consts.x] = x;
+		this.v[Consts.y] = y;
 	}
 
 	public char getCor() {
