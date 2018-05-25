@@ -7,7 +7,7 @@ public abstract class Peca {
 	* para serem acessada somente dentro do mesmo pacote*/
 	int v[] = new int[2];	//Vetor coordenada x e y.
 	char cor;				//Cor preta "p" ou branca "b".
-	boolean vivo;			//1 para peça viva e 0 para peça comida.
+	boolean vivo;			//1 para peca viva e 0 para peca comida.
 
 	public Peca(int x, int y, char cor) {
 		this.v[0] = x;

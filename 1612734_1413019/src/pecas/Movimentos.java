@@ -1,7 +1,6 @@
 package pecas;
 
 import java.util.ArrayList;
-
 import tabuleiro.Consts;
 
 /* Retorna todos os movimentos, dado que o usuário
@@ -10,167 +9,154 @@ import tabuleiro.Consts;
  * r (diagonal) ou int a (vert/horizontal).******/
 
 class Movimentos {
-	
+
 	static void addIfNotNull(ArrayList<int[]> to, int[] from) // autoexplicativo
 	{
-		if(from != null)
+		if (from != null)
 			to.add(from);
 	}
-	
-	static void addAllIfNotNull(ArrayList<int[]> to, ArrayList<int[]> from ) // autoexplicativo
+
+	static void addAllIfNotNull(ArrayList<int[]> to, ArrayList<int[]> from) // autoexplicativo
 	{
-		if(from != null)
+		if (from != null)
 			to.addAll(from);
 	}
-	
-	static ArrayList<int []> allMovDiag(int[] v)
-	{
-		int [] Temp = new int[2];
-		Temp[0] = v[0];
-		Temp[1] = v[1];
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// TODOS os movimentos validos.
-		
-		while(Temp[0] < Consts.xyFin && Temp[1] < Consts.xyFin)
-		{
-			Temp[0]++;
-			Temp[1]++;
+
+	static ArrayList<int[]> allMovDiag(int[] v) {
+		int[] Temp = new int[2];
+		Temp[Consts.x] = v[Consts.x];
+		Temp[Consts.y] = v[Consts.y];
+		ArrayList<int[]> AllMoves = new ArrayList<int[]>(); // TODOS os movimentos validos.
+
+		while (Temp[Consts.x] < Consts.xyFin && Temp[Consts.y] < Consts.xyFin) {
+			Temp[Consts.x]++;
+			Temp[Consts.y]++;
 			addIfNotNull(AllMoves, Temp);
 		}
-		Temp[0] = v[0];
-		Temp[1] = v[1];
-		
-		while(Temp[0] > Consts.xyIni && Temp[1] < Consts.xyFin)
-		{
-			Temp[0]--;
-			Temp[1]++;
+		Temp[Consts.x] = v[Consts.x];
+		Temp[Consts.y] = v[Consts.y];
+
+		while (Temp[Consts.x] > Consts.xyIni && Temp[Consts.y] < Consts.xyFin) {
+			Temp[Consts.x]--;
+			Temp[Consts.y]++;
 			addIfNotNull(AllMoves, Temp);
 		}
-		Temp[0] = v[0];
-		Temp[1] = v[1];
-		
-		while(Temp[0] > Consts.xyIni && Temp[1] > Consts.xyIni)
-		{
-			Temp[0]--;
-			Temp[1]--;
+		Temp[Consts.x] = v[Consts.x];
+		Temp[Consts.y] = v[Consts.y];
+
+		while (Temp[Consts.x] > Consts.xyIni && Temp[Consts.y] > Consts.xyIni) {
+			Temp[Consts.x]--;
+			Temp[Consts.y]--;
 			addIfNotNull(AllMoves, Temp);
 		}
-		Temp[0] = v[0];
-		Temp[1] = v[1];
-		
-		while(Temp[0] < Consts.xyFin || Temp[1] > Consts.xyIni)
-		{
-			Temp[0]++;
-			Temp[1]--;
+		Temp[Consts.x] = v[Consts.x];
+		Temp[Consts.y] = v[Consts.y];
+
+		while (Temp[Consts.x] < Consts.xyFin || Temp[Consts.y] > Consts.xyIni) {
+			Temp[Consts.x]++;
+			Temp[Consts.y]--;
 			addIfNotNull(AllMoves, Temp);
 		}
-		Temp[0] = v[0];
-		Temp[1] = v[1];
-		
-		if(AllMoves.isEmpty())
+		Temp[Consts.x] = v[Consts.x];
+		Temp[Consts.y] = v[Consts.y];
+
+		if (AllMoves.isEmpty())
 			return null;
 		else
-			
+
 			return AllMoves;
 	}
 
-	static ArrayList<int []> movDiag(int r, int[] v) // MOVIMENTO DIAGONAL EM UMA DIREÇÃO E SENTIDO
+	static ArrayList<int[]> movDiag(int r, int[] v) // MOVIMENTO DIAGONAL EM UMA DIREÇÃO E SENTIDO
 	{
-		int [] Temp = new int[2];
-		Temp[0] = v[0];
-		Temp[1] = v[1];
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// Todos os movimentos validos para a direção e sentido requisitados 
-		
-		switch(r)
-		{
-			case 1:	// Região 1 dos eixos cartesianos
-				while(Temp[0] < Consts.xyFin && Temp[1] < Consts.xyFin)
-				{
-					
-					Temp[0]++;
-					Temp[1]++;
-					AllMoves.add(Temp);
-				}
+		int[] Temp = new int[2];
+		Temp[Consts.x] = v[Consts.x];
+		Temp[Consts.y] = v[Consts.y];
+		ArrayList<int[]> AllMoves = new ArrayList<int[]>(); // Todos os movimentos validos para a direção e sentido
+															// requisitados
+
+		switch (r) {
+		case Consts.y: // Região Consts.y dos eixos cartesianos
+			while (Temp[Consts.x] < Consts.xyFin && Temp[Consts.y] < Consts.xyFin) {
+
+				Temp[Consts.x]++;
+				Temp[Consts.y]++;
+				AllMoves.add(Temp);
+			}
+			break;
+
+		case 2: // Região 2 dos eixos cartesianos
+			while (Temp[Consts.x] > Consts.xyIni && Temp[Consts.y] < Consts.xyFin) {
+				Temp[Consts.x]--;
+				Temp[Consts.y]++;
+				AllMoves.add(Temp);
+			}
+			break;
+
+		case 3: // Região 3 dos eixos cartesianos
+			while (Temp[Consts.x] > Consts.xyIni && Temp[Consts.y] > Consts.xyIni) {
+				Temp[Consts.x]--;
+				Temp[Consts.y]--;
+				AllMoves.add(Temp);
 				break;
-			
-			case 2:	// Região 2 dos eixos cartesianos
-				while(Temp[0] > Consts.xyIni && Temp[1] < Consts.xyFin)
-				{
-					Temp[0]--;
-					Temp[1]++;
-					AllMoves.add(Temp);
-				}
+			}
+			break;
+
+		case 4: // Região 4 dos eixos cartesianos
+			while (Temp[Consts.x] < Consts.xyFin || Temp[Consts.y] > Consts.xyIni) {
+				Temp[Consts.x]++;
+				Temp[Consts.y]--;
+				AllMoves.add(Temp);
 				break;
-			
-			case 3:	// Região 3 dos eixos cartesianos
-				while(Temp[0] > Consts.xyIni && Temp[1] > Consts.xyIni)
-				{
-					Temp[0]--;
-					Temp[1]--;
-					AllMoves.add(Temp);
-					break;
-				}
-				break;
-				
-			case 4:	// Região 4 dos eixos cartesianos
-				while(Temp[0] < Consts.xyFin || Temp[1] > Consts.xyIni)
-				{
-					Temp[0]++;
-					Temp[1]--;
-					AllMoves.add(Temp);
-					break;
-				}
-				break;
+			}
+			break;
 		}
-		if(AllMoves.isEmpty())
+		if (AllMoves.isEmpty())
 			return null;
 		else
 			return AllMoves;
 	}
-	
-	private static int[]  LmovBasiCase(int[] v, boolean r, boolean xM, boolean yM) // xM = true se espelhado em X,
-	{																				// yM = true se espelhado em Y
-		int[] Temp = new int[2];													// r=false:x+2,y+1;r=true: x+1,y+2
-		Temp[0] = v[0];
-		Temp[1] = v[1];
-		
-		if(r)
-		{
-			if(xM)
-				Temp[0]--;
+
+	private static int[] LmovBasiCase(int[] v, boolean r, boolean xM, boolean yM) // xM = true se espelhado em X,
+	{ // yM = true se espelhado em Y
+		int[] Temp = new int[2]; // r=false:x+2,y+Consts.y;r=true: x+Consts.y,y+2
+		Temp[Consts.x] = v[Consts.x];
+		Temp[Consts.y] = v[Consts.y];
+
+		if (r) {
+			if (xM)
+				Temp[Consts.x]--;
 			else
-				Temp[0]++;
-			if(yM)
-				Temp[1]-=2;
+				Temp[Consts.x]++;
+			if (yM)
+				Temp[Consts.y] -= 2;
 			else
-				Temp[1]+=2;			
+				Temp[Consts.y] += 2;
 		}
-		
-		else
-		{
-			if(xM)
-				Temp[0]-=2;
+
+		else {
+			if (xM)
+				Temp[Consts.x] -= 2;
 			else
-				Temp[0]+=2;
-			if(yM)
-				Temp[1]--;
+				Temp[Consts.x] += 2;
+			if (yM)
+				Temp[Consts.y]--;
 			else
-				Temp[1]++;
+				Temp[Consts.y]++;
 		}
-	
-		if(Temp[0] > Consts.xyFin || Temp[1] > Consts.xyFin
-		|| Temp[0] < Consts.xyIni || Temp[1] < Consts.xyIni)
+
+		if (Temp[Consts.x] > Consts.xyFin || Temp[Consts.y] > Consts.xyFin || Temp[Consts.x] < Consts.xyIni || Temp[Consts.y] < Consts.xyIni)
 			return null;
-		
+
 		return Temp;
 	}
-	
-	static ArrayList<int[]> movL(int[] v)
-	{	// MOVIMENTO EM "L" - CAVALO
-		int [] Temp = new int[2];
-		Temp[0] = v[0];
-		Temp[1] = v[1];
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// Todos os movimentos validos de um cavalo
-		
+
+	static ArrayList<int[]> movL(int[] v) { // MOVIMENTO EM "L" - CAVALO
+		int[] Temp = new int[2];
+		Temp[Consts.x] = v[Consts.x];
+		Temp[Consts.y] = v[Consts.y];
+		ArrayList<int[]> AllMoves = new ArrayList<int[]>(); // Todos os movimentos validos de um cavalo
+
 		addIfNotNull(AllMoves, LmovBasiCase(v, false, false, false));
 		addIfNotNull(AllMoves, LmovBasiCase(v, false, true, false));
 		addIfNotNull(AllMoves, LmovBasiCase(v, false, false, true));
@@ -179,7 +165,13 @@ class Movimentos {
 		addIfNotNull(AllMoves, LmovBasiCase(v, true, true, false));
 		addIfNotNull(AllMoves, LmovBasiCase(v, true, false, true));
 		addIfNotNull(AllMoves, LmovBasiCase(v, true, true, true));
-		
+
 		return AllMoves;
+	}
+
+	static int[] vertUnitMov(int[] v)
+	{
+		if(v[])
+		return null;
 	}
 }
