@@ -36,10 +36,10 @@ public abstract class Peca {
 		this.v[1] = y;
 	}
 
-	public char getCor() {
+	public char getCor() 
+	{
 		return this.cor;
 	}
 
 	public abstract ArrayList<int[]> movimentoValido(int[] v);
-
 }

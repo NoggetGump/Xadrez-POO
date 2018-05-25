@@ -28,7 +28,7 @@ class Movimentos {
 		int [] Temp = new int[2];
 		Temp[0] = v[0];
 		Temp[1] = v[1];
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// TODOS os movimentos validos.
+		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// TODOS os movimentos validos para as diagonais.
 		
 		while(Temp[0] < Consts.xyFin && Temp[1] < Consts.xyFin)
 		{
@@ -73,12 +73,12 @@ class Movimentos {
 			return AllMoves;
 	}
 
-	static ArrayList<int []> movDiag(int r, int[] v) // MOVIMENTO DIAGONAL EM UMA DIREÃ‡ÃƒO E SENTIDO
+	static ArrayList<int []> movDiag(int r, int[] v) // MOVIMENTO DIAGONAL EM UMA DIRECAO E SENTIDO - não sabemos ainda se será útil.
 	{
 		int [] Temp = new int[2];
 		Temp[0] = v[0];
 		Temp[1] = v[1];
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// Todos os movimentos validos para a direÃ§Ã£o e sentido requisitados 
+		ArrayList<int[]> AllMoves = new ArrayList<int[]>();	// Todos os movimentos validos para a direcao e sentido requisitados 
 		
 		switch(r)
 		{
@@ -127,9 +127,9 @@ class Movimentos {
 			return AllMoves;
 	}
 	
-	private static int[]  LmovBasiCase(int[] v, boolean r, boolean xM, boolean yM) // xM = true se espelhado em X,
-	{																				// yM = true se espelhado em Y
-		int[] Temp = new int[2];													// r=false:x+2,y+1;r=true: x+1,y+2
+	private static int[]  LmovBasiCase(int[] v, boolean r, boolean xM, boolean yM)// xM = true se espelhado em X,
+	{																			  // yM = true se espelhado em Y
+		int[] Temp = new int[2];												  // r=false:x+2,y+1;r=true: x+1,y+2
 		Temp[0] = v[0];
 		Temp[1] = v[1];
 		
