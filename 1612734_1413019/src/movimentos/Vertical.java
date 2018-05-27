@@ -2,69 +2,69 @@ package movimentos;
 
 import java.util.ArrayList;
 import tabuleiro.Consts;
-import tabuleiro.V;
+import vetor.*;
 
 public class Vertical {
-	
-	public static boolean vertUnitP(int[] v)	// RETORNA TRUE SE O MOVIMENTO POSITIVO FOR POSSÍVEL
-	{
-		if(v[V.y] < Consts.xyFin)
-		{
-			v[V.y]++;
+
+	public boolean vUnitP(Vet v) //ATENÇÃO, MODIFICA V!!!
+	{ //RETORNA TRUE SE O MOVIMENTO UNITARIO POSITIVO É POSSÍVEL
+		v.addY(1);
+		if(v.getY() <= Consts.xyFin)
 			return true;
-		}
 		
 	return false;
 	}
 
-	public static boolean vertUnitN(int[] v)	// RETORNA TRUE SE O MOVIMENTO NEGATIVO FOR POSSÍVEL
-	{
-		if(v[V.y] > Consts.xyIni)
-		{
-			v[V.y]--;
+	public boolean vUnitN(Vet v)	// ATENÇÃO, MODIFICA V!!!
+	{ // RETORNA TRUE SE O MOVIMENTO UNITARIO NEGATIVO É POSSÍVEL
+		v.addY(-1);
+		if(v.getY() >= Consts.xyIni)
 			return true;
-		}
 		
 		return false;
 	}
 	
-	public static ArrayList<int[]> vertP(int[] v)	//RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y POSITIVO A PARTIR DA PECA
-	{											 	//RETORNA NULL CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();
-		int[] Temp = MovUtil.cpyArray(v);
+	private boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r) //autoexplicativo.
+	{ //r = true, se movimento for positivo
+		if(r)
+		{
+			if(vUnitP(v))
+			{
+				AllMoves.add(v);
+				Temp.addY(1);
+				return true;
+			}
+		}
+		else
+			if(vUnitN(v))
+			{
+				AllMoves.add(v);
+				Temp.addY(-1);
+				return true;
+			}
 		
-		while(vertUnitP(Temp))
-			AllMoves.add(Temp);
-		
-		if(AllMoves.isEmpty())
-			return null;
-		else 
-			
-			return AllMoves;
+		return false;
 	}
-	
-	public static ArrayList<int[]> vertN(int[] v)	//RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y NEGATIVO A PARTIR DA PECA.
-	{											 	//RETORNA NULL CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();
-		int[] Temp = MovUtil.cpyArray(v);
-		
-		while(vertUnitN(Temp))
-			AllMoves.add(Temp);
-		
+
+	public boolean ver(Vet v, boolean r, ArrayList<Vet> AllMoves) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y POSITIVO A PARTIR DA PECA.
+	{ //RETORNA FALSE CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO. r = true, se movimento for positivo. 
+		Vet Temp = new Vet(v);
+
+		while(addIfTrue(new Vet(Temp), Temp, AllMoves, r));
 		if(AllMoves.isEmpty())
-			return null;
-		else 
-			
-			return AllMoves;
+			return false;
+
+		return true;
 	}
-	
-	public static ArrayList<int[]>  allVerMov(int[] v)
-	{
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();
+
+	public boolean allVerMov(Vet v, ArrayList<Vet> AllMoves) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y A PARTIR DA PECA.
+	{ //RETORNA FALSE CASO NÃO TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
+		boolean b1 = ver(v, true, AllMoves);
+		boolean b2 = ver(v, false, AllMoves);
 		
-		MovUtil.addAllINN(AllMoves, vertP(v));
-		MovUtil.addAllINN(AllMoves, vertN(v));
-			
-			return AllMoves;
+		if(!b1 && !b2)
+			return false;
+
+		return true;
 	}
 }

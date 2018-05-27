@@ -28,8 +28,8 @@ public class GUI_main {
 		
     }
 
-	public static void main(String[] args)
+/*	public static void main(String[] args)
 	{
 		janelaPrincipal();
-	}
+	}*/
 }

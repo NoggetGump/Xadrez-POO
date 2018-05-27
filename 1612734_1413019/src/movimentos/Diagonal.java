@@ -81,33 +81,31 @@ public class Diagonal {
 				return true;
 			}
 			return false;
+		default:
+			return false;
 		}
-		return false;
 	}
 
-	public ArrayList<Vet> movDiag(int r, Vet v)	// MOVIMENTO DIAGONAL EM UMA DIREÇÃO E SENTIDO.
+	public boolean movDiag(int r, Vet v, ArrayList<Vet> AllMoves)	// MOVIMENTO DIAGONAL EM UMA DIREÇÃO E SENTIDO.
 	{											// r = região (direção e sentido) em relação ao eixo cartesiano
-		ArrayList<Vet> AllMoves = new ArrayList<Vet>();
 		Vet Temp = new Vet(v);
 		
 		while(addIfTrue(new Vet(Temp), Temp, AllMoves, r));
 
 		if (AllMoves.isEmpty())
-			return null;
+			return false;
 		else
-			return AllMoves;
+			return true;
 	}
 
-	public ArrayList<Vet> allMovDiag(Vet v)	//RETORNA TODOS OS MOVIMENTOS VALIDOS PARA AS DIREÇÕES DIAGONAIS.
+	public boolean allMovDiag(Vet v, ArrayList<Vet> AllMoves)	//RETORNA TODOS OS MOVIMENTOS VALIDOS PARA AS DIREÇÕES DIAGONAIS.
 	{
-		ArrayList<Vet> AllMoves = new ArrayList<Vet>();
-	
 		for(int r = 1; r < 5; r++)
-			VetUtil.addAllINN(AllMoves, movDiag(r, v));
+			movDiag(r, v, AllMoves);
 		
 		if (AllMoves.isEmpty())
-			return null;
+			return false;
 		else
-			return AllMoves;
+			return true;
 	}
 }
