@@ -1,10 +1,11 @@
 package jogo_Main;
 
-public class XadrezMain {
+import pecas.*;
 
-	/*public static void main(String[] args) {
-		
-
-	}*/
-
+public class XadrezMain {	
+	public static void main(String[] args) 
+	{	
+		Bispo wb = new Bispo(2,3,'b');
+		wb.printAllMov();
+	}
 }

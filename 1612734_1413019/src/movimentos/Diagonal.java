@@ -2,99 +2,112 @@ package movimentos;
 
 import java.util.ArrayList;
 import tabuleiro.Consts;
+import vetor.*;
 
-// ATEN√á√ÉO, TODAS AS FUN√á√ïES DESTA CLASSE MODIFICAM O VETOR V!!! 
-
-public class Diagonal {		
+public class Diagonal {
 	
-	public static boolean DPPmove(int v[])	//NA DIRE√á√ÉO PP
+	public boolean DPPmove(Vet v)	//MODIFICA V NA DIRE«√O PP
 	{
-		if(v[Consts.x] < Consts.xyFin && v[Consts.y] < Consts.xyFin)
-		{
-			MovUtil.movePP(v);
+		VetUtil.movePP(v);
+		if(v.getX() <= Consts.xyFin && v.getY() <= Consts.xyFin)
 			return true;
-		}
+		return false;
+	}
+
+	public boolean DNPmove(Vet v)	//MODIFICA V NA DIRE«√O NP
+	{
+		VetUtil.moveNP(v);
+		if(v.getX() >= Consts.xyIni && v.getY() <= Consts.xyFin)
+			return true;
+		
+		return false;
+	}
+
+	public boolean DNNmove(Vet v)	//MODIFICA V NA DIRE«√O NN
+	{
+		VetUtil.movePP(v);
+		if(v.getX() >= Consts.xyIni && v.getY() >= Consts.xyIni)
+			return true;
+		
+		return false;
+	}
+
+	public boolean DPNmove(Vet v)	//MODIFICA V DIRE«√O PN
+	{
+		VetUtil.movePP(v);
+		if(v.getX() <= Consts.xyFin && v.getY() >= Consts.xyIni)
+			return true;
 		
 		return false;
 	}
 	
-	public static boolean DNPmove(int v[])	//NA DIRE√á√ÉO NP
+	private boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, int r)	//autoexplicativo
 	{
-		if(v[Consts.x] > Consts.xyIni && v[Consts.y] < Consts.xyFin)
-		{
-			MovUtil.moveNP(v);
-			return true;
-		}
 		
+		switch(r)
+		{
+		case 1:
+			if(DPPmove(v))
+			{
+				AllMoves.add(v);
+				VetUtil.movePP(Temp);
+				return true;
+			}
+			return false;
+			
+		case 2:
+			if(DNPmove(v))
+			{
+				AllMoves.add(v);
+				VetUtil.moveNP(Temp);
+				return true;
+			}
+			return false;
+			
+		case 3:
+			if(DNNmove(v))
+			{
+				AllMoves.add(v);
+				VetUtil.moveNN(Temp);
+				return true;
+			}
+			return false;
+
+		case 4:
+			if(DPNmove(v))
+			{
+				AllMoves.add(v);
+				VetUtil.movePN(Temp);
+				return true;
+			}
+			return false;
+		}
 		return false;
 	}
 
-	public static boolean DNNmove(int v[])	//NA DIRE√á√ÉO NN
-	{
-		if(v[Consts.x] > Consts.xyIni && v[Consts.y] > Consts.xyIni)
-		{
-			MovUtil.movePP(v);
-			return true;
-		}
+	public ArrayList<Vet> movDiag(int r, Vet v)	// MOVIMENTO DIAGONAL EM UMA DIRE«√O E SENTIDO.
+	{											// r = regi„o (direÁ„o e sentido) em relaÁ„o ao eixo cartesiano
+		ArrayList<Vet> AllMoves = new ArrayList<Vet>();
+		Vet Temp = new Vet(v);
 		
-		return false;
-	}
+		while(addIfTrue(new Vet(Temp), Temp, AllMoves, r));
 
-	public static boolean DPNmove(int v[])	//DIRE√á√ÉO PN
-	{
-		if(v[Consts.x] < Consts.xyFin && v[Consts.y] > Consts.xyIni)
-		{
-			MovUtil.movePP(v);
-			return true;
-		}
-		return false;
-	}
-
-
-	public static ArrayList<int[]> movDiag(int r, int[] v)	// MOVIMENTO DIAGONAL EM UMA DIRE√á√ÉO E SENTIDO. N√£o modifica v.
-	{														// r = regi√£o (dire√ß√£o e sentido) em rela√ß√£o ao eixo cartesiano
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();
-
-		switch (r) {
-		case 1: // Regi√£o 1 dos eixos cartesianos
-			while (DPPmove(v))
-				AllMoves.add(v);
-			break;
-
-		case 2: // Regi√£o 2 dos eixos cartesianos
-			while (DNPmove(v))
-				AllMoves.add(v);
-			break;
-
-		case 3: // Regi√£o 3 dos eixos cartesianos
-			while (DNNmove(v))
-				AllMoves.add(v);
-			break;
-
-		case 4: // Regi√£o 4 dos eixos cartesianos
-			while (DPNmove(v))
-				AllMoves.add(v);
-			break;
-		}
 		if (AllMoves.isEmpty())
 			return null;
-
 		else
 			return AllMoves;
 	}
+
+	public ArrayList<Vet> allMovDiag(Vet v)	//RETORNA TODOS OS MOVIMENTOS VALIDOS PARA AS DIRE«’ES DIAGONAIS.
+	{
+		ArrayList<Vet> AllMoves = new ArrayList<Vet>();
 	
-	public static ArrayList<int[]> allMovDiag(int[] v) {	//RETORNA TODOS OS MOVIMENTOS VALIDOS PARA AS DIRE√á√ïES DIAGONAIS.
-		ArrayList<int[]> AllMoves = new ArrayList<int[]>();
-
-		MovUtil.addAllINN(AllMoves, movDiag(1, v));
-		MovUtil.addAllINN(AllMoves, movDiag(1, v));
-		MovUtil.addAllINN(AllMoves, movDiag(1, v));
-		MovUtil.addAllINN(AllMoves, movDiag(1, v));
-
+		for(int r = 1; r < 5; r++)
+			VetUtil.addAllINN(AllMoves, movDiag(r, v));
+		
 		if (AllMoves.isEmpty())
 			return null;
 		else
-			
 			return AllMoves;
 	}
 }

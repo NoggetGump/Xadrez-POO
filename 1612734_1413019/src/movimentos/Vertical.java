@@ -2,33 +2,34 @@ package movimentos;
 
 import java.util.ArrayList;
 import tabuleiro.Consts;
+import tabuleiro.V;
 
 public class Vertical {
 	
-	public static boolean vertUnitP(int[] v) // RETORNA TRUE SE O MOVIMENTO POSITIVO É POSSÍVEL
+	public static boolean vertUnitP(int[] v)	// RETORNA TRUE SE O MOVIMENTO POSITIVO FOR POSSÍVEL
 	{
-		if(v[Consts.y] < Consts.xyFin)
+		if(v[V.y] < Consts.xyFin)
 		{
-			v[Consts.y]++;
+			v[V.y]++;
 			return true;
 		}
 		
 	return false;
 	}
 
-	public static boolean vertUnitN(int[] v) // RETORNA TRUE SE O MOVIMENTO NEGATIVO É POSSÍVEL
+	public static boolean vertUnitN(int[] v)	// RETORNA TRUE SE O MOVIMENTO NEGATIVO FOR POSSÍVEL
 	{
-		if(v[Consts.y] > Consts.xyIni)
+		if(v[V.y] > Consts.xyIni)
 		{
-			v[Consts.y]--;
+			v[V.y]--;
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public static ArrayList<int[]> vertP(int[] v) 			  //RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y POSITIVO A PARTIR DA PECA
-	{														  //RETORNA NULL CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
+	public static ArrayList<int[]> vertP(int[] v)	//RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y POSITIVO A PARTIR DA PECA
+	{											 	//RETORNA NULL CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
 		ArrayList<int[]> AllMoves = new ArrayList<int[]>();
 		int[] Temp = MovUtil.cpyArray(v);
 		
@@ -42,8 +43,8 @@ public class Vertical {
 			return AllMoves;
 	}
 	
-	public static ArrayList<int[]> vertN(int[] v) 			  //RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y NEGATIVO A PARTIR DA PECA.
-	{														  //RETORNA NULL CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
+	public static ArrayList<int[]> vertN(int[] v)	//RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y NEGATIVO A PARTIR DA PECA.
+	{											 	//RETORNA NULL CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
 		ArrayList<int[]> AllMoves = new ArrayList<int[]>();
 		int[] Temp = MovUtil.cpyArray(v);
 		

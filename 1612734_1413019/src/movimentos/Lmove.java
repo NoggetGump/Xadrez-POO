@@ -2,6 +2,7 @@ package movimentos;
 
 import java.util.ArrayList;
 import tabuleiro.Consts;
+import tabuleiro.V;
 
 public class Lmove {
 
@@ -11,27 +12,27 @@ public class Lmove {
 
 		if (r) {
 			if (xM)
-				Temp[Consts.x]--;
+				Temp[V.x]--;
 			else
-				Temp[Consts.x]++;
+				Temp[V.x]++;
 			if (yM)
-				Temp[Consts.y] -= 2;
+				Temp[V.y] -= 2;
 			else
-				Temp[Consts.y] += 2;
+				Temp[V.y] += 2;
 		}
 
 		else {
 			if (xM)
-				Temp[Consts.x] -= 2;
+				Temp[V.x] -= 2;
 			else
-				Temp[Consts.x] += 2;
+				Temp[V.x] += 2;
 			if (yM)
-				Temp[Consts.y]--;
+				Temp[V.y]--;
 			else
-				Temp[Consts.y]++;
+				Temp[V.y]++;
 		}
 
-		if (Temp[Consts.x] > Consts.xyFin || Temp[Consts.y] > Consts.xyFin || Temp[Consts.x] < Consts.xyIni || Temp[Consts.y] < Consts.xyIni)
+		if (Temp[V.x] > Consts.xyFin || Temp[V.y] > Consts.xyFin || Temp[V.x] < Consts.xyIni || Temp[V.y] < Consts.xyIni)
 			return null;
 
 		return Temp;
