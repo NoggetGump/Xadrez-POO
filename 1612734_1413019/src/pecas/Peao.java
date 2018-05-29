@@ -11,7 +11,7 @@ public class Peao extends Peca{
 	{
 		super(x, y, cor);
 		Vet Temp = new Vet(v);
-		
-		V.vUnitP(Temp);	
+
+		V.addIfTrue(new Vet(Temp), Temp, AllMoves, true);
 	}
 }

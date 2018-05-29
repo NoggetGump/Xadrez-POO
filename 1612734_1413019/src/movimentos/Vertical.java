@@ -24,22 +24,23 @@ public class Vertical {
 		return false;
 	}
 	
-	private boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r) //autoexplicativo.
+	public boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r) //autoexplicativo.
 	{ //r = true, se movimento for positivo
 		if(r)
 		{
 			if(vUnitP(v))
 			{
 				AllMoves.add(v);
-				Temp.addY(1);
-				return true;
+				if(Temp!=null)
+					Temp.addY(1);
 			}
 		}
 		else
 			if(vUnitN(v))
 			{
 				AllMoves.add(v);
-				Temp.addY(-1);
+				if(Temp!=null)
+					Temp.addY(-1);
 				return true;
 			}
 		

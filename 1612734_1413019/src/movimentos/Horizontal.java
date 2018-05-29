@@ -24,14 +24,15 @@ public class Horizontal {
 		return false;
 	}
 	
-	private boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r) //autoexplicativo.
+	public boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r) //autoexplicativo.
 	{ //r = true, se movimento for positivo
 		if(r)
 		{
 			if(hUnitP(v))
 			{
 				AllMoves.add(v);
-				Temp.addX(1);
+				if(Temp!=null)
+					Temp.addX(1);
 				return true;
 			}
 		}
@@ -39,7 +40,8 @@ public class Horizontal {
 			if(hUnitN(v))
 			{
 				AllMoves.add(v);
-				Temp.addX(-1);
+				if(Temp!=null)
+					Temp.addX(-1);
 				return true;
 			}
 		

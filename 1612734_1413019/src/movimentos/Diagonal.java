@@ -25,7 +25,7 @@ public class Diagonal {
 
 	public boolean DNNmove(Vet v)	//MODIFICA V NA DIREÇÃO NN
 	{
-		VetUtil.movePP(v);
+		VetUtil.moveNN(v);
 		if(v.getX() >= Consts.xyIni && v.getY() >= Consts.xyIni)
 			return true;
 		
@@ -34,7 +34,7 @@ public class Diagonal {
 
 	public boolean DPNmove(Vet v)	//MODIFICA V DIREÇÃO PN
 	{
-		VetUtil.movePP(v);
+		VetUtil.movePN(v);
 		if(v.getX() <= Consts.xyFin && v.getY() >= Consts.xyIni)
 			return true;
 		
@@ -86,8 +86,8 @@ public class Diagonal {
 		}
 	}
 
-	public boolean movDiag(int r, Vet v, ArrayList<Vet> AllMoves)	// MOVIMENTO DIAGONAL EM UMA DIREÇÃO E SENTIDO.
-	{											// r = região (direção e sentido) em relação ao eixo cartesiano
+	public boolean movDiag(int r, Vet v, ArrayList<Vet> AllMoves) // MOVIMENTO DIAGONAL EM UMA DIREÇÃO E SENTIDO.
+	{ // r = região (direção e sentido) em relação ao eixo cartesiano
 		Vet Temp = new Vet(v);
 		
 		while(addIfTrue(new Vet(Temp), Temp, AllMoves, r));
