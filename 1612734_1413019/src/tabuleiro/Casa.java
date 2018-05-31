@@ -1,12 +1,16 @@
 package tabuleiro;
 
+import java.util.ArrayList;
+
 import pecas.Peca;
+import pecas.Bispo;
+import vetor.Vet;
 
 public class Casa {
 
-	private int v[];
+	private Vet v;
 	private boolean casaOcupada = false;
-	private Peca peca;
+	private Peca peca = null;
 	
 	/**
 	 * 
@@ -15,10 +19,13 @@ public class Casa {
 	 * */
 	public Casa(final int x, final int y)
 	{
-		this.v[Consts.x] = x;
-		this.v[Consts.y] = y;
+		this.v = new Vet(x,y);
 	}
 	
+	public Casa()
+	{
+		this.v = new Vet();
+	}
 	/**
 	 * 
 	 *  Getters e Setters Casa
@@ -26,18 +33,12 @@ public class Casa {
 	 * */
 	public int getX(Casa c)
 	{
-		return c.v[Consts.x];
+		return c.v.getX();
 	}
 	
 	public int getY(Casa c) 
 	{
-		return v[Consts.y];
-	}
-	
-	public void setV(int x, int y)
-	{
-		this.v[Consts.x] = x;
-		this.v[Consts.y] = y;
+		return c.v.getY();
 	}
 	
 	/**
@@ -77,7 +78,7 @@ public class Casa {
 		if(c_destino.casaOcupada == false)
 		{
 			c_destino.peca = p; // Move peça p para a casa destino
-			p.setV(c_destino.getX(c_destino), c_destino.getY(c_destino)); // Coordenada nova da peça agora é a mesma da casa destino
+			/*p.v*/
 			c_destino.casaOcupada = true; // Casa destino passa estar ocupada
 			c_origem.peca = null; // Casa origem não possui mais peça
 			c_origem.casaOcupada = false; // Casa origem agora está vazia
@@ -87,4 +88,13 @@ public class Casa {
 			System.out.println("Casa ocupada! Tente posicionar peça em uma casa válida vazia!");
 		}
 	}
+	
+	public void printCasa(Casa c)
+	{
+		if(c.casaOcupada = false)
+		{
+			System.out.print("-");
+		}
+	}
+	
 }
