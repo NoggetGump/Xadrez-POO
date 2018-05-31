@@ -1,3 +1,4 @@
+
 package pecas;
 
 import movimentos.Horizontal;
@@ -19,3 +20,5 @@ public class Rei extends Peca
 		H.addIfTrue(new Vet(v), null, AllMoves, false);
 	}
 }
+
+package pecas;

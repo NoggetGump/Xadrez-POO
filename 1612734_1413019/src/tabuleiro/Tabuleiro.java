@@ -36,3 +36,12 @@ public class Tabuleiro extends JComponent{
 		
 	}
 }
+=======
+package tabuleiro;
+
+import pecas.Peca;
+
+public class Tabuleiro {
+	
+	
+}
