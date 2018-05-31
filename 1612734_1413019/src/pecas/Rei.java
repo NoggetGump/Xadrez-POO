@@ -1,23 +1,21 @@
 package pecas;
 
+import movimentos.Horizontal;
+import movimentos.Vertical;
+import vetor.Vet;
+
 public class Rei extends Peca
 {
+	Vertical V = new Vertical();
+	Horizontal H = new Horizontal();
+	
 	public Rei(int x, int y, char cor)
 	{
 		super(x, y, cor);
-	}
-	
-	public int[][] movimentosPossiveis (int [] v)
-	{
-		int [][]AllMoves = new int [8][2];
-		int j = 0;
 
-		AllMoves[0][0] = v[0] + 1;
-		AllMoves[0][1] = v[1];
-
-		AllMoves[1][];
-
-
-		return AllMoves;
+		V.addIfTrue(new Vet(v), null , AllMoves, true);
+		V.addIfTrue(new Vet(v), null, AllMoves, false);
+		H.addIfTrue(new Vet(v), null, AllMoves, true);
+		H.addIfTrue(new Vet(v), null, AllMoves, false);
 	}
 }
