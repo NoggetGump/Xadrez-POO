@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package pecas;
 
 import java.util.ArrayList;
@@ -76,4 +75,3 @@ public abstract class Peca {
 
 	public abstract ArrayList<int[]> movimentoValido(int[] v);
 }
->>>>>>> 6798ce7b3026558d5773ab0907789a5c72cd3992
