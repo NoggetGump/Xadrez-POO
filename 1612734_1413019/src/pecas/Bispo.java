@@ -11,4 +11,10 @@ public class Bispo extends Peca
 		super(x, y, cor);
 		D.allMovDiag(this.v, this.AllMoves);
 	}
+	
+	public String imgPeca()
+	{
+		String currPath = System.getProperty("user.dir");
+		return currPath+"\\Assets\\Bispo_B.png";
+	}
 }
