@@ -14,4 +14,10 @@ public class Peao extends Peca{
 
 		V.addIfTrue(new Vet(Temp), Temp, AllMoves, true);
 	}
+	
+	public String imgPeca()
+	{
+		String currPath = System.getProperty("user.dir");
+		return currPath+"\\Assets\\Peao_B.png";
+	}
 }
