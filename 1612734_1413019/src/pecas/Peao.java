@@ -14,4 +14,6 @@ public class Peao extends Peca{
 
 		V.addIfTrue(new Vet(Temp), Temp, AllMoves, true);
 	}
+	
+	public String imgPeca() {return "foda-se";}
 }

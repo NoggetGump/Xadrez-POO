@@ -1,4 +1,3 @@
-
 package pecas;
 
 import movimentos.Horizontal;
@@ -19,6 +18,6 @@ public class Rei extends Peca
 		H.addIfTrue(new Vet(v), null, AllMoves, true);
 		H.addIfTrue(new Vet(v), null, AllMoves, false);
 	}
+	
+	public String imgPeca() {return "foda-se";}
 }
-
-package pecas;

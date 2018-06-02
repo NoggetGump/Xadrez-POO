@@ -1,24 +1,28 @@
 package tabuleiro;
 
-import pecas.Peca;
+import vetor.Vet;
+import pecas.*;
 
 public class Casa {
 
-	private int v[];
-	private boolean casaOcupada = false;
+	private Vet v;
 	private Peca peca;
+	private boolean casaOcupada = false;
 	
 	/**
 	 * 
 	 *	Construtor Casa
 	 * 
 	 * */
-	public Casa(final int x, final int y)
+	public Casa(final int x, final int y, Peca p)
 	{
-		this.v[Consts.x] = x;
-		this.v[Consts.y] = y;
+		this.v = new Vet(x,y);
+		peca = p;
+		if(p!=null)
+		{
+			casaOcupada = true;
+		}
 	}
-	
 	/**
 	 * 
 	 *  Getters e Setters Casa
@@ -26,26 +30,20 @@ public class Casa {
 	 * */
 	public int getX(Casa c)
 	{
-		return c.v[Consts.x];
+		return c.v.getX();
 	}
 	
 	public int getY(Casa c) 
 	{
-		return v[Consts.y];
-	}
-	
-	public void setV(int x, int y)
-	{
-		this.v[Consts.x] = x;
-		this.v[Consts.y] = y;
+		return c.v.getY();
 	}
 	
 	/**
 	 * 
-	 *   Retorna uma pe√ßa dada uma casa do tabuleiro
+	 *   Retorna uma peÁa dada uma casa do tabuleiro
 	 *   
 	 *   AE: Casa c
-	 *   AS: Pe√ßa posicionada na casa
+	 *   AS: PeÁa posicionada na casa
 	 *   	 ou null se casa estiver vazia
 	 * 
 	 * */
@@ -64,27 +62,35 @@ public class Casa {
 	
 	/**
 	 * 
-	 *  (Essa fun√ß√£o pode mudar de classe)
-	 * 	Posiciona Pe√ßa na casa 
+	 *  (Essa funÁ„o pode mudar de classe)
+	 * 	Posiciona PeÁa na casa 
 	 *  caso a casa esteja vazia
 	 *  
-	 *  AE: Casa c que se deseja posicionar a pe√ßa
-	 *  	Pe√ßa p que se deseja movimentar
+	 *  AE: Casa c que se deseja posicionar a peÁa
+	 *  	PeÁa p que se deseja movimentar
 	 * 
 	 * */
 	public void posicionaPeca (Casa c_destino, Casa c_origem, Peca p)
 	{
 		if(c_destino.casaOcupada == false)
 		{
-			c_destino.peca = p; // Move pe√ßa p para a casa destino
-			p.setV(c_destino.getX(c_destino), c_destino.getY(c_destino)); // Coordenada nova da pe√ßa agora √© a mesma da casa destino
+			c_destino.peca = p; // Move peÁa p para a casa destino
+			/*p.v*/
 			c_destino.casaOcupada = true; // Casa destino passa estar ocupada
-			c_origem.peca = null; // Casa origem n√£o possui mais pe√ßa
-			c_origem.casaOcupada = false; // Casa origem agora est√° vazia
+			c_origem.peca = null; // Casa origem n„o possui mais peÁa
+			c_origem.casaOcupada = false; // Casa origem agora est· vazia
 		}
 		else
 		{
-			System.out.println("Casa ocupada! Tente posicionar pe√ßa em uma casa v√°lida vazia!");
+			System.out.println("Casa ocupada! Tente posicionar peÁa em uma casa v·lida vazia!");
+		}
+	}
+	
+	public void printCasa(Casa c)
+	{
+		if(c.casaOcupada = false)
+		{
+			System.out.print("-");
 		}
 	}
 }

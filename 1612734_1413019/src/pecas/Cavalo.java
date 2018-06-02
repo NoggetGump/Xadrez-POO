@@ -10,4 +10,6 @@ public class Cavalo extends Peca{
 		super(x, y, cor);
 		lmove.Lmoves(v, AllMoves);
 	}
+	
+	public String imgPeca() {return "foda-se";}
 }

@@ -11,4 +11,6 @@ public class Bispo extends Peca
 		super(x, y, cor);
 		D.allMovDiag(this.v, this.AllMoves);
 	}
+	
+	public String imgPeca() {return "foda-se";}
 }

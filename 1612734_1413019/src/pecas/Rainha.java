@@ -17,4 +17,6 @@ public class Rainha extends Peca
 		V.allVerMov(this.v, AllMoves);
 		D.allMovDiag(this.v, this.AllMoves);
 	}
+	
+	public String imgPeca() {return "foda-se";}
 }
