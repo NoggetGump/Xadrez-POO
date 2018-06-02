@@ -1,30 +1,27 @@
 package tabuleiro;
 
-import java.util.ArrayList;
-
-import pecas.Peca;
-import pecas.Bispo;
 import vetor.Vet;
+import pecas.*;
 
 public class Casa {
 
 	private Vet v;
+	private Peca peca;
 	private boolean casaOcupada = false;
-	private Peca peca = null;
 	
 	/**
 	 * 
 	 *	Construtor Casa
 	 * 
 	 * */
-	public Casa(final int x, final int y)
+	public Casa(final int x, final int y, Peca p)
 	{
 		this.v = new Vet(x,y);
-	}
-	
-	public Casa()
-	{
-		this.v = new Vet();
+		peca = p;
+		if(p!=null)
+		{
+			casaOcupada = true;
+		}
 	}
 	/**
 	 * 
@@ -96,5 +93,4 @@ public class Casa {
 			System.out.print("-");
 		}
 	}
-	
 }
