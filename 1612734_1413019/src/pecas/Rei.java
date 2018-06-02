@@ -18,4 +18,10 @@ public class Rei extends Peca
 		H.addIfTrue(new Vet(v), null, AllMoves, true);
 		H.addIfTrue(new Vet(v), null, AllMoves, false);
 	}
+	
+	public String imgPeca()
+	{
+		String currPath = System.getProperty("user.dir");
+		return currPath+"\\Assets\\Rei_B.png";
+	}
 }
