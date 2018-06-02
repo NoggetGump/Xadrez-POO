@@ -17,4 +17,10 @@ public class Rainha extends Peca
 		V.allVerMov(this.v, AllMoves);
 		D.allMovDiag(this.v, this.AllMoves);
 	}
+	
+	public String imgPeca()
+	{
+		String currPath = System.getProperty("user.dir");
+		return currPath+"\\Assets\\Rainha_B.png";
+	}
 }
