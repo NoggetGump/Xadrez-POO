@@ -2,17 +2,16 @@
 package jogo_Main;
 
 import jogo_GUI.GUI_main;
-import pecas.*;
+import tabuleiro.*;
 
 public class XadrezMain {
 
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
-		Torre wt = new Torre(3,6,'b');
+		Tabuleiro tab= new Tabuleiro();
 		GUI_main g = new GUI_main();
-		g.inicializaTabuleiro();
-		g.inicializaPeca(wt);
-		
+		g.inicializaTabuleiro(tab);
+
 /*			JA TESTADO.
 		Bispo wb = new Bispo(2,3,'b');
 		Torre wt = new Torre(3,6,'b');

@@ -3,8 +3,8 @@ package tabuleiro;
 import vetor.Vet;
 import pecas.*;
 
-public class Casa {
-
+public class Casa
+{
 	private Vet v;
 	private Peca peca;
 	private boolean casaOcupada = false;
@@ -28,69 +28,74 @@ public class Casa {
 	 *  Getters e Setters Casa
 	 * 
 	 * */
-	public int getX(Casa c)
+	public int getX()
 	{
-		return c.v.getX();
+		return v.getX();
 	}
 	
-	public int getY(Casa c) 
+	public int getY() 
 	{
-		return c.v.getY();
+		return v.getY();
+	}
+	
+	public boolean getO()
+	{
+		return casaOcupada;
 	}
 	
 	/**
 	 * 
-	 *   Retorna uma peça dada uma casa do tabuleiro
+	 *   Retorna uma peca dada uma casa do tabuleiro
 	 *   
-	 *   AE: Casa c
-	 *   AS: Peça posicionada na casa
-	 *   	 ou null se casa estiver vazia
+	 * AS: Peca posicionada na casa
+	 * ou null se casa estiver vazia
 	 * 
 	 * */
-	public Peca getPecaNaCasa(Casa c)
+	public Peca getPeca()
 	{
 		if(casaOcupada == true)
-		{
-			return c.peca;
-		}
+			return this.peca;
 		else
 		{
 			System.out.println("Casa Vazia");
 			return null;
 		}
 	}
-	
 	/**
 	 * 
-	 *  (Essa função pode mudar de classe)
-	 * 	Posiciona Peça na casa 
+	 *  (Sim, deveria estar em tabuleiro)
+	 * 	Posiciona Peca na casa 
 	 *  caso a casa esteja vazia
 	 *  
-	 *  AE: Casa c que se deseja posicionar a peça
-	 *  	Peça p que se deseja movimentar
+	 *  AE: Casa c que se deseja posicionar a peca
+	 *  	Peca p que se deseja movimentar
 	 * 
 	 * */
 	public void posicionaPeca (Casa c_destino, Casa c_origem, Peca p)
 	{
 		if(c_destino.casaOcupada == false)
 		{
-			c_destino.peca = p; // Move peça p para a casa destino
+			c_destino.peca = p; // Move peca p para a casa destino
 			/*p.v*/
 			c_destino.casaOcupada = true; // Casa destino passa estar ocupada
-			c_origem.peca = null; // Casa origem não possui mais peça
-			c_origem.casaOcupada = false; // Casa origem agora está vazia
+			c_origem.peca = null; // Casa origem nao possui mais peca
+			c_origem.casaOcupada = false; // Casa origem agora esta vazia
 		}
 		else
 		{
-			System.out.println("Casa ocupada! Tente posicionar peça em uma casa válida vazia!");
+			System.out.println("Casa ocupada! Tente posicionar peca em uma casa valida vazia!");
 		}
 	}
 	
-	public void printCasa(Casa c)
+	public void printCasa()
 	{
-		if(c.casaOcupada = false)
+		if(casaOcupada = false)
 		{
 			System.out.print("-");
+		}
+		else 
+		{
+			
 		}
 	}
 }

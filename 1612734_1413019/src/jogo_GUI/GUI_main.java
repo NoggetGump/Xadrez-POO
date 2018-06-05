@@ -3,25 +3,30 @@ package jogo_GUI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
+
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import tabuleiro.*;
 import pecas.*;
 
 public class GUI_main extends JComponent{
 
-	private final int tam = 100;
-	private final int tamTab = 8 * tam;
-	private static Peca peca;
+	private static final int tam = 75;
+	private static final int tamTab = 8 * tam;
+	private static ArrayList<Peca> pecas = new ArrayList<Peca>();
 
-	public void paintPeca(Peca t, Graphics2D g2) 
+	public void paintPecas(Graphics2D g2)
 	{
-	    g2.drawImage(Toolkit.getDefaultToolkit().getImage(t.imgPeca()), t.convCoorX(), t.convCoorY(), this);
-	    g2.finalize();
+		for(Peca peca : pecas)
+		{
+			g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.convCoorX(), peca.convCoorY(), this);
+		    g2.finalize();
+		}
 	}
 
 	public void paint(Graphics g)
@@ -30,18 +35,20 @@ public class GUI_main extends JComponent{
 	    g2.setPaint(Color.black);
 
 	    int x = 0, y = 0;
-	    
+
 	    while(y<tamTab)
 	    {
-	    	if(y%200 == 0) 
+	    	if(y%150 == 0) 
 	    	{
-	    	g2.draw(new Rectangle2D.Double(x, y, tam, tam));
-	    	x = x + tam;
-	    	g2.fill(new Rectangle2D.Double(x, y, tam, tam));
-	    	x = x + tam;
+		    	g2.draw(new Rectangle2D.Double(x, y, tam, tam));
+		    	x = x + tam;
+		    	g2.draw(new Rectangle2D.Double(x, y, tam, tam));
+		    	g2.fill(new Rectangle2D.Double(x, y, tam, tam));
+		    	x = x + tam;
 	    	}
 	    	else
 	    	{
+	    		g2.draw(new Rectangle2D.Double(x, y, tam, tam));
 		    	g2.fill(new Rectangle2D.Double(x, y, tam, tam));
 		    	x = x + tam;
 		    	g2.draw(new Rectangle2D.Double(x, y, tam, tam));
@@ -53,29 +60,21 @@ public class GUI_main extends JComponent{
 	    		x = 0;
 	    	}
 	    }
-
-	    x = 14;
-	    y = 19;
-
-	    paintPeca(peca, g2);
-	    System.out.println("Chega aqui");
+	    
+	    paintPecas(g2);
 	} 
-	
-	public void inicializaTabuleiro()
+
+	public void inicializaTabuleiro(Tabuleiro tab)
 	{
 		JFrame janela = new JFrame("Xadrez");
 	    janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    janela.setSize(816, 839);
+	    janela.setSize(600, 600);
 	    janela.getContentPane().add(new GUI_main());
 	    janela.setLocationRelativeTo(null);
 	    janela.setResizable(false);
 	    janela.setVisible(true);
-		System.out.println("Janela inicializada com sucesso!");
-	}
-	
-	public void inicializaPeca(Peca p)
-	{
-		peca = p;
-	}
 
+	    pecas = tab.getPecas();
+	    System.out.println("Janela inicializada com sucesso!");
+	}
 }

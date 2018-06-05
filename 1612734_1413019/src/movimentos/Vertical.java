@@ -24,7 +24,7 @@ public class Vertical {
 		return false;
 	}
 	
-	public boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r) //autoexplicativo.
+	public boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r)
 	{ //r = true, se movimento for positivo
 		if(r)
 		{
