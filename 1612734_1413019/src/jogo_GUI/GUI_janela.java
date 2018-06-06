@@ -13,8 +13,8 @@ public class GUI_janela extends JFrame {
 			{
 				public void mouseClicked(MouseEvent e)
 				{
-					int x = e.getX();
-					int y = e.getY();
+					int x = (e.getX()-4)/100;
+					int y = (e.getY()-26)/100;
 					System.out.println("Coordenada clicada: ( " + x + " , " + y + " )");
 				}
 			});
