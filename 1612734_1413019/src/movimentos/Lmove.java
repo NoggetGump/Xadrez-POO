@@ -10,7 +10,7 @@ public class Lmove {
 	{
 		Vet Temp = new Vet(v);
 
-		Temp.add(Mx, 2*My);
+		Temp.add(Mx, 2*My); //Voces está usando os valores absolutos. Tem que cortar os negativos.
 		if(java.lang.Math.abs(Temp.getX()) <= Consts.xyFin
 		&& java.lang.Math.abs(Temp.getX()) >= Consts.xyIni
 		&& java.lang.Math.abs(Temp.getY()) <= Consts.xyFin

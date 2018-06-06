@@ -39,4 +39,9 @@ public class Bispo extends Peca
 		else
 			return Consts.bispoB.getPath();
 	}
+	
+	public String nomePeca()
+	{
+		return "Bispo";
+	}
 }

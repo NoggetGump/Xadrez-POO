@@ -15,14 +15,15 @@ import tabuleiro.*;
 import pecas.*;
 
 public class GUI_main extends JComponent{
-
+	
+	GUI_janela j;
 	private static final int tamY = 2 * Consts.tamC;
 	private static final int tamTab = 8 * Consts.tamC;
-	private static ArrayList<Peca> pecas = new ArrayList<Peca>();
+	private static Tabuleiro tab;
 
 	public void paintPecas(Graphics2D g2)
 	{
-		for(Peca peca : pecas)
+		for(Peca peca : tab.getPecas())
 		{
 			g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.convCoorX(), peca.convCoorY(), this);
 		    g2.finalize();
@@ -66,21 +67,11 @@ public class GUI_main extends JComponent{
 
 	public void inicializaTabuleiro(Tabuleiro tab)
 	{
-		
-		JFrame janela = new JFrame("Xadrez");
-	    janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    janela.setSize(Consts.tamC*8, Consts.tamC*8 + 35);
-	    janela.getContentPane().add(new GUI_main());
-	    janela.setLocationRelativeTo(null);
-	    janela.setResizable(false);
-	    janela.setVisible(true);
-
-	    pecas = tab.getPecas();
-	    System.out.println("Janela inicializada com sucesso!");
+		GUI_main.tab = tab;
+		j = new GUI_janela(this, tab);
 	}
 	
 	public void atualizaTab()
 	{
-	
 	}
 }

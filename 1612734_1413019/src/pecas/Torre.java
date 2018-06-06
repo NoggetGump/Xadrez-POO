@@ -43,4 +43,9 @@ public class Torre extends Peca
 		else
 			return Consts.torreB.getPath();
 	}
+	
+	public String nomePeca()
+	{
+		return "Torre";
+	}
 }

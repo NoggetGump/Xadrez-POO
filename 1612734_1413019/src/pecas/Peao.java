@@ -43,4 +43,9 @@ public class Peao extends Peca{
 		else
 			return Consts.peaoB.getPath();
 	}
+	
+	public String nomePeca()
+	{
+		return "Peao";
+	}
 }

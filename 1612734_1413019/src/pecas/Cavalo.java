@@ -38,4 +38,9 @@ public class Cavalo extends Peca{
 		else
 			return Consts.cavaloB.getPath();
 	}
+	
+	public String nomePeca()
+	{
+		return "Cavalo";
+	}
 }

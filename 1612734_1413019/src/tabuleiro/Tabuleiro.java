@@ -3,6 +3,7 @@ package tabuleiro;
 import pecas.*;
 import vetor.Vet;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -10,6 +11,7 @@ public class Tabuleiro
 {
 	private ArrayList<Casa> tab = new ArrayList<Casa>();
 	private ArrayList<Peca> pecas = new ArrayList<Peca>();
+	private Peca pecaSelec;
 
 	/**
 	 * 
@@ -108,6 +110,11 @@ public class Tabuleiro
 			for(int i = 0 ; i <= Consts.xyFin; i++)
 				tab.add(new Casa(i, j, addPeca.apply(new Vet(i, j))));
 	}
+	
+	public Tabuleiro(File x)
+	{
+	
+	}
 
 	/**
 	 * 
@@ -115,16 +122,20 @@ public class Tabuleiro
 	 * 
 	 * */
 
-	public Casa getCasa(int x, int y)
+	public Peca buscaPeca(int x, int y)
 	{
-	 	for(Casa casa : tab)
+	 	for(Peca peca : pecas)
 	 	{
-	 		if(casa.getX() == x && casa.getY() == y)
-	 			return casa;
+	 		if(peca.getX() == x && peca.getY() == y)
+	 		{
+	 			System.out.println(peca.nomePeca());
+	 			return peca;
+	 		}
 	 	}
+	 	System.out.println("Nao ha peca nesta casa");
 	 	return null;
 	}
-	
+
 	public ArrayList<Peca> getPecas()
 	{
 		return pecas;
@@ -155,7 +166,7 @@ public class Tabuleiro
 			if(c_origem.getO())
 				System.out.println("Selecione uma casa com peça");
 			else
-			System.out.println("Casa Destino ocupada! Tente posicionar peca em uma casa valida vazia!");
+				System.out.println("Casa Destino ocupada! Tente posicionar peca em uma casa valida vazia!");
 		}
 	}
 }

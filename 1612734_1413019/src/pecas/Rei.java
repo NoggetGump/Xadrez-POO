@@ -49,4 +49,9 @@ public class Rei extends Peca
 		else
 			return Consts.reiB.getPath();
 	}
+	
+	public String nomePeca()
+	{
+		return "Rei";
+	}
 }

@@ -47,4 +47,9 @@ public class Rainha extends Peca
 		else
 			return Consts.rainhaB.getPath();
 	}
+	
+	public String nomePeca()
+	{
+		return "Rainha";
+	}
 }
