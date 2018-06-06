@@ -54,7 +54,7 @@ public class GUI_main extends JComponent{
 	    y = 19;
 
 	    paintPeca(peca, g2);
-	    System.out.println("Chega aqui");
+	    //System.out.println("Chega aqui");
 	} 
 	
 	public void inicializaTabuleiro()

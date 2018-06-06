@@ -17,7 +17,7 @@ public class XadrezMain {
 		/**
 		 * 
 		 *		Teste de movimentos possiveis
-		 * 		(J√Å TESTADO E FUNCIONANDO)	 
+		 * 		(J¡ TESTADO E FUNCIONANDO)	 
 		 * 
 		 * */
 /*		
