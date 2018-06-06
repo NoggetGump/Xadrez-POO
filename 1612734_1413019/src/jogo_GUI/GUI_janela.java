@@ -7,14 +7,15 @@ import javax.swing.JFrame;
 
 public class GUI_janela extends JFrame {
 
+	private int x, y; 
 		public GUI_janela()
 		{
 			addMouseListener(new MouseAdapter() 
 			{
 				public void mouseClicked(MouseEvent e)
 				{
-					int x = (e.getX()-4)/100;
-					int y = (e.getY()-26)/100;
+					x = (e.getX()-4)/100;
+					y = (e.getY()-26)/100;
 					System.out.println("Coordenada clicada: ( " + x + " , " + y + " )");
 				}
 			});
@@ -31,4 +32,14 @@ public class GUI_janela extends JFrame {
 			System.out.println("Janela inicializada com sucesso!");
 			
 		}
+		
+	public int getx()
+	{
+		return x;
+	}
+	
+	public int gety()
+	{
+		return y;
+	}
 }
