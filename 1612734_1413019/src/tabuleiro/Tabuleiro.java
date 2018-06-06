@@ -129,4 +129,33 @@ public class Tabuleiro
 	{
 		return pecas;
 	}
+
+	/**
+	 * 
+	 * 	Posiciona Peca na casa 
+	 *  caso a casa esteja vazia
+	 *  
+	 *  AE: Casa c que se deseja posicionar a peca
+	 *  	Peca p que se deseja movimentar
+	 * 
+	 * */
+
+	public void movePeca (Casa c_destino, Casa c_origem)
+	{
+		if(c_destino.getO() == false && c_origem.getO() == true)
+		{
+			c_origem.getPeca().atualizaVet(c_destino.getVet()); //Atualiza o Vetor da Peca
+			c_destino.setPeca(c_origem.getPeca()); // Move Peca para a Casa Destino
+			c_origem.setPeca(null); //Retira a Peca da Origem
+			c_destino.toogleO(); // Casa Destino passa a estar Ocupada
+			c_origem.toogleO(); // Casa Origem agora esta Vazia
+		}
+		else
+		{
+			if(c_origem.getO())
+				System.out.println("Selecione uma casa com peça");
+			else
+			System.out.println("Casa Destino ocupada! Tente posicionar peca em uma casa valida vazia!");
+		}
+	}
 }

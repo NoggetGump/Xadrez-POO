@@ -32,25 +32,22 @@ public class Casa
 	{
 		return v.getX();
 	}
-	
-	public int getY() 
+
+	public int getY()
 	{
 		return v.getY();
 	}
-	
+
 	public boolean getO()
 	{
 		return casaOcupada;
 	}
-	
-	/**
-	 * 
-	 *   Retorna uma peca dada uma casa do tabuleiro
-	 *   
-	 * AS: Peca posicionada na casa
-	 * ou null se casa estiver vazia
-	 * 
-	 * */
+
+	public Vet getVet()
+	{
+		return v;
+	}
+
 	public Peca getPeca()
 	{
 		if(casaOcupada == true)
@@ -61,32 +58,26 @@ public class Casa
 			return null;
 		}
 	}
-	/**
-	 * 
-	 *  (Sim, deveria estar em tabuleiro)
-	 * 	Posiciona Peca na casa 
-	 *  caso a casa esteja vazia
-	 *  
-	 *  AE: Casa c que se deseja posicionar a peca
-	 *  	Peca p que se deseja movimentar
-	 * 
-	 * */
-	public void posicionaPeca (Casa c_destino, Casa c_origem, Peca p)
+
+	public boolean setPeca(Peca p)
 	{
-		if(c_destino.casaOcupada == false)
+		if(p != null)
 		{
-			c_destino.peca = p; // Move peca p para a casa destino
-			/*p.v*/
-			c_destino.casaOcupada = true; // Casa destino passa estar ocupada
-			c_origem.peca = null; // Casa origem nao possui mais peca
-			c_origem.casaOcupada = false; // Casa origem agora esta vazia
+			peca = p;
+			return true;
 		}
-		else
-		{
-			System.out.println("Casa ocupada! Tente posicionar peca em uma casa valida vazia!");
-		}
+		return false;
 	}
 	
+	public void toogleO()
+	{
+		if(this.casaOcupada)
+			casaOcupada = false;
+		else
+			casaOcupada = true;
+			
+	}
+
 	public void printCasa()
 	{
 		if(casaOcupada = false)

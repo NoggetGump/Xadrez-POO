@@ -7,7 +7,8 @@ public final class Consts
 {
 	public static final int xyIni = 0;
 	public static final int xyFin = 7;
-	public static final File root = new File("1612734_1413019");
+	public static final int tamC= 100;
+	public static final File root = new File(System.getProperty("user.dir"));
 	public static final File assets = new File(root, "Assets");
 	public static final File torreP = new File(assets, "Torre_P.png");
 	public static final File torreB = new File(assets, "Torre_B.png");

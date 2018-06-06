@@ -16,8 +16,8 @@ import pecas.*;
 
 public class GUI_main extends JComponent{
 
-	private static final int tam = 75;
-	private static final int tamTab = 8 * tam;
+	private static final int tamY = 2 * Consts.tamC;
+	private static final int tamTab = 8 * Consts.tamC;
 	private static ArrayList<Peca> pecas = new ArrayList<Peca>();
 
 	public void paintPecas(Graphics2D g2)
@@ -38,25 +38,25 @@ public class GUI_main extends JComponent{
 
 	    while(y<tamTab)
 	    {
-	    	if(y%150 == 0) 
+	    	if(y%tamY == 0)
 	    	{
-		    	g2.draw(new Rectangle2D.Double(x, y, tam, tam));
-		    	x = x + tam;
-		    	g2.draw(new Rectangle2D.Double(x, y, tam, tam));
-		    	g2.fill(new Rectangle2D.Double(x, y, tam, tam));
-		    	x = x + tam;
+		    	g2.draw(new Rectangle2D.Double(x, y, Consts.tamC, Consts.tamC));
+		    	x = x + Consts.tamC;
+		    	g2.draw(new Rectangle2D.Double(x, y, Consts.tamC, Consts.tamC));
+		    	g2.fill(new Rectangle2D.Double(x, y, Consts.tamC, Consts.tamC));
+		    	x = x + Consts.tamC;
 	    	}
 	    	else
 	    	{
-	    		g2.draw(new Rectangle2D.Double(x, y, tam, tam));
-		    	g2.fill(new Rectangle2D.Double(x, y, tam, tam));
-		    	x = x + tam;
-		    	g2.draw(new Rectangle2D.Double(x, y, tam, tam));
-		    	x = x + tam;
+	    		g2.draw(new Rectangle2D.Double(x, y, Consts.tamC, Consts.tamC));
+		    	g2.fill(new Rectangle2D.Double(x, y, Consts.tamC, Consts.tamC));
+		    	x = x + Consts.tamC;
+		    	g2.draw(new Rectangle2D.Double(x, y, Consts.tamC, Consts.tamC));
+		    	x = x + Consts.tamC;
 	    	}
 	    	if(x == tamTab)
 	    	{
-	    		y = y + tam;
+	    		y = y + Consts.tamC;
 	    		x = 0;
 	    	}
 	    }
@@ -66,9 +66,10 @@ public class GUI_main extends JComponent{
 
 	public void inicializaTabuleiro(Tabuleiro tab)
 	{
+		
 		JFrame janela = new JFrame("Xadrez");
 	    janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    janela.setSize(600, 600);
+	    janela.setSize(Consts.tamC*8, Consts.tamC*8 + 35);
 	    janela.getContentPane().add(new GUI_main());
 	    janela.setLocationRelativeTo(null);
 	    janela.setResizable(false);
@@ -76,5 +77,10 @@ public class GUI_main extends JComponent{
 
 	    pecas = tab.getPecas();
 	    System.out.println("Janela inicializada com sucesso!");
+	}
+	
+	public void atualizaTab()
+	{
+	
 	}
 }

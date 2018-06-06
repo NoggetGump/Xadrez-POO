@@ -11,7 +11,7 @@ public class Vertical {
 		v.addY(1);
 		if(v.getY() <= Consts.xyFin)
 			return true;
-		
+
 	return false;
 	}
 
@@ -23,7 +23,7 @@ public class Vertical {
 		
 		return false;
 	}
-	
+
 	public boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r)
 	{ //r = true, se movimento for positivo
 		if(r)
