@@ -3,8 +3,8 @@ package tabuleiro;
 import vetor.Vet;
 import pecas.*;
 
-public class Casa {
-
+public class Casa
+{
 	private Vet v;
 	private Peca peca;
 	private boolean casaOcupada = false;
@@ -28,69 +28,65 @@ public class Casa {
 	 *  Getters e Setters Casa
 	 * 
 	 * */
-	public int getX(Casa c)
+	public int getX()
 	{
-		return c.v.getX();
+		return v.getX();
 	}
-	
-	public int getY(Casa c) 
+
+	public int getY()
 	{
-		return c.v.getY();
+		return v.getY();
 	}
-	
-	/**
-	 * 
-	 *   Retorna uma peça dada uma casa do tabuleiro
-	 *   
-	 *   AE: Casa c
-	 *   AS: Peça posicionada na casa
-	 *   	 ou null se casa estiver vazia
-	 * 
-	 * */
-	public Peca getPecaNaCasa(Casa c)
+
+	public boolean getO()
+	{
+		return casaOcupada;
+	}
+
+	public Vet getVet()
+	{
+		return v;
+	}
+
+	public Peca getPeca()
 	{
 		if(casaOcupada == true)
-		{
-			return c.peca;
-		}
+			return this.peca;
 		else
 		{
 			System.out.println("Casa Vazia");
 			return null;
 		}
 	}
-	
-	/**
-	 * 
-	 *  (Essa função pode mudar de classe)
-	 * 	Posiciona Peça na casa 
-	 *  caso a casa esteja vazia
-	 *  
-	 *  AE: Casa c que se deseja posicionar a peça
-	 *  	Peça p que se deseja movimentar
-	 * 
-	 * */
-	public void posicionaPeca (Casa c_destino, Casa c_origem, Peca p)
+
+	public boolean setPeca(Peca p)
 	{
-		if(c_destino.casaOcupada == false)
+		if(p != null)
 		{
-			c_destino.peca = p; // Move peça p para a casa destino
-			/*p.v*/
-			c_destino.casaOcupada = true; // Casa destino passa estar ocupada
-			c_origem.peca = null; // Casa origem não possui mais peça
-			c_origem.casaOcupada = false; // Casa origem agora está vazia
+			peca = p;
+			return true;
 		}
-		else
-		{
-			System.out.println("Casa ocupada! Tente posicionar peça em uma casa válida vazia!");
-		}
+		return false;
 	}
 	
-	public void printCasa(Casa c)
+	public void toogleO()
 	{
-		if(c.casaOcupada = false)
+		if(this.casaOcupada)
+			casaOcupada = false;
+		else
+			casaOcupada = true;
+			
+	}
+
+	public void printCasa()
+	{
+		if(casaOcupada = false)
 		{
 			System.out.print("-");
+		}
+		else 
+		{
+			
 		}
 	}
 }

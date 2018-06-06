@@ -29,5 +29,6 @@ public class GUI_janela extends JFrame {
 		    setResizable(false);
 		    setVisible(true);
 			System.out.println("Janela inicializada com sucesso!");
+			
 		}
 }

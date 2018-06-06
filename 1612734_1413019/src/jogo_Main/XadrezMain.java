@@ -2,25 +2,19 @@
 package jogo_Main;
 
 import jogo_GUI.GUI_main;
-import pecas.*;
+import jogo_GUI.GUI_janela;
+import tabuleiro.*;
 
 public class XadrezMain {
 
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
-		Torre wt1 = new Torre(3,6,'b');
+		Tabuleiro tab= new Tabuleiro();
 		GUI_main g = new GUI_main();
-		g.inicializaTabuleiro();
-		g.inicializaPeca(wt1);
+		g.inicializaTabuleiro(tab);
+	}
 
-		
-		/**
-		 * 
-		 *		Teste de movimentos possiveis
-		 * 		(JÁ TESTADO E FUNCIONANDO)	 
-		 * 
-		 * */
-/*		
+/*			JA TESTADO.
 		Bispo wb = new Bispo(2,3,'b');
 		Torre wt = new Torre(3,6,'b');
 		Rei wk = new Rei(4,0, 'b');
@@ -40,5 +34,4 @@ public class XadrezMain {
 		wh.printAllMov();
 		System.out.println("\nWhite Pawn"); 
 		wp.printAllMov();*/
-	}
 }

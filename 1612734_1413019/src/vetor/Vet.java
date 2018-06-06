@@ -2,7 +2,7 @@ package vetor;
 
 public class Vet {
 
-	private int[] v = null;
+	private int[] v;
 
 	public Vet(){
 		v = new int[2];
