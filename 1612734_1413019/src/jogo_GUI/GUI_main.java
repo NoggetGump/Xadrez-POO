@@ -95,7 +95,12 @@ public class GUI_main extends JComponent{
 
 	public void selecPeca(Peca p)
 	{
-			GUI_main.p = p;
-			repaint();
+		GUI_main.p = p;
+		repaint();
+	}
+	
+	public void movPeca(Peca p, int x, int y)
+	{
+		
 	}
 }

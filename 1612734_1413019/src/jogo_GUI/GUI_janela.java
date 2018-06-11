@@ -27,6 +27,12 @@ public class GUI_janela extends JFrame {
 						a.selecPeca(pecaSelecionada);
 					}
 					
+					if(temp == null && pecaSelecionada != null)
+					{
+						pecaSelecionada = temp;
+						a.movPeca(pecaSelecionada, x, y);
+					}
+					
 				}
 			});
 			
