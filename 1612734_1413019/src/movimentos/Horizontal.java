@@ -2,23 +2,31 @@ package movimentos;
 
 import java.util.ArrayList;
 import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.*;
 
 public class Horizontal {
 
-	public boolean hUnitP(Vet v) //ATENÇÃO, MODIFICA V!!!
-	{ //RETORNA TRUE SE O MOVIMENTO UNITARIO POSITIVO É POSSÍVEL
+	private static Tabuleiro tab;
+	
+	public Horizontal(Tabuleiro tab)
+	{
+		Horizontal.tab = tab;
+	}
+	
+	public boolean hUnitP(Vet v) //ATENÃƒâ€¡ÃƒÆ’O, MODIFICA V!!!
+	{ //RETORNA TRUE SE O MOVIMENTO UNITARIO POSITIVO Ãƒâ€° POSSÃƒï¿½VEL
 		v.addX(1);
-		if(v.getX() <= Consts.xyFin)
+		if(v.getX() <= Consts.xyFin && !tab.perguntaCasaPeca(v))
 			return true;
 		
 		return false;
 	}
 
-	public boolean hUnitN(Vet v)	// ATENÇÃO, MODIFICA V!!!
-	{ // RETORNA TRUE SE O MOVIMENTO UNITARIO NEGATIVO É POSSÍVEL
+	public boolean hUnitN(Vet v)	// ATENÃƒâ€¡ÃƒÆ’O, MODIFICA V!!!
+	{ // RETORNA TRUE SE O MOVIMENTO UNITARIO NEGATIVO Ãƒâ€° POSSÃƒï¿½VEL
 		v.addX(-1);
-		if(v.getX() >= Consts.xyIni)
+		if(v.getX() >= Consts.xyIni && !tab.perguntaCasaPeca(v))
 			return true;
 		
 		return false;
@@ -49,7 +57,7 @@ public class Horizontal {
 	}
 
 	public boolean hor(Vet v, boolean r, ArrayList<Vet> AllMoves)	//RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO X POSITIVO A PARTIR DA PECA.
-	{ //r = true, se movimento for positivo. RETORNA NULL CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
+	{ //r = true, se movimento for positivo. RETORNA NULL CASO NÃƒÆ’O HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
 		Vet Temp = new Vet(v);
 		
 		while(addIfTrue(new Vet(Temp), Temp, AllMoves, r));
@@ -61,7 +69,7 @@ public class Horizontal {
 	}
 
 	public boolean  allHorMov(Vet v, ArrayList<Vet> AllMoves)	//RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO X A PARTIR DA PECA.
-	{ //RETORNA FALSE CASO NÃO TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
+	{ //RETORNA FALSE CASO NÃƒÆ’O TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
 		boolean b1 = hor(v, true, AllMoves);
 		boolean b2 = hor(v, false, AllMoves);
 		
