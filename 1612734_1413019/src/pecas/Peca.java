@@ -3,26 +3,25 @@ package pecas;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
 public abstract class Peca{
-
 	/**
 	 * 
 	 * 	Variaveis propositalmente sem modificador 
-	 * 	para serem acessada somente dentro do mesmo pacote
+	 * 	para serem acessada somente dentro do mesmo pacote.
 	 *
 	 * */
-
 	Vet v; //Vetor coordenada x e y.
 	char cor; //Cor preta "p" ou branca "b".
 	boolean viva = true; //Consts.y para peca viva e Consts.x para peca comida.
-	ArrayList<Vet> AllMoves = new ArrayList<Vet>(); 
+	ArrayList<Vet> AllMoves = new ArrayList<Vet>(); //Lista com todos os movimentos de determinada peca
+	ArrayList<Vet> PossMove = new ArrayList<Vet>();
 
 	/**
 	 * 
-	 *	Construtores de Peca
+	 *	Construtores de Peca.
 	 *
 	 * */
 
@@ -46,9 +45,9 @@ public abstract class Peca{
 
 	/**
 	 * 
-	 * 	Getters e Setters de Peca
+	 * 	Getters e Setters de Peca.
 	 *
-	 * */
+	 */
 
 	public char getCor()
 	{
@@ -65,21 +64,45 @@ public abstract class Peca{
 		return v;
 	}
 
-	public boolean atualizaVet(Vet v)
+	public int getX()
 	{
-		if(v != null)
-		{
-			this.v.set(v.getX(), v.getY());
-			return true;
-		}
-		return false;
+		return this.v.getX();
+	}
+
+	public int getY()
+	{
+		return this.v.getY();
+	}
+
+	public ArrayList<Vet> getAllMoves()
+	{
+		return this.AllMoves;
+	}
+
+	public void atualizaPos(Vet vet)
+	{
+		this.v.set(vet.getX(), vet.getY());
 	}
 
 	/**
 	 * 
-	 * Printer dos movimentos de Peca
+	 * Retorna true se a cor for preta
 	 *
-	 * */
+	 */
+
+	public boolean corP()
+	{
+		if(this.cor == 'p')
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * 
+	 * Printer dos movimentos de Peca. Somente para DEBUG ONLY!
+	 *
+	 */
 
     public Consumer<Vet> printMoves = (v) -> 
     { //para testar se os movimentos possiveis estavam sendo inicializados corretamente
@@ -91,31 +114,37 @@ public abstract class Peca{
 		this.AllMoves.forEach(printMoves);
 	}
 
-	/**
-	 * 
-	 *	Recebe as coordenadas cartesianas
-	 *	e retorna as coordenadas User Space
-	 *
-	 * */
-
-	public int convCoorX()
-	{
-		int coordenadaX = (this.v.getX() * Consts.tamC) + 18;
-		return coordenadaX;
-	}
-
-	public int convCoorY()
-	{
-		int coordenadaY =  (this.v.getY() * Consts.tamC) + 15;
-		return coordenadaY;
-	}
-
-	/**
+	/** <!> A PARTIR DAQUI RESIDEM AS FUNCOES ABSTRATAS <!> 
 	 * 
 	 * 	Retorna o path correto para
-	 *  a imagem da respectiva peca
+	 *  a imagem da respectiva peca.
 	 *
-	 * */
+	 */
 
 	abstract public String imgPeca();
+
+	/**
+	 * 
+	 *	Teste para saber se o click do mouse
+	 *	retorna a peca correta.
+	 *
+	 */
+
+	abstract public String nomePeca();
+
+	/**
+	 * 
+	 *	Atualiza os movimentos (AllMoves) da peca.
+	 *
+	 * 	Importante <!>
+	 *  AllMoves nÃ£o precisa ser inicializada
+	 *  na construcao do objeto Peca. AllMoves
+	 *  deve ser inicializada quando o tabuleiro
+	 *  estiver cheio de pecas, assim a funÃ§Ã£o 
+	 *  poderÃ¡ lidar com o conflito de pecas.
+	 *   
+	 */
+
+	public abstract void AtualizaMoves(Tabuleiro tab);
+	
 }
