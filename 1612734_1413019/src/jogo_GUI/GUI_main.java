@@ -17,7 +17,7 @@ public class GUI_main extends JComponent{
 	GUI_janela j;
 	private static final int tamY = 2 * Consts.tamC;
 	private static final int tamTab = 8 * Consts.tamC;
-	private static Tabuleiro tab;
+	private Tabuleiro tab;
 	private static Peca p = null;
 
 	private void paintPecas(Graphics2D g2)
@@ -78,18 +78,15 @@ public class GUI_main extends JComponent{
 	    		x = 0;
 	    	}
 	    }
-	    
+
 	    paintPecas(g2);
 
 	    highlightPeca(g2);
-	    
-	    System.out.println("testeMax");
-
-	} 
+	}
 
 	public void inicializaTabuleiro(Tabuleiro tab)
 	{
-		GUI_main.tab = tab;
+		this.tab = tab;
 		j = new GUI_janela(this, tab);
 	}
 
@@ -98,9 +95,12 @@ public class GUI_main extends JComponent{
 		GUI_main.p = p;
 		repaint();
 	}
-	
+
 	public void movPeca(Peca p, int x, int y)
 	{
-		
+		if(tab.movePeca(p, x, y))
+			repaint();
+		else
+			System.out.println("Movimento ilegal");
 	}
 }

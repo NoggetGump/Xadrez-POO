@@ -1,5 +1,7 @@
 package pecas;
 
+import java.util.ArrayList;
+
 import movimentos.Diagonal;
 import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;

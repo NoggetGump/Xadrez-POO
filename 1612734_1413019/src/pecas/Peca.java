@@ -17,7 +17,6 @@ public abstract class Peca{
 	char cor; //Cor preta "p" ou branca "b".
 	boolean viva = true; //Consts.y para peca viva e Consts.x para peca comida.
 	ArrayList<Vet> AllMoves = new ArrayList<Vet>(); //Lista com todos os movimentos de determinada peca
-	ArrayList<Vet> PossMove = new ArrayList<Vet>();
 
 	/**
 	 * 
@@ -96,6 +95,21 @@ public abstract class Peca{
 			return true;
 		else
 			return false;
+	}
+	
+	/**
+	 * 
+	 * Retorna true se o movimento for possivel
+	 *
+	 */
+	
+	public boolean jogadaValida(int x, int y)
+	{
+		for(Vet move : this.AllMoves)
+			if(x == move.getX() && y == move.getY())
+				return true;
+
+		return false;
 	}
 
 	/**

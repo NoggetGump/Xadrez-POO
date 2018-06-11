@@ -59,14 +59,9 @@ public class Casa
 		}
 	}
 
-	public boolean setPeca(Peca p)
+	public void setPeca(Peca p)
 	{
-		if(p != null)
-		{
 			peca = p;
-			return true;
-		}
-		return false;
 	}
 	
 	public void toogleO()

@@ -180,6 +180,16 @@ public class Tabuleiro
 
 	 	return false;
 	}
+	
+	public boolean perguntaCasaPeca(int x, int y)
+	{
+		int indice = y*8 + x; // indice do ArrayList de casas (tab)
+		
+		if(tab.get(indice).getO())
+				return true;
+
+	 	return false;
+	}
 
 	/**
 	 * 
@@ -207,22 +217,19 @@ public class Tabuleiro
 	 * 
 	 * 
 	 */
-	public void movePeca (Casa c_destino, Casa c_origem)
+	public boolean movePeca (Peca p, int x, int y)
 	{
-		if(c_origem.getO() == true && c_destino.getO() == false)
+		if(!perguntaCasaPeca(x, y) && p.jogadaValida(x, y))
 		{
-			c_origem.getPeca().atualizaPos(c_destino.getVet()); //Atualiza o Vetor da Peca
-			c_destino.setPeca(c_origem.getPeca()); // Move Peca para a Casa Destino
-			c_origem.setPeca(null); //Retira a Peca da Origem
-			c_destino.toogleO(); // Casa Destino passa a estar Ocupada
-			c_origem.toogleO(); // Casa Origem agora esta Vazia
+			int indiceDestino = 8*y + x;
+			int indiceOrigem = 8*p.getY() + p.getX();
+			tab.get(indiceDestino).toogleO();
+			tab.get(indiceDestino).setPeca(p);
+			tab.get(indiceOrigem).toogleO();
+			tab.get(indiceOrigem).setPeca(null);
+			return true;
 		}
-		else
-		{
-			if(c_origem.getO())
-				System.out.println("Selecione uma casa com peça");
-			else
-				System.out.println("Casa Destino ocupada! Tente posicionar peca em uma casa valida vazia!");
-		}
+
+		return false;
 	}
 }
