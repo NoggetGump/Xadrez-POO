@@ -2,23 +2,31 @@ package movimentos;
 
 import java.util.ArrayList;
 import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.*;
 
 public class Vertical {
+	
+	private static Tabuleiro tab;
+	
+	public Vertical(Tabuleiro tab)
+	{
+		Vertical.tab = tab;
+	}
 
-	public boolean vUnitP(Vet v) //ATENÇÃO, MODIFICA V!!!
-	{ //RETORNA TRUE SE O MOVIMENTO UNITARIO POSITIVO É POSSÍVEL
+	public boolean vUnitP(Vet v) //ATENÃƒâ€¡ÃƒÆ’O, MODIFICA V!!!
+	{ //RETORNA TRUE SE O MOVIMENTO UNITARIO POSITIVO Ãƒâ€° POSSÃƒï¿½VEL
 		v.addY(1);
-		if(v.getY() <= Consts.xyFin)
+		if(v.getY() <= Consts.xyFin && !tab.perguntaCasaPeca(v))
 			return true;
 
 	return false;
 	}
 
-	public boolean vUnitN(Vet v)	// ATENÇÃO, MODIFICA V!!!
-	{ // RETORNA TRUE SE O MOVIMENTO UNITARIO NEGATIVO É POSSÍVEL
+	public boolean vUnitN(Vet v)	// ATENÃƒâ€¡ÃƒÆ’O, MODIFICA V!!!
+	{ // RETORNA TRUE SE O MOVIMENTO UNITARIO NEGATIVO Ãƒâ€° POSSÃƒï¿½VEL
 		v.addY(-1);
-		if(v.getY() >= Consts.xyIni)
+		if(v.getY() >= Consts.xyIni && !tab.perguntaCasaPeca(v))
 			return true;
 		
 		return false;
@@ -33,6 +41,7 @@ public class Vertical {
 				AllMoves.add(v);
 				if(Temp!=null)
 					Temp.addY(1);
+				return true;
 			}
 		}
 		else
@@ -48,7 +57,7 @@ public class Vertical {
 	}
 
 	public boolean ver(Vet v, boolean r, ArrayList<Vet> AllMoves) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y POSITIVO A PARTIR DA PECA.
-	{ //RETORNA FALSE CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO. r = true, se movimento for positivo. 
+	{ //RETORNA FALSE CASO NÃƒÆ’O HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO. r = true, se movimento for positivo. 
 		Vet Temp = new Vet(v);
 
 		while(addIfTrue(new Vet(Temp), Temp, AllMoves, r));
@@ -59,7 +68,7 @@ public class Vertical {
 	}
 
 	public boolean allVerMov(Vet v, ArrayList<Vet> AllMoves) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y A PARTIR DA PECA.
-	{ //RETORNA FALSE CASO NÃO TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
+	{ //RETORNA FALSE CASO NÃƒÆ’O TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
 		boolean b1 = ver(v, true, AllMoves);
 		boolean b2 = ver(v, false, AllMoves);
 		
