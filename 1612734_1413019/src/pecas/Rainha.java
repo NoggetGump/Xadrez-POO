@@ -4,13 +4,11 @@ import movimentos.Diagonal;
 import movimentos.Horizontal;
 import movimentos.Vertical;
 import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
 public class Rainha extends Peca
 {
-	Vertical V = new Vertical();
-	Horizontal H = new Horizontal();
-	Diagonal D = new Diagonal();
 
 	/**
 	 * 
@@ -18,21 +16,9 @@ public class Rainha extends Peca
 	 *
 	 * */
 
-	public Rainha(int x, int y, char cor)
-	{
-		super(x, y, cor);		
-		H.allHorMov(this.v, AllMoves);
-		V.allVerMov(this.v, AllMoves);
-		D.allMovDiag(this.v, this.AllMoves);
-	}
+	public Rainha(int x, int y, char cor){super(x, y, cor);}
 	
-	public Rainha(Vet v, char cor)
-	{
-		super(v, cor);		
-		H.allHorMov(this.v, AllMoves);
-		V.allVerMov(this.v, AllMoves);
-		D.allMovDiag(this.v, AllMoves);
-	}
+	public Rainha(Vet v, char cor){super(v, cor);}
 	
 	/**
 	 * 
@@ -46,5 +32,21 @@ public class Rainha extends Peca
 			return Consts.rainhaP.getPath();
 		else
 			return Consts.rainhaB.getPath();
+	}
+	
+	public String nomePeca()
+	{
+		return "Rainha";
+	}
+	
+	public void AtualizaMoves(Tabuleiro tab)
+	{
+		Vertical V = new Vertical(tab);
+		Horizontal H = new Horizontal(tab);
+		Diagonal D = new Diagonal(tab);
+		
+		H.allHorMov(this.v, AllMoves);
+		V.allVerMov(this.v, AllMoves);
+		D.allMovDiag(this.v, AllMoves);
 	}
 }
