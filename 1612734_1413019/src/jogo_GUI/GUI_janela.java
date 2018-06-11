@@ -2,44 +2,49 @@ package jogo_GUI;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class GUI_janela extends JFrame {
+import pecas.Peca;
+import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 
-	private int x, y; 
-		public GUI_janela()
+public class GUI_janela extends JFrame {
+	
+	Peca pecaSelecionada;
+	
+		public GUI_janela(GUI_main a, Tabuleiro tab)
 		{
 			addMouseListener(new MouseAdapter() 
 			{
 				public void mouseClicked(MouseEvent e)
 				{
-					x = (e.getX()-4)/100;
-					y = (e.getY()-26)/100;
-					System.out.println("Coordenada clicada: ( " + x + " , " + y + " )");
+					int x = (e.getX()-4)/100;
+					int y = (e.getY()-26)/100;
+					Peca temp = tab.buscaPeca(x, y);
+					if(temp != null)
+					{
+						pecaSelecionada = temp;
+						a.selecPeca(pecaSelecionada);
+					}
+					
+					if(temp == null && pecaSelecionada != null)
+					{
+						pecaSelecionada = temp;
+						a.movPeca(pecaSelecionada, x, y);
+					}
+					
 				}
 			});
 			
-			ImageIcon img = new ImageIcon("Assets\\Chess_Icon2.png");
-			this.setIconImage(img.getImage());
+			/*ImageIcon img = new ImageIcon("Assets\\Chess_Icon2.png");
+			this.setIconImage(img.getImage());*/
 			this.setTitle("Xadrez");
 		    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    setSize(816, 839);
-		    getContentPane().add(new GUI_main());
+		    setSize(8 * Consts.tamC, 8 * Consts.tamC + 35);
+		    getContentPane().add(a);
 		    setLocationRelativeTo(null);
 		    setResizable(false);
 		    setVisible(true);
 			System.out.println("Janela inicializada com sucesso!");
-			
 		}
-		
-	public int getx()
-	{
-		return x;
-	}
-	
-	public int gety()
-	{
-		return y;
-	}
 }
