@@ -2,10 +2,10 @@ package pecas;
 
 import movimentos.Lmove;
 import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
 public class Cavalo extends Peca{
-	Lmove lmove = new Lmove();
 	
 	/**
 	 * 
@@ -13,17 +13,9 @@ public class Cavalo extends Peca{
 	 *
 	 * */
 	
-	public Cavalo(int x, int y, char cor)
-	{
-		super(x, y, cor);
-		lmove.Lmoves(v, AllMoves);
-	}
+	public Cavalo(int x, int y, char cor){super(x, y, cor);}
 	
-	public Cavalo(Vet v, char cor)
-	{
-		super(v, cor);
-		lmove.Lmoves(this.v, AllMoves);
-	}
+	public Cavalo(Vet v, char cor){super(v, cor);}
 	
 	/**
 	 * 
@@ -37,5 +29,16 @@ public class Cavalo extends Peca{
 			return Consts.cavaloP.getPath();
 		else
 			return Consts.cavaloB.getPath();
+	}
+	
+	public String nomePeca()
+	{
+		return "Cavalo";
+	}
+	
+	public void AtualizaMoves(Tabuleiro tab)
+	{
+		Lmove lmove = new Lmove(tab);
+		lmove.Lmoves(this.v, AllMoves);
 	}
 }
