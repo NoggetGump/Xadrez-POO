@@ -2,19 +2,28 @@ package movimentos;
 
 import java.util.ArrayList;
 import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.*;
 
 public class Lmove {
 
+	private static Tabuleiro tab;
+	
+	public Lmove(Tabuleiro tab)
+	{
+		Lmove.tab = tab;
+	}
+	
 	public boolean L1(Vet v, ArrayList<Vet> AllMoves, int Mx, int My) //
 	{
 		Vet Temp = new Vet(v);
 
 		Temp.add(Mx, 2*My);
-		if(java.lang.Math.abs(Temp.getX()) <= Consts.xyFin
-		&& java.lang.Math.abs(Temp.getX()) >= Consts.xyIni
-		&& java.lang.Math.abs(Temp.getY()) <= Consts.xyFin
-		&& java.lang.Math.abs(Temp.getY()) >= Consts.xyIni)
+		if(Temp.getX() <= Consts.xyFin
+		&& Temp.getX() >= Consts.xyIni
+		&& Temp.getY() <= Consts.xyFin
+		&& Temp.getY() >= Consts.xyIni
+		&& !tab.perguntaCasaPeca(Temp))
 		{
 			AllMoves.add(Temp);
 			return true;
@@ -27,10 +36,11 @@ public class Lmove {
 		Vet Temp = new Vet(v);
 
 		Temp.add(2*Mx, My);
-		if(java.lang.Math.abs(Temp.getX()) <= Consts.xyFin
-		&& java.lang.Math.abs(Temp.getX()) >= Consts.xyIni
-		&& java.lang.Math.abs(Temp.getY()) <= Consts.xyFin
-		&& java.lang.Math.abs(Temp.getY()) >= Consts.xyIni)
+		if(Temp.getX() <= Consts.xyFin
+		&& Temp.getX() >= Consts.xyIni
+		&& Temp.getY() <= Consts.xyFin
+		&& Temp.getY() >= Consts.xyIni
+		&& !tab.perguntaCasaPeca(Temp))
 		{
 			AllMoves.add(Temp);
 			return true;
