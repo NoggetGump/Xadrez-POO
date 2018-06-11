@@ -4,10 +4,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 
+import pecas.Peca;
 import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
 
 public class GUI_janela extends JFrame {
+	
+	Peca pecaSelecionada;
+	
 		public GUI_janela(GUI_main a, Tabuleiro tab)
 		{
 			addMouseListener(new MouseAdapter() 
@@ -16,7 +20,13 @@ public class GUI_janela extends JFrame {
 				{
 					int x = (e.getX()-4)/100;
 					int y = (e.getY()-26)/100;
-					tab.buscaPeca(x, y);
+					Peca temp = tab.buscaPeca(x, y);
+					if(temp != null)
+					{
+						pecaSelecionada = temp;
+						a.selecPeca(pecaSelecionada);
+					}
+					
 				}
 			});
 			

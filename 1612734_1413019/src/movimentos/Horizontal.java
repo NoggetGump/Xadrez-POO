@@ -2,14 +2,22 @@ package movimentos;
 
 import java.util.ArrayList;
 import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.*;
 
 public class Horizontal {
 
+	private static Tabuleiro tab;
+	
+	public Horizontal(Tabuleiro tab)
+	{
+		Horizontal.tab = tab;
+	}
+	
 	public boolean hUnitP(Vet v) //ATENÇÃO, MODIFICA V!!!
 	{ //RETORNA TRUE SE O MOVIMENTO UNITARIO POSITIVO É POSSÍVEL
 		v.addX(1);
-		if(v.getX() <= Consts.xyFin)
+		if(v.getX() <= Consts.xyFin && !tab.perguntaCasaPeca(v))
 			return true;
 		
 		return false;
@@ -18,7 +26,7 @@ public class Horizontal {
 	public boolean hUnitN(Vet v)	// ATENÇÃO, MODIFICA V!!!
 	{ // RETORNA TRUE SE O MOVIMENTO UNITARIO NEGATIVO É POSSÍVEL
 		v.addX(-1);
-		if(v.getX() >= Consts.xyIni)
+		if(v.getX() >= Consts.xyIni && !tab.perguntaCasaPeca(v))
 			return true;
 		
 		return false;

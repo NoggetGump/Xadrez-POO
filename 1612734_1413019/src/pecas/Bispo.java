@@ -2,29 +2,20 @@ package pecas;
 
 import movimentos.Diagonal;
 import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
 public class Bispo extends Peca
-{
-	Diagonal D = new Diagonal();
-	
+{	
 	/**
 	 *
 	 *	Construtores de Peca
 	 *
 	 * */
 
-	public Bispo(int x, int y, char cor)
-	{
-		super(x, y, cor);
-		D.allMovDiag(this.v, this.AllMoves);
-	}
+	public Bispo(int x, int y, char cor){super(x, y, cor);}
 
-	public Bispo(Vet v, char cor)
-	{
-		super(v , cor);
-		D.allMovDiag(this.v, this.AllMoves);
-	}
+	public Bispo(Vet v, char cor){super(v , cor);}
 
 	/**
 	 * 
@@ -43,5 +34,11 @@ public class Bispo extends Peca
 	public String nomePeca()
 	{
 		return "Bispo";
+	}
+	
+	public void AtualizaMoves(Tabuleiro tab)
+	{
+		Diagonal D = new Diagonal(tab);
+		D.allMovDiag(this.v, this.AllMoves);
 	}
 }

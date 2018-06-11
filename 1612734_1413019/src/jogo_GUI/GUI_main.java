@@ -6,31 +6,48 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 
-import java.util.ArrayList;
-
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 import tabuleiro.*;
-import pecas.*;
+import vetor.Vet;
+import pecas.Peca;
 
 public class GUI_main extends JComponent{
-	
+
 	GUI_janela j;
 	private static final int tamY = 2 * Consts.tamC;
 	private static final int tamTab = 8 * Consts.tamC;
 	private static Tabuleiro tab;
+	private static Peca p = null;
 
-	public void paintPecas(Graphics2D g2)
+	private void paintPecas(Graphics2D g2)
 	{
 		for(Peca peca : tab.getPecas())
 		{
-			g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.convCoorX(), peca.convCoorY(), this);
+			g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.getVet().convCoorX(), peca.getVet().convCoorY(), this);
 		    g2.finalize();
 		}
 	}
 
-	public void paint(Graphics g)
+    private void highlightPeca(Graphics2D g2)
+    {
+    	if(p!=null)
+    	{
+	    	g2.setColor(new Color(255, 255, 0, 125));
+	    	g2.draw(new Rectangle2D.Double(p.getX() * Consts.tamC, p.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
+			g2.fill(new Rectangle2D.Double(p.getX() * Consts.tamC, p.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
+			g2.setColor(new Color(0, 125, 125, 125));
+			for(Vet move : p.getAllMoves())
+			{
+				g2.draw(new Rectangle2D.Double(move.getX() * Consts.tamC, move.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
+				g2.fill(new Rectangle2D.Double(move.getX() * Consts.tamC, move.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
+			}
+		    g2.finalize();
+    	}
+    }
+
+    @Override
+    public void paint(Graphics g)
 	{
 	    Graphics2D g2 = (Graphics2D) g;
 	    g2.setPaint(Color.black);
@@ -63,6 +80,11 @@ public class GUI_main extends JComponent{
 	    }
 	    
 	    paintPecas(g2);
+
+	    highlightPeca(g2);
+	    
+	    System.out.println("testeMax");
+
 	} 
 
 	public void inicializaTabuleiro(Tabuleiro tab)
@@ -70,8 +92,10 @@ public class GUI_main extends JComponent{
 		GUI_main.tab = tab;
 		j = new GUI_janela(this, tab);
 	}
-	
-	public void atualizaTab()
+
+	public void selecPeca(Peca p)
 	{
+			GUI_main.p = p;
+			repaint();
 	}
 }

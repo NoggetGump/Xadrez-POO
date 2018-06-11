@@ -5,13 +5,13 @@ import vetor.Vet;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Tabuleiro 
 {
 	private ArrayList<Casa> tab = new ArrayList<Casa>();
 	private ArrayList<Peca> pecas = new ArrayList<Peca>();
-	private Peca pecaSelec;
 
 	/**
 	 * 
@@ -109,16 +109,44 @@ public class Tabuleiro
 		for(int j = 0 ; j <= Consts.xyFin; j++)
 			for(int i = 0 ; i <= Consts.xyFin; i++)
 				tab.add(new Casa(i, j, addPeca.apply(new Vet(i, j))));
+		this.AtualizaMovPecas();
 	}
 	
 	public Tabuleiro(File x)
 	{
 	
 	}
+	
+	/**
+	 * 
+	 *	Após a construcao do Tabuleiro,
+	 *	a atualizacao dos movimentos das
+	 *	Pecas.
+	 * 
+	 * */
+	
+	public void AtualizaMovPecas()
+	{
+		for(Peca peca : pecas)
+		{
+			peca.AtualizaMoves(this);
+		}
+	}
 
 	/**
 	 * 
 	 *	Geters
+	 * 
+	 * */
+
+	public ArrayList<Peca> getPecas()
+	{
+		return pecas;
+	}
+
+	/**
+	 * 
+	 *	Buscas
 	 * 
 	 * */
 
@@ -135,27 +163,55 @@ public class Tabuleiro
 	 	System.out.println("Nao ha peca nesta casa");
 	 	return null;
 	}
+	
+	/**
+	 * 
+	 *	Pergunta se a casa na localizacao Vet v
+	 *	esta ocupada.
+	 * 
+	 * */
 
-	public ArrayList<Peca> getPecas()
+	public boolean perguntaCasaPeca(Vet v)
 	{
-		return pecas;
+		int indice = v.getY()*8 + v.getX(); // indice do ArrayList de casas (tab)
+		
+		if(tab.get(indice).getO())
+				return true;
+
+	 	return false;
 	}
 
 	/**
 	 * 
-	 * 	Posiciona Peca na casa 
+	 * Printer das Casas em Tab DEBUG ONLY!
+	 *
+	 */
+
+    public Consumer<Casa> printCasas = (c) ->
+    { //para testar se os movimentos possiveis estavam sendo inicializados corretamente
+        System.out.print("(" +c.getX() + "," + c.getY() + ")" + "\t");
+    };
+
+	public void printTab()
+	{
+		this.tab.forEach(printCasas);
+	}
+
+	/**
+	 * 
+	 * 	Posiciona Peca na casa
 	 *  caso a casa esteja vazia
 	 *  
 	 *  AE: Casa c que se deseja posicionar a peca
 	 *  	Peca p que se deseja movimentar
 	 * 
-	 * */
-
+	 * 
+	 */
 	public void movePeca (Casa c_destino, Casa c_origem)
 	{
-		if(c_destino.getO() == false && c_origem.getO() == true)
+		if(c_origem.getO() == true && c_destino.getO() == false)
 		{
-			c_origem.getPeca().atualizaVet(c_destino.getVet()); //Atualiza o Vetor da Peca
+			c_origem.getPeca().atualizaPos(c_destino.getVet()); //Atualiza o Vetor da Peca
 			c_destino.setPeca(c_origem.getPeca()); // Move Peca para a Casa Destino
 			c_origem.setPeca(null); //Retira a Peca da Origem
 			c_destino.toogleO(); // Casa Destino passa a estar Ocupada
