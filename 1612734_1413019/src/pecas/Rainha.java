@@ -45,6 +45,8 @@ public class Rainha extends Peca
 		Horizontal H = new Horizontal(tab);
 		Diagonal D = new Diagonal(tab);
 		
+		AllMoves.clear();
+		
 		H.allHorMov(this.v, AllMoves);
 		V.allVerMov(this.v, AllMoves);
 		D.allMovDiag(this.v, AllMoves);

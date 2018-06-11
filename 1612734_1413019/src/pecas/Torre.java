@@ -43,6 +43,8 @@ public class Torre extends Peca
 		Vertical V = new Vertical(tab);
 		Horizontal H = new Horizontal(tab);
 		
+		AllMoves.clear();
+		
 		H.allHorMov(this.v, AllMoves);
 		V.allVerMov(this.v, AllMoves);
 	}

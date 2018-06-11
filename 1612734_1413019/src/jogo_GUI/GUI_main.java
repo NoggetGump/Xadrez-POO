@@ -17,7 +17,7 @@ public class GUI_main extends JComponent{
 	GUI_janela j;
 	private static final int tamY = 2 * Consts.tamC;
 	private static final int tamTab = 8 * Consts.tamC;
-	private Tabuleiro tab;
+	private static Tabuleiro tab;
 	private static Peca p = null;
 
 	private void paintPecas(Graphics2D g2)
@@ -33,7 +33,7 @@ public class GUI_main extends JComponent{
     {
     	if(p!=null)
     	{
-	    	g2.setColor(new Color(255, 255, 0, 125));
+	    	g2.setColor(new Color(255, 255, 0, 80));
 	    	g2.draw(new Rectangle2D.Double(p.getX() * Consts.tamC, p.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
 			g2.fill(new Rectangle2D.Double(p.getX() * Consts.tamC, p.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
 			g2.setColor(new Color(0, 125, 125, 125));
@@ -86,7 +86,7 @@ public class GUI_main extends JComponent{
 
 	public void inicializaTabuleiro(Tabuleiro tab)
 	{
-		this.tab = tab;
+		GUI_main.tab = tab;
 		j = new GUI_janela(this, tab);
 	}
 
@@ -99,7 +99,11 @@ public class GUI_main extends JComponent{
 	public void movPeca(Peca p, int x, int y)
 	{
 		if(tab.movePeca(p, x, y))
+		{
+			tab.AtualizaMovPecas();
+			this.p = null;
 			repaint();
+		}
 		else
 			System.out.println("Movimento ilegal");
 	}

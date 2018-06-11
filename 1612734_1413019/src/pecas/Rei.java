@@ -1,5 +1,6 @@
 package pecas;
 
+import movimentos.Diagonal;
 import movimentos.Horizontal;
 import movimentos.Vertical;
 import tabuleiro.Consts;
@@ -42,10 +43,17 @@ public class Rei extends Peca
 	{
 		Vertical V = new Vertical(tab);
 		Horizontal H = new Horizontal(tab);
+		Diagonal D = new Diagonal(tab);
 		
+		AllMoves.clear();
+
 		V.addIfTrue(new Vet(this.v), null , AllMoves, true);
 		V.addIfTrue(new Vet(this.v), null, AllMoves, false);
 		H.addIfTrue(new Vet(this.v), null, AllMoves, true);
 		H.addIfTrue(new Vet(this.v), null, AllMoves, false);
+		D.DPPmove(new Vet(this.v), AllMoves);
+		D.DNPmove(new Vet(this.v), AllMoves);
+		D.DPNmove(new Vet(this.v), AllMoves);
+		D.DNNmove(new Vet(this.v), AllMoves);
 	}
 }

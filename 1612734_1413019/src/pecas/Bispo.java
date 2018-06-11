@@ -41,6 +41,9 @@ public class Bispo extends Peca
 	public void AtualizaMoves(Tabuleiro tab)
 	{
 		Diagonal D = new Diagonal(tab);
+		
+		AllMoves.clear();
+		
 		D.allMovDiag(this.v, this.AllMoves);
 	}
 }

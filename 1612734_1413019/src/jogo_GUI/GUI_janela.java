@@ -11,6 +11,7 @@ import tabuleiro.Tabuleiro;
 public class GUI_janela extends JFrame {
 	
 	Peca pecaSelecionada;
+	int turno = 1;
 	
 		public GUI_janela(GUI_main a, Tabuleiro tab)
 		{
@@ -21,14 +22,18 @@ public class GUI_janela extends JFrame {
 					int x = (e.getX()-4)/100;
 					int y = (e.getY()-26)/100;
 					Peca temp = tab.buscaPeca(x, y);
-					if(temp != null)
+					if(temp != null && temp.turno(turno))
 					{
 						pecaSelecionada = temp;
 						a.selecPeca(pecaSelecionada);
 					}
 					
 					if(temp == null && pecaSelecionada != null)
+					{
 						a.movPeca(pecaSelecionada, x, y);
+						pecaSelecionada = null;
+						turno++;
+					}
 				}
 			});
 			

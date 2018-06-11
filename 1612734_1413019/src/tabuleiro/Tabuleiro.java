@@ -143,6 +143,11 @@ public class Tabuleiro
 	{
 		return pecas;
 	}
+	
+	public Peca getPeca(int indice)
+	{
+		return pecas.get(indice);
+	}
 
 	/**
 	 * 
@@ -184,9 +189,9 @@ public class Tabuleiro
 	public boolean perguntaCasaPeca(int x, int y)
 	{
 		int indice = y*8 + x; // indice do ArrayList de casas (tab)
-		
+
 		if(tab.get(indice).getO())
-				return true;
+			return true;
 
 	 	return false;
 	}
@@ -223,6 +228,8 @@ public class Tabuleiro
 		{
 			int indiceDestino = 8*y + x;
 			int indiceOrigem = 8*p.getY() + p.getX();
+
+			p.setV(x, y);
 			tab.get(indiceDestino).toogleO();
 			tab.get(indiceDestino).setPeca(p);
 			tab.get(indiceOrigem).toogleO();

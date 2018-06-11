@@ -72,6 +72,11 @@ public abstract class Peca{
 	{
 		return this.v.getY();
 	}
+	
+	public void setV(int x, int y)
+	{
+		v.set(x, y);
+	}
 
 	public ArrayList<Vet> getAllMoves()
 	{
@@ -109,6 +114,24 @@ public abstract class Peca{
 			if(x == move.getX() && y == move.getY())
 				return true;
 
+		return false;
+	}
+	
+	/**
+	 * 
+	 * 	Retorna se a peca selecionada obedece o
+	 * 	seu respectivo turno
+	 *
+	 */
+	
+	public boolean turno(int t)
+	{
+		if(t%2 == 0 && cor == 'p')
+			return true;
+		else
+			if(!(t%2 == 0) && cor == 'b')
+				return true;
+		
 		return false;
 	}
 

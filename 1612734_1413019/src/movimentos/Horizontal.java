@@ -20,6 +20,9 @@ public class Horizontal {
 		if(v.getX() <= Consts.xyFin && !tab.perguntaCasaPeca(v))
 			return true;
 		
+		if(v.getX() <= Consts.xyFin && tab.perguntaCasaPeca(v))
+			v.addX(1);
+		
 		return false;
 	}
 
@@ -28,6 +31,9 @@ public class Horizontal {
 		v.addX(-1);
 		if(v.getX() >= Consts.xyIni && !tab.perguntaCasaPeca(v))
 			return true;
+		
+		if(v.getX() >= Consts.xyIni && tab.perguntaCasaPeca(v))
+			v.addX(-1);
 		
 		return false;
 	}

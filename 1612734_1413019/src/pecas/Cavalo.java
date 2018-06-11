@@ -39,6 +39,9 @@ public class Cavalo extends Peca{
 	public void AtualizaMoves(Tabuleiro tab)
 	{
 		Lmove lmove = new Lmove(tab);
+		
+		AllMoves.clear();
+		
 		lmove.Lmoves(this.v, AllMoves);
 	}
 }

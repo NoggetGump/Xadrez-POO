@@ -79,7 +79,9 @@ public class Peao extends Peca{
 	public void AtualizaMoves(Tabuleiro tab)
 	{
 		Vertical V = new Vertical(tab);
-
+		
+		AllMoves.clear();
+		
 		ifEspecial(V, this.corP());
 	}
 }

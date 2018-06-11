@@ -6,7 +6,7 @@ import tabuleiro.Tabuleiro;
 import vetor.*;
 
 public class Vertical {
-	
+
 	private static Tabuleiro tab;
 	
 	public Vertical(Tabuleiro tab)
@@ -20,6 +20,9 @@ public class Vertical {
 		if(v.getY() <= Consts.xyFin && !tab.perguntaCasaPeca(v))
 			return true;
 
+		if(v.getY() <= Consts.xyFin && tab.perguntaCasaPeca(v))
+			v.addY(1);
+
 	return false;
 	}
 
@@ -28,7 +31,10 @@ public class Vertical {
 		v.addY(-1);
 		if(v.getY() >= Consts.xyIni && !tab.perguntaCasaPeca(v))
 			return true;
-		
+
+		if(v.getY() >= Consts.xyIni && tab.perguntaCasaPeca(v))
+			v.addY(-1);
+
 		return false;
 	}
 
