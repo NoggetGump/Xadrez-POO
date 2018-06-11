@@ -1,3 +1,4 @@
+
 package tabuleiro;
 
 import java.io.File;
@@ -7,6 +8,7 @@ public final class Consts
 	public static final int xyIni = 0;
 	public static final int xyFin = 7;
 	public static final int tamC= 100;
+	public static final int ajuste = 17;
 	public static final File root = new File(System.getProperty("user.dir"));
 	public static final File assets = new File(root, "Assets");
 	public static final File torreP = new File(assets, "Torre_P.png");
