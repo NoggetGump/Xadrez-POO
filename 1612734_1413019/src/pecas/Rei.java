@@ -3,12 +3,11 @@ package pecas;
 import movimentos.Horizontal;
 import movimentos.Vertical;
 import tabuleiro.Consts;
+import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
 public class Rei extends Peca
 {
-	Vertical V = new Vertical();
-	Horizontal H = new Horizontal();
 	
 	/**
 	 * 
@@ -16,25 +15,9 @@ public class Rei extends Peca
 	 *
 	 * */
 	
-	public Rei(int x, int y, char cor)
-	{
-		super(x, y, cor);
-
-		V.addIfTrue(new Vet(v), null , AllMoves, true);
-		V.addIfTrue(new Vet(v), null, AllMoves, false);
-		H.addIfTrue(new Vet(v), null, AllMoves, true);
-		H.addIfTrue(new Vet(v), null, AllMoves, false);
-	}
+	public Rei(int x, int y, char cor){super(x, y, cor);}
 	
-	public Rei(Vet v, char cor)
-	{
-		super(v, cor);
-
-		V.addIfTrue(new Vet(this.v), null , AllMoves, true);
-		V.addIfTrue(new Vet(this.v), null, AllMoves, false);
-		H.addIfTrue(new Vet(this.v), null, AllMoves, true);
-		H.addIfTrue(new Vet(this.v), null, AllMoves, false);
-	}
+	public Rei(Vet v, char cor){super(v, cor);}
 	
 	/**
 	 * 
@@ -48,5 +31,21 @@ public class Rei extends Peca
 			return Consts.reiP.getPath();
 		else
 			return Consts.reiB.getPath();
+	}
+	
+	public String nomePeca()
+	{
+		return "Rei";
+	}
+
+	public void AtualizaMoves(Tabuleiro tab)
+	{
+		Vertical V = new Vertical(tab);
+		Horizontal H = new Horizontal(tab);
+		
+		V.addIfTrue(new Vet(this.v), null , AllMoves, true);
+		V.addIfTrue(new Vet(this.v), null, AllMoves, false);
+		H.addIfTrue(new Vet(this.v), null, AllMoves, true);
+		H.addIfTrue(new Vet(this.v), null, AllMoves, false);
 	}
 }
