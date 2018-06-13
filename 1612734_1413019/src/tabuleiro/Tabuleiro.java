@@ -181,16 +181,6 @@ public class Tabuleiro
 	 	return false;
 	}
 
-	public boolean perguntaCasaPeca(int x, int y)
-	{
-		int indice = y*8 + x; // indice do ArrayList de casas (tab)
-
-		if(tab.get(indice).getO())
-			return true;
-
-	 	return false;
-	}
-
 	public boolean perguntaComivel(Vet origem, Vet destino)
 	{
 		int indiceO = origem.getY()*8 + origem.getX(); // indice do ArrayList de casas (tab)
@@ -291,7 +281,7 @@ public class Tabuleiro
 			return true;
 		}
 	}
-s
+	
 	return false;
 	}
 }

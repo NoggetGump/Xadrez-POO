@@ -5,7 +5,6 @@ import pecas.*;
 import java.util.Scanner;
 
 public class PromocaoPeao {
-	
 	public static Peca Promove(Peca superPeca)
 	{
 		System.out.println("Digite para qual peca deseja promover o superPeca:");
