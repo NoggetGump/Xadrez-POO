@@ -3,6 +3,7 @@ package pecas;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
@@ -38,7 +39,7 @@ public abstract class Peca{
 
 	public Peca(Peca p)
 	{
-		this.v = new Vet(p.getVet());
+		this.v = new Vet(p.getX(), p.getY());
 		this.cor = p.cor;
 	}
 	
@@ -59,11 +60,6 @@ public abstract class Peca{
 	public char getCor()
 	{
 		return this.cor;
-	}
-
-	public Vet getVet()
-	{
-		return v;
 	}
 
 	public int getX()
@@ -172,6 +168,22 @@ public abstract class Peca{
 	public void printAllMov()
 	{
 		this.comiveis.forEach(printMoves);
+	}
+	
+	/**
+	 * 
+	 * Converte as coordenadas X e Y 
+	 *
+	 */
+	
+	public int convCoorX()
+	{ //converte as coordenadas cartesianas em coordenadas User Space
+		return (this.getX() * Consts.tamC) + Consts.ajuste;
+	}
+	
+	public int convCoorY()
+	{ //converte as coordenadas cartesianas em coordenadas User Space
+		return (this.getY() * Consts.tamC) + Consts.ajuste;
 	}
 
 	/** <!> A PARTIR DAQUI RESIDEM AS FUNCOES ABSTRATAS <!> 

@@ -111,12 +111,12 @@ public class Tabuleiro
 				tab.add(new Casa(i, j, addPeca.apply(new Vet(i, j))));
 		this.AtualizaMovPecas();
 	}
-	
+
 	public Tabuleiro(File x)
 	{
-	
+
 	}
-	
+
 	/**
 	 * 
 	 *	Após a construcao do Tabuleiro,
@@ -124,7 +124,7 @@ public class Tabuleiro
 	 *	Pecas.
 	 * 
 	 * */
-	
+
 	public void AtualizaMovPecas()
 	{
 		for(Peca peca : pecas)
@@ -180,7 +180,7 @@ public class Tabuleiro
 
 	 	return false;
 	}
-	
+
 	public boolean perguntaCasaPeca(int x, int y)
 	{
 		int indice = y*8 + x; // indice do ArrayList de casas (tab)
@@ -226,16 +226,16 @@ public class Tabuleiro
 	 * 
 	 * */
 
-	public boolean movePeca (Peca p, int x, int y)
+	public boolean movePeca (Peca selecionada, int x, int y)
 	{
-		if(!perguntaCasaPeca(x, y) && p.movimentoValido(x, y))
+		if(selecionada.movimentoValido(x, y))
 		{
 			int indiceDestino = 8*y + x;
-			int indiceOrigem = 8*p.getY() + p.getX();
+			int indiceOrigem = 8*selecionada.getY() + selecionada.getX();
 
-			p.setV(x, y);
+			selecionada.setV(x, y);
 			tab.get(indiceDestino).toogleO();
-			tab.get(indiceDestino).setPeca(p);
+			tab.get(indiceDestino).setPeca(selecionada);
 			tab.get(indiceOrigem).toogleO();
 			tab.get(indiceOrigem).setPeca(null);
 			return true;
@@ -243,14 +243,14 @@ public class Tabuleiro
 
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * 	Posiciona Peca na casa
 	 *  caso a casa esteja vazia
 	 * 
 	 * */
-	
+
 	public boolean comePeca(Peca selecionada, Peca comida)
 	{
 		if(selecionada.comidaValida(comida.getX(), comida.getY()))
@@ -269,5 +269,29 @@ public class Tabuleiro
 		}
 
 		return false;
+	}
+	
+	public boolean promocao(Peca peao)
+	{
+	if(peao.corP())
+	{
+		if(peao.getY() == Consts.xyFin)
+		{
+			pecas.remove(peao);
+			pecas.add(movimentos.PromocaoPeao.Promove(peao));
+			return true;
+		}
+	}
+	else
+	{
+		if(peao.getY() == Consts.xyIni)
+		{
+			pecas.remove(peao);
+			pecas.add(movimentos.PromocaoPeao.Promove(peao));
+			return true;
+		}
+	}
+s
+	return false;
 	}
 }

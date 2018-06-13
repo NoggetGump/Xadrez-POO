@@ -67,18 +67,5 @@ public class Vet {
 
 	public void add(Vet v){
 		this.set(this.getX() + v.getX() , this.getY() + v.getY());
-	}
-
-	public int convCoorX()
-	{ //converte as coordenadas cartesianas em coordenada User Space
-		int coordenadaX = (this.getX() * Consts.tamC) + Consts.ajuste;
-		return coordenadaX;
-	}
-	
-	public int convCoorY()
-	{ //converte as coordenadas cartesianas em coordenada User Space
-		int coordenadaY =  (this.getY() * Consts.tamC) + Consts.ajuste;
-		return coordenadaY;
-	}
-	
+	}	
 }

@@ -77,7 +77,7 @@ public class Peao extends Peca{
 	/**
 	 * 
 	 *	Retorna o nome da peca. 
-	 *	<!> DEBUG ONLY <!>
+	 *	<!> DEBUG ONLq	Y <!>
 	 *
 	 * */
 
@@ -87,7 +87,7 @@ public class Peao extends Peca{
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)
-	{
+	{		
 		Vertical V = new Vertical(tab, this.v);
 		Diagonal D = new Diagonal(tab, this.v);
 		

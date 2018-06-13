@@ -10,6 +10,7 @@ import javax.swing.JComponent;
 
 import tabuleiro.*;
 import vetor.Vet;
+import pecas.Peao;
 import pecas.Peca;
 
 public class GUI_main extends JComponent{
@@ -24,7 +25,7 @@ public class GUI_main extends JComponent{
 	{
 		for(Peca peca : tab.getPecas())
 		{
-				g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.getVet().convCoorX(), peca.getVet().convCoorY(), this);
+				g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.convCoorX(), peca.convCoorY(), this);
 			    g2.finalize();
 		}
 	}
@@ -102,33 +103,39 @@ public class GUI_main extends JComponent{
 		repaint();
 	}
 
-	public boolean movPeca(Peca p, int x, int y)
+	public boolean movPeca(Peca selecionada, int x, int y)
 	{
-		if(tab.movePeca(p, x, y))
+		if(tab.movePeca(selecionada, x, y))
 		{
 			tab.AtualizaMovPecas();
 			GUI_main.p = null;
 			repaint();
+			if(selecionada instanceof Peao)
+				if(tab.promocao(selecionada))
+					repaint();
+
 			return true;
 		}
 		System.out.println("Movimento ilegal");
-		
+
 		return false;
 	}
-	
+
 	public boolean comePeca(Peca selecionada, Peca comida)
 	{
 		if(tab.comePeca(selecionada, comida))
 		{
-			System.out.println("entrou aqui");
 			tab.AtualizaMovPecas();
 			GUI_main.p = null;
 			repaint();
-			
+			if(selecionada instanceof Peao)
+				if(tab.promocao(selecionada))
+					repaint();
+
 			return true;
 		}
 		System.out.println("Movimento ilegal");
-		
+
 		return false;
 	}
 }

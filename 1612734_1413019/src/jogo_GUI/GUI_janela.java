@@ -44,7 +44,7 @@ public class GUI_janela extends JFrame {
 					}
 				}
 			});
-			
+
 			/*ImageIcon img = new ImageIcon("Assets\\Chess_Icon2.png");
 			this.setIconImage(img.getImage());*/
 			this.setTitle("Xadrez");
