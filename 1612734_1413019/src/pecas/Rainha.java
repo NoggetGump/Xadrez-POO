@@ -36,17 +36,27 @@ public class Rainha extends Peca
 	
 	public String nomePeca()
 	{
-		return "Rainha";
+		if(this.getCor() == 'b')
+		{
+			return "Rainha Branca";
+		}
+		else
+		{
+			return "Rainha Preta";
+		}
 	}
 	
 	public void AtualizaMoves(Tabuleiro tab)
 	{
-		Vertical V = new Vertical(tab);
-		Horizontal H = new Horizontal(tab);
-		Diagonal D = new Diagonal(tab);
+		Vertical V = new Vertical(tab, this.v);
+		Horizontal H = new Horizontal(tab, this.v);
+		Diagonal D = new Diagonal(tab, this.v);
 		
-		H.allHorMov(this.v, AllMoves);
-		V.allVerMov(this.v, AllMoves);
-		D.allMovDiag(this.v, AllMoves);
+		AllMoves.clear();
+		comiveis.clear();
+		
+		H.allHorMov(AllMoves, comiveis);
+		V.allVerMov(AllMoves, comiveis);
+		D.allMovDiag(AllMoves, comiveis);
 	}
 }
