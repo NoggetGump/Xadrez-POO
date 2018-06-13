@@ -33,12 +33,24 @@ public class Bispo extends Peca
 	
 	public String nomePeca()
 	{
-		return "Bispo";
+		if(this.getCor() == 'b')
+		{
+			return "Bispo Branco";
+		}
+		else
+		{
+			return "Bispo Preto";
+		}
+		
 	}
 	
 	public void AtualizaMoves(Tabuleiro tab)
 	{
-		Diagonal D = new Diagonal(tab);
-		D.allMovDiag(this.v, this.AllMoves);
+		Diagonal D = new Diagonal(tab, this.v);
+		
+		AllMoves.clear();
+		comiveis.clear();
+		
+		D.allMovDiag(this.AllMoves, this.comiveis);
 	}
 }
