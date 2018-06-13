@@ -1,5 +1,6 @@
 package pecas;
 
+import movimentos.Diagonal;
 import movimentos.Horizontal;
 import movimentos.Vertical;
 import tabuleiro.Consts;
@@ -35,17 +36,32 @@ public class Rei extends Peca
 	
 	public String nomePeca()
 	{
-		return "Rei";
+		if(this.getCor() == 'b')
+		{
+			return "Rei Branco";
+		}
+		else
+		{
+			return "Rei Preto";
+		}
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)
 	{
-		Vertical V = new Vertical(tab);
-		Horizontal H = new Horizontal(tab);
+		Vertical V = new Vertical(tab, this.v);
+		Horizontal H = new Horizontal(tab, this.v);
+		Diagonal D = new Diagonal(tab, this.v);
 		
-		V.addIfTrue(new Vet(this.v), null , AllMoves, true);
-		V.addIfTrue(new Vet(this.v), null, AllMoves, false);
-		H.addIfTrue(new Vet(this.v), null, AllMoves, true);
-		H.addIfTrue(new Vet(this.v), null, AllMoves, false);
+		AllMoves.clear();
+		comiveis.clear();
+
+		V.addIfTrue(new Vet(this.v), null , AllMoves, comiveis, true);
+		V.addIfTrue(new Vet(this.v), null, AllMoves, comiveis, false);
+		H.addIfTrue(new Vet(this.v), null, AllMoves, comiveis, true);
+		H.addIfTrue(new Vet(this.v), null, AllMoves, comiveis,  false);
+		D.DPPmove(new Vet(this.v), AllMoves, comiveis);
+		D.DNPmove(new Vet(this.v), AllMoves, comiveis);
+		D.DPNmove(new Vet(this.v), AllMoves, comiveis);
+		D.DNNmove(new Vet(this.v), AllMoves, comiveis);
 	}
 }
