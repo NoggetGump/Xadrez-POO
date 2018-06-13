@@ -97,7 +97,7 @@ public class Tabuleiro
 
 		return temp;
 	};
-	
+
 	/**
 	 * 
 	 *	Construtor Tabuleiro
@@ -119,7 +119,7 @@ public class Tabuleiro
 	
 	/**
 	 * 
-	 *	Apos a construcao do Tabuleiro,
+	 *	ApÃ³s a construcao do Tabuleiro,
 	 *	a atualizacao dos movimentos das
 	 *	Pecas.
 	 * 
@@ -135,7 +135,7 @@ public class Tabuleiro
 
 	/**
 	 * 
-	 *	Getters
+	 *	Geters
 	 * 
 	 * */
 
@@ -156,14 +156,12 @@ public class Tabuleiro
 	 	{
 	 		if(peca.getX() == x && peca.getY() == y)
 	 		{
-	 			System.out.println(peca.nomePeca());
 	 			return peca;
 	 		}
 	 	}
-	 	System.out.println("Nao ha peca nesta casa");
 	 	return null;
 	}
-	
+
 	/**
 	 * 
 	 *	Pergunta se a casa na localizacao Vet v
@@ -180,12 +178,34 @@ public class Tabuleiro
 
 	 	return false;
 	}
+	
+	public boolean perguntaCasaPeca(int x, int y)
+	{
+		int indice = y*8 + x; // indice do ArrayList de casas (tab)
+
+		if(tab.get(indice).getO())
+			return true;
+
+	 	return false;
+	}
+
+	public boolean perguntaComivel(Vet origem, Vet destino)
+	{
+		int indiceO = origem.getY()*8 + origem.getX(); // indice do ArrayList de casas (tab)
+		int indiceD = destino.getY()*8 + destino.getX();
+
+		if(perguntaCasaPeca(destino))
+			if(tab.get(indiceO).getPeca().getCor() != tab.get(indiceD).getPeca().getCor())
+				return true;
+
+	 	return false;
+	}
 
 	/**
 	 * 
 	 * Printer das Casas em Tab DEBUG ONLY!
 	 *
-	 */
+	 * */
 
     public Consumer<Casa> printCasas = (c) ->
     { //para testar se os movimentos possiveis estavam sendo inicializados corretamente
@@ -201,28 +221,51 @@ public class Tabuleiro
 	 * 
 	 * 	Posiciona Peca na casa
 	 *  caso a casa esteja vazia
-	 *  
-	 *  AE: Casa c que se deseja posicionar a peca
-	 *  	Peca p que se deseja movimentar
 	 * 
-	 * 
-	 */
-	public void movePeca (Casa c_destino, Casa c_origem)
+	 * */
+
+	public boolean movePeca (Peca p, int x, int y)
 	{
-		if(c_origem.getO() == true && c_destino.getO() == false)
+		if(!perguntaCasaPeca(x, y) && p.movimentoValido(x, y))
 		{
-			c_origem.getPeca().atualizaPos(c_destino.getVet()); //Atualiza o Vetor da Peca
-			c_destino.setPeca(c_origem.getPeca()); // Move Peca para a Casa Destino
-			c_origem.setPeca(null); //Retira a Peca da Origem
-			c_destino.toogleO(); // Casa Destino passa a estar Ocupada
-			c_origem.toogleO(); // Casa Origem agora esta Vazia
+			int indiceDestino = 8*y + x;
+			int indiceOrigem = 8*p.getY() + p.getX();
+
+			p.setV(x, y);
+			tab.get(indiceDestino).toogleO();
+			tab.get(indiceDestino).setPeca(p);
+			tab.get(indiceOrigem).toogleO();
+			tab.get(indiceOrigem).setPeca(null);
+			return true;
 		}
-		else
+
+		return false;
+	}
+	
+	/**
+	 * 
+	 * 	Posiciona Peca na casa
+	 *  caso a casa esteja vazia
+	 * 
+	 * */
+	
+	public boolean comePeca(Peca selecionada, Peca comida)
+	{
+		if(selecionada.comidaValida(comida.getX(), comida.getY()))
 		{
-			if(c_origem.getO())
-				System.out.println("Selecione uma casa com peÃ§a");
-			else
-				System.out.println("Casa Destino ocupada! Tente posicionar peca em uma casa valida vazia!");
+			int indiceOrigem = (Consts.xyFin + 1)*selecionada.getY() + selecionada.getX();
+			int indiceDestino = (Consts.xyFin + 1)*comida.getY() + comida.getX();
+
+			selecionada.setV(comida.getX(), comida.getY());
+			pecas.remove(comida);
+			tab.get(indiceDestino).setPeca(selecionada);
+			tab.get(indiceOrigem).toogleO();
+			tab.get(indiceOrigem).setPeca(null);
+			comida = null;
+
+			return true;
 		}
+
+		return false;
 	}
 }
