@@ -6,7 +6,7 @@ import pecas.*;
 public class Casa
 {
 	private Vet v;
-	private Peca peca;
+	private Peca peca = null;
 	private boolean casaOcupada = false;
 	
 	/**
@@ -17,9 +17,9 @@ public class Casa
 	public Casa(final int x, final int y, Peca p)
 	{
 		this.v = new Vet(x,y);
-		peca = p;
 		if(p!=null)
 		{
+			peca = p;
 			casaOcupada = true;
 		}
 	}
@@ -59,14 +59,9 @@ public class Casa
 		}
 	}
 
-	public boolean setPeca(Peca p)
+	public void setPeca(Peca p)
 	{
-		if(p != null)
-		{
 			peca = p;
-			return true;
-		}
-		return false;
 	}
 	
 	public void toogleO()
