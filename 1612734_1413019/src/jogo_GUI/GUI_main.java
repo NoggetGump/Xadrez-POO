@@ -24,8 +24,8 @@ public class GUI_main extends JComponent{
 	{
 		for(Peca peca : tab.getPecas())
 		{
-			g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.getVet().convCoorX(), peca.getVet().convCoorY(), this);
-		    g2.finalize();
+				g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.getVet().convCoorX(), peca.getVet().convCoorY(), this);
+			    g2.finalize();
 		}
 	}
 
@@ -41,6 +41,12 @@ public class GUI_main extends JComponent{
 			{
 				g2.draw(new Rectangle2D.Double(move.getX() * Consts.tamC, move.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
 				g2.fill(new Rectangle2D.Double(move.getX() * Consts.tamC, move.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
+			}
+			g2.setColor(new Color(125, 0, 0, 125));
+			for(Vet come : p.getComiveis())
+			{
+				g2.draw(new Rectangle2D.Double(come.getX() * Consts.tamC, come.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
+				g2.fill(new Rectangle2D.Double(come.getX() * Consts.tamC, come.getY() * Consts.tamC, Consts.tamC, Consts.tamC));
 			}
 		    g2.finalize();
     	}
@@ -96,15 +102,33 @@ public class GUI_main extends JComponent{
 		repaint();
 	}
 
-	public void movPeca(Peca p, int x, int y)
+	public boolean movPeca(Peca p, int x, int y)
 	{
 		if(tab.movePeca(p, x, y))
 		{
 			tab.AtualizaMovPecas();
-			this.p = null;
+			GUI_main.p = null;
 			repaint();
+			return true;
 		}
-		else
-			System.out.println("Movimento ilegal");
+		System.out.println("Movimento ilegal");
+		
+		return false;
+	}
+	
+	public boolean comePeca(Peca selecionada, Peca comida)
+	{
+		if(tab.comePeca(selecionada, comida))
+		{
+			System.out.println("entrou aqui");
+			tab.AtualizaMovPecas();
+			GUI_main.p = null;
+			repaint();
+			
+			return true;
+		}
+		System.out.println("Movimento ilegal");
+		
+		return false;
 	}
 }

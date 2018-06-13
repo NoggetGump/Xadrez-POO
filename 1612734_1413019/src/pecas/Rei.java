@@ -41,19 +41,20 @@ public class Rei extends Peca
 
 	public void AtualizaMoves(Tabuleiro tab)
 	{
-		Vertical V = new Vertical(tab);
-		Horizontal H = new Horizontal(tab);
-		Diagonal D = new Diagonal(tab);
+		Vertical V = new Vertical(tab, this.v);
+		Horizontal H = new Horizontal(tab, this.v);
+		Diagonal D = new Diagonal(tab, this.v);
 		
 		AllMoves.clear();
+		comiveis.clear();
 
-		V.addIfTrue(new Vet(this.v), null , AllMoves, true);
-		V.addIfTrue(new Vet(this.v), null, AllMoves, false);
-		H.addIfTrue(new Vet(this.v), null, AllMoves, true);
-		H.addIfTrue(new Vet(this.v), null, AllMoves, false);
-		D.DPPmove(new Vet(this.v), AllMoves);
-		D.DNPmove(new Vet(this.v), AllMoves);
-		D.DPNmove(new Vet(this.v), AllMoves);
-		D.DNNmove(new Vet(this.v), AllMoves);
+		V.addIfTrue(new Vet(this.v), null , AllMoves, comiveis, true);
+		V.addIfTrue(new Vet(this.v), null, AllMoves, comiveis, false);
+		H.addIfTrue(new Vet(this.v), null, AllMoves, comiveis, true);
+		H.addIfTrue(new Vet(this.v), null, AllMoves, comiveis,  false);
+		D.DPPmove(new Vet(this.v), AllMoves, comiveis);
+		D.DNPmove(new Vet(this.v), AllMoves, comiveis);
+		D.DPNmove(new Vet(this.v), AllMoves, comiveis);
+		D.DNNmove(new Vet(this.v), AllMoves, comiveis);
 	}
 }

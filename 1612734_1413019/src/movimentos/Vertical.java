@@ -8,79 +8,67 @@ import vetor.*;
 public class Vertical {
 
 	private static Tabuleiro tab;
+	private Vet coorPeca;
 	
-	public Vertical(Tabuleiro tab)
+	public Vertical(Tabuleiro tab, Vet v)
 	{
 		Vertical.tab = tab;
+		this.coorPeca = v;
 	}
 
-	public boolean vUnitP(Vet v) //ATENÇÃO, MODIFICA V!!!
-	{ //RETORNA TRUE SE O MOVIMENTO UNITARIO POSITIVO É POSSÍVEL
-		v.addY(1);
-		if(v.getY() <= Consts.xyFin && !tab.perguntaCasaPeca(v))
-			return true;
-
-		if(v.getY() <= Consts.xyFin && tab.perguntaCasaPeca(v))
-			v.addY(1);
-
-	return false;
-	}
-
-	public boolean vUnitN(Vet v)	// ATENÇÃO, MODIFICA V!!!
-	{ // RETORNA TRUE SE O MOVIMENTO UNITARIO NEGATIVO É POSSÍVEL
-		v.addY(-1);
-		if(v.getY() >= Consts.xyIni && !tab.perguntaCasaPeca(v))
-			return true;
-
-		if(v.getY() >= Consts.xyIni && tab.perguntaCasaPeca(v))
-			v.addY(-1);
-
-		return false;
-	}
-
-	public boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, boolean r)
-	{ //r = true, se movimento for positivo
-		if(r)
+	public boolean addIfTrue(Vet v, Vet Temp, ArrayList<Vet> AllMoves, ArrayList<Vet> comiveis, boolean sentido)
+	{ //sentido = true, se movimento for positivo
+		if(sentido)
 		{
-			if(vUnitP(v))
+			v.addY(1);
+			if(v.getY() <= Consts.xyFin && !tab.perguntaCasaPeca(v))
 			{
 				AllMoves.add(v);
 				if(Temp!=null)
 					Temp.addY(1);
 				return true;
 			}
+			else
+				if(comiveis != null && v.getY() <= Consts.xyFin && tab.perguntaComivel(coorPeca, v))
+					comiveis.add(v);
 		}
 		else
-			if(vUnitN(v))
+		{
+			v.addY(-1);
+			if(v.getY() >= Consts.xyIni && !tab.perguntaCasaPeca(v))
 			{
 				AllMoves.add(v);
 				if(Temp!=null)
 					Temp.addY(-1);
 				return true;
 			}
-		
+			else
+				if(comiveis != null && v.getY() >= Consts.xyIni && tab.perguntaComivel(coorPeca, v))
+					comiveis.add(v);
+		}
+
 		return false;
 	}
 
-	public boolean ver(Vet v, boolean r, ArrayList<Vet> AllMoves) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y POSITIVO A PARTIR DA PECA.
-	{ //RETORNA FALSE CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO. r = true, se movimento for positivo. 
-		Vet Temp = new Vet(v);
+	public boolean ver(ArrayList<Vet> AllMoves, ArrayList<Vet> comiveis, boolean sentido) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y POSITIVO A PARTIR DA PECA.
+	{ //RETORNA FALSE CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO. sentido = true, se movimento for positivo. 
+		Vet Temp = new Vet(coorPeca);
 
-		while(addIfTrue(new Vet(Temp), Temp, AllMoves, r));
+		while(addIfTrue(new Vet(Temp), Temp, AllMoves, comiveis, sentido));
 		if(AllMoves.isEmpty())
 			return false;
 
 		return true;
 	}
 
-	public boolean allVerMov(Vet v, ArrayList<Vet> AllMoves) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y A PARTIR DA PECA.
+	public boolean allVerMov(ArrayList<Vet> AllMoves,  ArrayList<Vet> comiveis) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y A PARTIR DA PECA.
 	{ //RETORNA FALSE CASO NÃO TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
-		boolean b1 = ver(v, true, AllMoves);
-		boolean b2 = ver(v, false, AllMoves);
-		
-		if(!b1 && !b2)
-			return false;
+		boolean b1 = ver(AllMoves, comiveis, true);
+		boolean b2 = ver(AllMoves, comiveis, false);
 
-		return true;
+		if(b1 && b2)
+			return true;
+
+		return false;
 	}
 }

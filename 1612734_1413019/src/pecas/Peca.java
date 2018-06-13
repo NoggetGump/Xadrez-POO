@@ -15,8 +15,8 @@ public abstract class Peca{
 	 * */
 	Vet v; //Vetor coordenada x e y.
 	char cor; //Cor preta "p" ou branca "b".
-	boolean viva = true; //Consts.y para peca viva e Consts.x para peca comida.
 	ArrayList<Vet> AllMoves = new ArrayList<Vet>(); //Lista com todos os movimentos de determinada peca
+	ArrayList<Vet> comiveis = new ArrayList<Vet>(8); //LIsta com todas as coordenadas onde ha uma peca a ser comida
 
 	/**
 	 * 
@@ -41,6 +41,14 @@ public abstract class Peca{
 		this.v = new Vet(p.getVet());
 		this.cor = p.cor;
 	}
+	
+	public boolean equals(Peca p)
+	{
+		if(this != p)
+			return true;
+		
+		return false;
+	}
 
 	/**
 	 * 
@@ -51,11 +59,6 @@ public abstract class Peca{
 	public char getCor()
 	{
 		return this.cor;
-	}
-
-	public boolean getViva() 
-	{
-		return viva;
 	}
 
 	public Vet getVet()
@@ -72,7 +75,7 @@ public abstract class Peca{
 	{
 		return this.v.getY();
 	}
-	
+
 	public void setV(int x, int y)
 	{
 		v.set(x, y);
@@ -81,6 +84,11 @@ public abstract class Peca{
 	public ArrayList<Vet> getAllMoves()
 	{
 		return this.AllMoves;
+	}
+
+	public ArrayList<Vet> getComiveis()
+	{
+		return comiveis;
 	}
 
 	public void atualizaPos(Vet vet)
@@ -108,10 +116,25 @@ public abstract class Peca{
 	 *
 	 */
 	
-	public boolean jogadaValida(int x, int y)
+	public boolean movimentoValido(int x, int y)
 	{
 		for(Vet move : this.AllMoves)
 			if(x == move.getX() && y == move.getY())
+				return true;
+
+		return false;
+	}
+	
+	/**
+	 * 
+	 * Retorna true se o movimento for possivel
+	 *
+	 */
+	
+	public boolean comidaValida(int x, int y)
+	{
+		for(Vet come : this.comiveis)
+			if(x == come.getX() && y == come.getY())
 				return true;
 
 		return false;
@@ -129,7 +152,7 @@ public abstract class Peca{
 		if(t%2 == 0 && cor == 'p')
 			return true;
 		else
-			if(!(t%2 == 0) && cor == 'b')
+			if(t%2 != 0 && cor == 'b')
 				return true;
 		
 		return false;
@@ -148,7 +171,7 @@ public abstract class Peca{
 
 	public void printAllMov()
 	{
-		this.AllMoves.forEach(printMoves);
+		this.comiveis.forEach(printMoves);
 	}
 
 	/** <!> A PARTIR DAQUI RESIDEM AS FUNCOES ABSTRATAS <!> 
@@ -170,8 +193,6 @@ public abstract class Peca{
 	abstract public String nomePeca();
 
 	/**
-	 * 
-	 *	Atualiza os movimentos (AllMoves) da peca.
 	 *
 	 * 	Importante <!>
 	 *  AllMoves não precisa ser inicializada

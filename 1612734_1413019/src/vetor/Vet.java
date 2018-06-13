@@ -10,6 +10,14 @@ public class Vet {
 		v = new int[2];
 	}
 	
+	public boolean equals(Vet b)
+	{
+		if(this.getX() == b.getX() && this.getY() == b.getY())
+			return true;
+
+		return false;
+	}
+	
 	public Vet(int x, int y){
 		v = new int[2];
 		this.set(x,  y);

@@ -1,5 +1,6 @@
 package pecas;
 
+import movimentos.Diagonal;
 import movimentos.Vertical;
 import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
@@ -26,28 +27,37 @@ public class Peao extends Peca{
 	 *
 	 * */
 
-	private void ifEspecial(Vertical V, boolean p)
+	private void ifEspecial(Vertical V, Diagonal D, boolean p)
 	{
 		Vet Temp = new Vet(v);
+		Vet Temp2 = new Vet(v);
 		int casaEspecialP = 1;
 		int casaEspecialB = 6;
 
 		if(p)
+		{
 			if(Temp.getY() == casaEspecialP)
 			{
-				V.addIfTrue(new Vet(Temp), Temp, AllMoves, true);
-				V.addIfTrue(new Vet(Temp), Temp, AllMoves, true);
+				V.addIfTrue(new Vet(Temp), Temp, AllMoves, null, true);
+				V.addIfTrue(new Vet(Temp), null, AllMoves, null, true);
 			}
 			else
-			{	V.addIfTrue(new Vet(Temp), Temp, AllMoves, true);}
+			{	V.addIfTrue(new Vet(Temp), null, AllMoves, null, true);}
+			D.DPPmove(new Vet(Temp2), null, comiveis);
+			D.DNPmove(new Vet(Temp2), null, comiveis);
+		}
 		else
+		{
 			if(Temp.getY() == casaEspecialB)
 			{
-				V.addIfTrue(new Vet(Temp), Temp, AllMoves, false);
-				V.addIfTrue(new Vet(Temp), Temp, AllMoves, false);
+				V.addIfTrue(new Vet(Temp), Temp, AllMoves, null, false);
+				V.addIfTrue(new Vet(Temp), null, AllMoves, null, false);
 			}
 			else
-			{	V.addIfTrue(new Vet(Temp), Temp, AllMoves, false);}
+			{	V.addIfTrue(new Vet(Temp), null, AllMoves, null, false);}
+			D.DNNmove(new Vet(Temp2), null, comiveis);
+			D.DPNmove(new Vet(Temp2), null, comiveis);
+		}
 	}
 
 	/**
@@ -78,10 +88,12 @@ public class Peao extends Peca{
 
 	public void AtualizaMoves(Tabuleiro tab)
 	{
-		Vertical V = new Vertical(tab);
+		Vertical V = new Vertical(tab, this.v);
+		Diagonal D = new Diagonal(tab, this.v);
 		
 		AllMoves.clear();
+		comiveis.clear();
 		
-		ifEspecial(V, this.corP());
+		ifEspecial(V, D, this.corP());
 	}
 }

@@ -143,11 +143,6 @@ public class Tabuleiro
 	{
 		return pecas;
 	}
-	
-	public Peca getPeca(int indice)
-	{
-		return pecas.get(indice);
-	}
 
 	/**
 	 * 
@@ -168,7 +163,7 @@ public class Tabuleiro
 	 	System.out.println("Nao ha peca nesta casa");
 	 	return null;
 	}
-	
+
 	/**
 	 * 
 	 *	Pergunta se a casa na localizacao Vet v
@@ -196,11 +191,23 @@ public class Tabuleiro
 	 	return false;
 	}
 
+	public boolean perguntaComivel(Vet origem, Vet destino)
+	{
+		int indiceO = origem.getY()*8 + origem.getX(); // indice do ArrayList de casas (tab)
+		int indiceD = destino.getY()*8 + destino.getX();
+
+		if(perguntaCasaPeca(destino))
+			if(tab.get(indiceO).getPeca().getCor() != tab.get(indiceD).getPeca().getCor())
+				return true;
+
+	 	return false;
+	}
+
 	/**
 	 * 
 	 * Printer das Casas em Tab DEBUG ONLY!
 	 *
-	 */
+	 * */
 
     public Consumer<Casa> printCasas = (c) ->
     { //para testar se os movimentos possiveis estavam sendo inicializados corretamente
@@ -216,15 +223,12 @@ public class Tabuleiro
 	 * 
 	 * 	Posiciona Peca na casa
 	 *  caso a casa esteja vazia
-	 *  
-	 *  AE: Casa c que se deseja posicionar a peca
-	 *  	Peca p que se deseja movimentar
 	 * 
-	 * 
-	 */
+	 * */
+
 	public boolean movePeca (Peca p, int x, int y)
 	{
-		if(!perguntaCasaPeca(x, y) && p.jogadaValida(x, y))
+		if(!perguntaCasaPeca(x, y) && p.movimentoValido(x, y))
 		{
 			int indiceDestino = 8*y + x;
 			int indiceOrigem = 8*p.getY() + p.getX();
@@ -234,6 +238,33 @@ public class Tabuleiro
 			tab.get(indiceDestino).setPeca(p);
 			tab.get(indiceOrigem).toogleO();
 			tab.get(indiceOrigem).setPeca(null);
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * 
+	 * 	Posiciona Peca na casa
+	 *  caso a casa esteja vazia
+	 * 
+	 * */
+	
+	public boolean comePeca(Peca selecionada, Peca comida)
+	{
+		if(selecionada.comidaValida(comida.getX(), comida.getY()))
+		{
+			int indiceOrigem = (Consts.xyFin + 1)*selecionada.getY() + selecionada.getX();
+			int indiceDestino = (Consts.xyFin + 1)*comida.getY() + comida.getX();
+
+			selecionada.setV(comida.getX(), comida.getY());
+			pecas.remove(comida);
+			tab.get(indiceDestino).setPeca(selecionada);
+			tab.get(indiceOrigem).toogleO();
+			tab.get(indiceOrigem).setPeca(null);
+			comida = null;
+
 			return true;
 		}
 

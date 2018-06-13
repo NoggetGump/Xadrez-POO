@@ -1,7 +1,5 @@
 package pecas;
 
-import java.util.ArrayList;
-
 import movimentos.Diagonal;
 import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
@@ -40,10 +38,11 @@ public class Bispo extends Peca
 	
 	public void AtualizaMoves(Tabuleiro tab)
 	{
-		Diagonal D = new Diagonal(tab);
+		Diagonal D = new Diagonal(tab, this.v);
 		
 		AllMoves.clear();
+		comiveis.clear();
 		
-		D.allMovDiag(this.v, this.AllMoves);
+		D.allMovDiag(this.AllMoves, this.comiveis);
 	}
 }

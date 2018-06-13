@@ -40,12 +40,13 @@ public class Torre extends Peca
 	
 	public void AtualizaMoves(Tabuleiro tab)
 	{
-		Vertical V = new Vertical(tab);
-		Horizontal H = new Horizontal(tab);
+		Vertical V = new Vertical(tab, this.v);
+		Horizontal H = new Horizontal(tab, this.v);
 		
 		AllMoves.clear();
+		comiveis.clear();
 		
-		H.allHorMov(this.v, AllMoves);
-		V.allVerMov(this.v, AllMoves);
+		H.allHorMov(AllMoves, comiveis);
+		V.allVerMov(AllMoves, comiveis);
 	}
 }
