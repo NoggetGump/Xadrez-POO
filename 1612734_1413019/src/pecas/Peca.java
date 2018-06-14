@@ -129,8 +129,8 @@ public abstract class Peca{
 	
 	public boolean comidaValida(int x, int y)
 	{
-		for(Vet come : this.comiveis)
-			if(x == come.getX() && y == come.getY())
+		for(Vet comida : this.comiveis)
+			if(x == comida.getX() && y == comida.getY())
 				return true;
 
 		return false;
@@ -167,7 +167,7 @@ public abstract class Peca{
 
 	public void printAllMov()
 	{
-		this.comiveis.forEach(printMoves);
+		this.AllMoves.forEach(printMoves);
 	}
 	
 	/**

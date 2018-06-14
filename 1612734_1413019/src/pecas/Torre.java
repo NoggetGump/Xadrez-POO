@@ -35,7 +35,14 @@ public class Torre extends Peca
 	
 	public String nomePeca()
 	{
-		return "Torre";
+		if(this.getCor() == 'b')
+		{
+			return "Torre Branca";
+		}
+		else
+		{
+			return "Torre Preto";
+		}
 	}
 	
 	public void AtualizaMoves(Tabuleiro tab)

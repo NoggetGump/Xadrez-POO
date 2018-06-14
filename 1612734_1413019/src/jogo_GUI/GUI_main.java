@@ -1,4 +1,4 @@
-package jogo_GUI;
+ package jogo_GUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,8 +10,7 @@ import javax.swing.JComponent;
 
 import tabuleiro.*;
 import vetor.Vet;
-import pecas.Peao;
-import pecas.Peca;
+import pecas.*;
 
 public class GUI_main extends JComponent{
 
@@ -99,6 +98,7 @@ public class GUI_main extends JComponent{
 
 	public void selecPeca(Peca p)
 	{
+		System.out.println("\tVocê selecionou " + p.nomePeca());
 		GUI_main.p = p;
 		repaint();
 	}
@@ -110,21 +110,23 @@ public class GUI_main extends JComponent{
 			tab.AtualizaMovPecas();
 			GUI_main.p = null;
 			repaint();
+			System.out.println("\tVocê moveu " + selecionada.nomePeca() + " para a casa ( " + x + " , " + y + " )");
 			if(selecionada instanceof Peao)
 				if(tab.promocao(selecionada))
 					repaint();
-
 			return true;
 		}
-		System.out.println("Movimento ilegal");
-
+		System.out.println("\tMovimento ilegal! Selecione outra peça");
+		GUI_main.p = null;
+		repaint();		// Se movimento for ilegal os movimentos possiveis são apagados e a peca é deselecionada
 		return false;
 	}
-
+	
 	public boolean comePeca(Peca selecionada, Peca comida)
 	{
 		if(tab.comePeca(selecionada, comida))
 		{
+			System.out.println("\tVocê comeu o(a) " + comida.nomePeca() + " inimigo(a)!");
 			tab.AtualizaMovPecas();
 			GUI_main.p = null;
 			repaint();
@@ -135,6 +137,7 @@ public class GUI_main extends JComponent{
 			return true;
 		}
 		System.out.println("Movimento ilegal");
+		repaint();
 
 		return false;
 	}

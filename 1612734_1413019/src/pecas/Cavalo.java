@@ -31,9 +31,17 @@ public class Cavalo extends Peca{
 			return Consts.cavaloB.getPath();
 	}
 
+
 	public String nomePeca()
 	{
-		return "Cavalo";
+		if(this.cor == 'b')
+		{
+			return "Cavalo Branco";
+		}
+		else
+		{
+			return "Cavalo Preto";
+		}
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)

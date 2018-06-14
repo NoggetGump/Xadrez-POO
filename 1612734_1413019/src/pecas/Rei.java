@@ -36,7 +36,10 @@ public class Rei extends Peca
 	
 	public String nomePeca()
 	{
-		return "Rei";
+		if(this.cor == 'b')
+			return "Rei Branco";
+		else
+			return "Rei Preto";
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)
