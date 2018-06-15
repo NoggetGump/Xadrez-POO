@@ -143,6 +143,13 @@ public class Tabuleiro
 	{
 		return pecas;
 	}
+	
+	public Peca getPeca(Vet v)
+	{
+		int indice = v.getY()*Consts.xyFin + v.getX();
+		
+		return tab.get(indice).getPeca();
+	}
 
 	/**
 	 * 
@@ -256,6 +263,36 @@ public class Tabuleiro
 			comida = null;
 
 			return true;
+		}
+
+		return false;
+	}
+	
+	public boolean roque(Peca rei, Peca torre)
+	{
+		if(rei.movimentoValido(torre.getX(), torre.getY()))
+		{
+			int addRei = 0;
+			int addTorre = 0;
+			int assist = ((Torre)torre).roqueAssist(addRei, addTorre);
+			if(assist != -1)
+			{
+				int indiceOrigemRei = (Consts.xyFin + 1)*rei.getY() + rei.getX();
+				int indiceOrigemTorre = (Consts.xyFin + 1)*torre.getY() + torre.getX();
+				int indiceDestinoRei = (Consts.xyFin + 1)*rei.getY() + rei.getX() + addRei;
+				int indiceDestinoTorre = (Consts.xyFin + 1)*torre.getY() + torre.getX() + addTorre;
+				
+				tab.get(indiceOrigemRei).toogleO();
+				tab.get(indiceOrigemTorre).toogleO();
+				tab.get(indiceDestinoRei).toogleO();
+				tab.get(indiceDestinoTorre).toogleO();
+				tab.get(indiceDestinoRei).setPeca(rei);
+				tab.get(indiceDestinoTorre).setPeca(torre);
+				tab.get(indiceOrigemRei).setPeca(null);
+				tab.get(indiceOrigemTorre).setPeca(null);
+				rei.setX(rei.getX() + addRei);
+				torre.setX(torre.getX() + addTorre);				
+			}
 		}
 
 		return false;

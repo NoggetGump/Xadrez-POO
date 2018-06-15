@@ -72,10 +72,18 @@ public abstract class Peca{
 		return this.v.getY();
 	}
 
+
 	public void setV(int x, int y)
 	{
 		v.set(x, y);
 	}
+	
+
+	public void setX(int x)
+	{
+		this.v.setX(x);
+	}
+
 
 	public ArrayList<Vet> getAllMoves()
 	{
