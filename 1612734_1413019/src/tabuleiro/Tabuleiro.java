@@ -205,7 +205,8 @@ public class Tabuleiro
 		int indiceD = destino.getY()*Consts.xyFin + destino.getX();
 
 		if(perguntaCasaPeca(destino))
-			if(tab.get(indiceO).getPeca().getCor() != tab.get(indiceD).getPeca().getCor())
+			if(tab.get(indiceO).getPeca().getCor() != 
+			tab.get(indiceD).getPeca().getCor())
 				return true;
 
 	 	return false;
