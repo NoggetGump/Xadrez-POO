@@ -205,4 +205,9 @@ public abstract class Peca{
 
 	public abstract void AtualizaMoves(Tabuleiro tab);
 
+	public void setX(int x)
+	{
+		this.v.setX(x);
+	}
+
 }

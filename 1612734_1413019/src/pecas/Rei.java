@@ -10,8 +10,6 @@ import vetor.Vet;
 
 public class Rei extends Peca
 {
-	Vet roque = null;
-
 	boolean jaMoveu = false;
 
 	/**
@@ -75,32 +73,20 @@ public class Rei extends Peca
 		D.DNPmove(new Vet(this.v), AllMoves, comiveis);
 		D.DPNmove(new Vet(this.v), AllMoves, comiveis);
 		D.DNNmove(new Vet(this.v), AllMoves, comiveis);
-		
+
 		if(this.corP())
 		{
+			temp.set(Consts.xyFin, Consts.xyIni);
+			R.roqueEsquerdaP(this, temp, AllMoves);
 			temp.set(Consts.xyIni, Consts.xyIni);
-			if(tab.perguntaCasaPeca(temp))
-				R.roqueValido(this, tab.getPeca(v));
-			else
-			{
-				temp.set(Consts.xyIni, Consts.xyFin);
-				if(tab.perguntaCasaPeca(temp))
-					R.roqueValido(this, tab.getPeca(v));
-			}
+			R.roqueDireitaP(this, temp, AllMoves);
 		}
 		else
 		{
-			temp.set(Consts.xyFin, Consts.xyIni);
-			if(tab.perguntaCasaPeca(temp))
-				R.roqueValido(this, tab.getPeca(v));
-			else
-			{
-				temp.set(Consts.xyFin, Consts.xyFin);
-				if(tab.perguntaCasaPeca(temp))
-					R.roqueValido(this, tab.getPeca(v));
-			}
+			temp.set(Consts.xyIni, Consts.xyFin);
+			R.roqueEsquerdaB(this, temp, AllMoves);
+			temp.set(Consts.xyFin, Consts.xyFin);
+			R.roqueDireitaB(this, temp, AllMoves);
 		}
-			
-
 	}
 }

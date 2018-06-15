@@ -35,7 +35,7 @@ public class GUI_janela extends JFrame {
 					{
 						if(temp == null)
 						{
-							if(a.movPeca(pecaSelecionada, x, y))
+								if(a.movPeca(pecaSelecionada, x, y))
 							{
 								turno ++;
 								System.out.println("\r\n<< Turno " + turno + " >>\r\n");

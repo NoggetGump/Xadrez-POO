@@ -8,6 +8,8 @@ import pecas.Torre;
 import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
+
+
 public class Roque {
 
 	Tabuleiro tab;
@@ -18,9 +20,24 @@ public class Roque {
 		this.tab = tab;
 		coorPeca = v;
 	}
-
-	public void roqueEsquerdaB(Peca rei, Peca torre, Vet temp, ArrayList<Vet> AllMoves, Vet roque)
+	
+	private boolean condicaoRoque(Peca rei, Peca torre)
 	{
+		if( torre instanceof Torre
+		&& ((Rei)rei).getJaMoveu() == false
+		&& ((Torre)rei).getJaMoveu() == false)
+			return true;
+		
+		return false;
+	}
+
+	public void roqueEsquerdaB(Peca rei, Vet temp, ArrayList<Vet> AllMoves)
+	{
+		if(!tab.perguntaCasaPeca(temp))
+			return;
+
+		Peca torre = tab.getPeca(temp);
+
 		temp.addX(1);
 		if(!tab.perguntaCasaPeca(temp))
 		{
@@ -29,59 +46,64 @@ public class Roque {
 			{
 				temp.addX(1);
 				if(!tab.perguntaCasaPeca(temp))
-					if(torre instanceof Torre
-					&& rei.getCor() == torre.getCor()
-					&& ((Rei)rei).getJaMoveu() == false
-					&& ((Torre)rei).getJaMoveu() == false)
-					{
-						((Rei)rei).toogleJaMoveu();
-						((Torre)torre).toogleJaMoveu();
-						temp.addX(1);
-						AllMoves.add(temp);
-					}
+					if(condicaoRoque(rei, torre))
+						AllMoves.add(new Vet(torre.getX(), torre.getY()));
 			}
 		}
 	}
 
-	public boolean roqueDireitaB(Peca rei, Peca torre, ArrayList<Vet> AllMoves)
+	public void roqueDireitaB(Peca rei, Vet temp, ArrayList<Vet> AllMoves)
 	{
-		if(rei instanceof Rei && torre instanceof Torre
-		&& rei.getCor() == torre.getCor()
-		&& ((Rei)rei).getJaMoveu() == false
-		&& ((Torre)rei).getJaMoveu() == false)
+		if(!tab.perguntaCasaPeca(temp))
+			return;
+
+		Peca torre = tab.getPeca(temp);
+
+		temp.addX(-1);
+		if(!tab.perguntaCasaPeca(temp))
 		{
-			((Rei)rei).toogleJaMoveu();
-			((Torre)torre).toogleJaMoveu();
-			return true;
+		temp.addX(-1);
+			if(!tab.perguntaCasaPeca(temp))
+				if(condicaoRoque(rei, torre))
+					AllMoves.add(new Vet(torre.getX(), torre.getY()));
 		}
-		return false;
 	}
 	
-	public boolean roqueEsquerdaP(Peca rei, Peca torre, ArrayList<Vet> AllMoves)
+	public void roqueEsquerdaP(Peca rei, Vet temp, ArrayList<Vet> AllMoves)
 	{
-		if(rei instanceof Rei && torre instanceof Torre
-		&& rei.getCor() == torre.getCor()
-		&& ((Rei)rei).getJaMoveu() == false
-		&& ((Torre)rei).getJaMoveu() == false)
+		if(!tab.perguntaCasaPeca(temp))
+			return;
+		
+		Peca torre = tab.getPeca(temp);
+		
+		temp.addX(-1);
+		if(!tab.perguntaCasaPeca(temp))
 		{
-			((Rei)rei).toogleJaMoveu();
-			((Torre)torre).toogleJaMoveu();
-			return true;
+			temp.addX(-1);
+			if(!tab.perguntaCasaPeca(temp))
+				if(condicaoRoque(rei, torre))
+					AllMoves.add(new Vet(torre.getX(), torre.getY()));
 		}
-		return false;
 	}
 
-	public boolean roqueDireitaP(Peca rei, Peca torre, ArrayList<Vet> AllMoves)
+	public void roqueDireitaP(Peca rei, Vet temp, ArrayList<Vet> AllMoves)
 	{
-		if(rei instanceof Rei && torre instanceof Torre
-		&& rei.getCor() == torre.getCor()
-		&& ((Rei)rei).getJaMoveu() == false
-		&& ((Torre)rei).getJaMoveu() == false)
+		if(!tab.perguntaCasaPeca(temp))
+			return;
+
+		Peca torre = tab.getPeca(temp);
+
+		temp.addX(1);
+		if(!tab.perguntaCasaPeca(temp))
 		{
-			((Rei)rei).toogleJaMoveu();
-			((Torre)torre).toogleJaMoveu();
-			return true;
+			temp.addX(1);
+			if(!tab.perguntaCasaPeca(temp))
+			{
+				temp.addX(1);
+				if(!tab.perguntaCasaPeca(temp))
+					if(condicaoRoque(rei, torre))
+						AllMoves.add(new Vet(torre.getX(), torre.getY()));
+			}
 		}
-		return false;
 	}
 }
