@@ -27,14 +27,14 @@ public class Peao extends Peca{
 	 *
 	 * */
 
-	private void ifEspecial(Vertical V, Diagonal D)
+	private void ifEspecial(Vertical V, Diagonal D, boolean p)
 	{
 		Vet Temp = new Vet(v);
 		Vet Temp2 = new Vet(v);
 		int casaEspecialP = 1;
 		int casaEspecialB = 6;
 
-		if(this.corP())
+		if(p)
 		{
 			if(Temp.getY() == casaEspecialP)
 			{
@@ -105,6 +105,6 @@ public class Peao extends Peca{
 		AllMoves.clear();
 		comiveis.clear();
 		
-		ifEspecial(V, D);
+		ifEspecial(V, D, this.corP());
 	}
 }
