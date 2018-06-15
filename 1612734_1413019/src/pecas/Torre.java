@@ -8,7 +8,9 @@ import vetor.Vet;
 
 public class Torre extends Peca
 {
-	
+
+	boolean jaMoveu = false;
+
 	/**
 	 * 
 	 *	Construtores de Peca
@@ -43,6 +45,16 @@ public class Torre extends Peca
 		{
 			return "Torre Preto";
 		}
+	}
+	
+	public boolean getJaMoveu()
+	{
+		return jaMoveu;
+	}
+	
+	public void toogleJaMoveu()
+	{
+		jaMoveu = !jaMoveu;
 	}
 	
 	public void AtualizaMoves(Tabuleiro tab)

@@ -1,10 +1,14 @@
 package tabuleiro;
 
-import pecas.*;
+import pecas.*; //nossos imports
 import vetor.Vet;
 
+import java.awt.Graphics2D; //java imports
+
 import java.io.File;
-import java.util.ArrayList;
+
+import java.util.ArrayList; //.util
+import java.util.function.BiConsumer; //.util.function
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -135,13 +139,30 @@ public class Tabuleiro
 
 	/**
 	 * 
-	 *	Geters
+	 *	Evita a quebra de modularidade do projeto
+	 *	pela função paint na main Gui.
 	 * 
 	 * */
 
-	public ArrayList<Peca> getPecas()
+	public void paintPecas(BiConsumer<Peca, Graphics2D> BC, Graphics2D g2)
+	{		
+		for(Peca peca : pecas)
+		{
+			BC.accept(peca, g2);
+		}
+	}
+	
+	/**
+	 * 
+	 *	Geters
+	 * 
+	 * */
+	
+	public Peca getPeca(Vet v)
 	{
-		return pecas;
+		int indice = v.getY()*Consts.xyFin + v.getX();
+		
+		return tab.get(indice).getPeca();
 	}
 
 	/**
@@ -173,8 +194,8 @@ public class Tabuleiro
 
 	public boolean perguntaCasaPeca(Vet v)
 	{
-		int indice = v.getY()*8 + v.getX(); // indice do ArrayList de casas (tab)
-		
+		int indice = v.getY()*Consts.xyFin + v.getX(); // indice do ArrayList de casas (tab)
+
 		if(tab.get(indice).getO())
 				return true;
 
@@ -183,8 +204,8 @@ public class Tabuleiro
 
 	public boolean perguntaComivel(Vet origem, Vet destino)
 	{
-		int indiceO = origem.getY()*8 + origem.getX(); // indice do ArrayList de casas (tab)
-		int indiceD = destino.getY()*8 + destino.getX();
+		int indiceO = origem.getY()*Consts.xyFin + origem.getX(); // indice do ArrayList de casas (tab)
+		int indiceD = destino.getY()*Consts.xyFin + destino.getX();
 
 		if(perguntaCasaPeca(destino))
 			if(tab.get(indiceO).getPeca().getCor() != tab.get(indiceD).getPeca().getCor())
@@ -195,7 +216,7 @@ public class Tabuleiro
 
 	/**
 	 * 
-	 * Printer das Casas em Tab DEBUG ONLY!
+	 * Printer das Casas em Tab
 	 *
 	 * */
 
@@ -220,8 +241,8 @@ public class Tabuleiro
 	{
 		if(selecionada.movimentoValido(x, y))
 		{
-			int indiceDestino = 8*y + x;
-			int indiceOrigem = 8*selecionada.getY() + selecionada.getX();
+			int indiceDestino = Consts.xyFin*y + x;
+			int indiceOrigem = Consts.xyFin*selecionada.getY() + selecionada.getX();
 
 			selecionada.setV(x, y);
 			tab.get(indiceDestino).toogleO();
@@ -241,19 +262,19 @@ public class Tabuleiro
 	 * 
 	 * */
 
-	public boolean comePeca(Peca selecionada, Peca comida)
+	public boolean comePeca(Peca selecionada, Peca alvo)
 	{
-		if(selecionada.comidaValida(comida.getX(), comida.getY()))
+		if(selecionada.comidaValida(alvo.getX(), alvo.getY()))
 		{
 			int indiceOrigem = (Consts.xyFin + 1)*selecionada.getY() + selecionada.getX();
-			int indiceDestino = (Consts.xyFin + 1)*comida.getY() + comida.getX();
+			int indiceDestino = (Consts.xyFin + 1)*alvo.getY() + alvo.getX();
 
-			selecionada.setV(comida.getX(), comida.getY());
-			pecas.remove(comida);
+			selecionada.setV(alvo.getX(), alvo.getY());
+			pecas.remove(alvo);
 			tab.get(indiceDestino).setPeca(selecionada);
 			tab.get(indiceOrigem).toogleO();
 			tab.get(indiceOrigem).setPeca(null);
-			comida = null;
+			alvo = null;
 
 			return true;
 		}
@@ -261,27 +282,40 @@ public class Tabuleiro
 		return false;
 	}
 	
-	public boolean promocao(Peca peao)
+	public boolean roque(Peca rei, Peca torre)
 	{
-	if(peao.corP())
-	{
-		if(peao.getY() == Consts.xyFin)
+
+		if(rei.movimentoValido(torre.getX(), torre.getY()))
 		{
-			pecas.remove(peao);
-			pecas.add(movimentos.PromocaoPeao.Promove(peao));
+			if()
 			return true;
 		}
+
+		return false;
 	}
-	else
+
+	public boolean promocao(Peca selecionada)
 	{
-		if(peao.getY() == Consts.xyIni)
+	if(selecionada instanceof Peao)
+		if(selecionada.corP())
 		{
-			pecas.remove(peao);
-			pecas.add(movimentos.PromocaoPeao.Promove(peao));
-			return true;
+			if(selecionada.getY() == Consts.xyFin)
+			{
+				pecas.remove(selecionada);
+				pecas.add(movimentos.PromocaoPeao.Promove(selecionada));
+				return true;
+			}
 		}
-	}
-	
-	return false;
+		else
+		{
+			if(selecionada.getY() == Consts.xyIni)
+			{
+				pecas.remove(selecionada);
+				pecas.add(movimentos.PromocaoPeao.Promove(selecionada));
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

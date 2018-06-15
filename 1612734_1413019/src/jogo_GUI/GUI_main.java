@@ -1,16 +1,19 @@
  package jogo_GUI;
 
-import java.awt.Color;
+import java.awt.Color; //java imports
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 
+import java.util.function.BiConsumer;
+
 import javax.swing.JComponent;
 
-import tabuleiro.*;
+import tabuleiro.Tabuleiro;  //nossos imports
+import tabuleiro.Consts;
 import vetor.Vet;
-import pecas.*;
+import pecas.Peca;
 
 public class GUI_main extends JComponent{
 
@@ -20,13 +23,15 @@ public class GUI_main extends JComponent{
 	private static Tabuleiro tab;
 	private static Peca p = null;
 
+	private BiConsumer<Peca, Graphics2D> paintP = (peca, g2) ->
+	{
+		g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.convCoorX(), peca.convCoorY(), this);
+	    g2.finalize();
+	};
+
 	private void paintPecas(Graphics2D g2)
 	{
-		for(Peca peca : tab.getPecas())
-		{
-				g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.convCoorX(), peca.convCoorY(), this);
-			    g2.finalize();
-		}
+		tab.paintPecas(paintP, g2);
 	}
 
     private void highlightPeca(Graphics2D g2)
@@ -111,9 +116,8 @@ public class GUI_main extends JComponent{
 			GUI_main.p = null;
 			repaint();
 			System.out.println("\tVocê moveu " + selecionada.nomePeca() + " para a casa ( " + x + " , " + y + " )");
-			if(selecionada instanceof Peao)
-				if(tab.promocao(selecionada))
-					repaint();
+			if(tab.promocao(selecionada))
+				repaint();
 			return true;
 		}
 		System.out.println("\tMovimento ilegal! Selecione outra peça");
@@ -122,19 +126,28 @@ public class GUI_main extends JComponent{
 		return false;
 	}
 	
-	public boolean comePeca(Peca selecionada, Peca comida)
+	public boolean comePecaOuRoque(Peca selecionada, Peca alvo)
 	{
-		if(tab.comePeca(selecionada, comida))
+		if(tab.comePeca(selecionada, alvo))
 		{
-			System.out.println("\tVocê comeu o(a) " + comida.nomePeca() + " inimigo(a)!");
+			System.out.println("\tVocê comeu o(a) " + alvo.nomePeca() + " inimigo(a)!");
 			tab.AtualizaMovPecas();
 			GUI_main.p = null;
 			repaint();
-			if(selecionada instanceof Peao)
-				if(tab.promocao(selecionada))
-					repaint();
+			if(tab.promocao(selecionada))
+				repaint();
 
 			return true;
+		}
+		
+		else if(tab.roque(selecionada, alvo))
+		{
+			System.out.println("\tVocê efetuou um roque!");
+			tab.AtualizaMovPecas();
+			GUI_main.p = null;
+			repaint();
+			if(tab.promocao(selecionada))
+				repaint();
 		}
 		System.out.println("Movimento ilegal");
 		repaint();

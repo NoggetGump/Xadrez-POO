@@ -43,11 +43,6 @@ public class Casa
 		return casaOcupada;
 	}
 
-	public Vet getVet()
-	{
-		return v;
-	}
-
 	public Peca getPeca()
 	{
 		if(casaOcupada == true)
@@ -66,11 +61,7 @@ public class Casa
 	
 	public void toogleO()
 	{
-		if(this.casaOcupada)
-			casaOcupada = false;
-		else
-			casaOcupada = true;
-			
+		casaOcupada = !casaOcupada;			
 	}
 
 	public void printCasa()

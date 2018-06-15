@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class PromocaoPeao {
 	public static Peca Promove(Peca superPeca)
 	{
-		System.out.println("Digite para qual peca deseja promover o superPeca:");
+		System.out.println("Digite para qual peca deseja promover a superPeca:");
 		System.out.println("-1:Torre");
 		System.out.println("-2:Cavalo");
 		System.out.println("-3:Bispo");

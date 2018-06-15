@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
+
 import vetor.Vet;
 
 public abstract class Peca{
@@ -41,14 +42,6 @@ public abstract class Peca{
 	{
 		this.v = new Vet(p.getX(), p.getY());
 		this.cor = p.cor;
-	}
-	
-	public boolean equals(Peca p)
-	{
-		if(this != p)
-			return true;
-		
-		return false;
 	}
 
 	/**
@@ -87,11 +80,6 @@ public abstract class Peca{
 		return comiveis;
 	}
 
-	public void atualizaPos(Vet vet)
-	{
-		this.v.set(vet.getX(), vet.getY());
-	}
-
 	/**
 	 * 
 	 * Retorna true se a cor for preta
@@ -123,10 +111,10 @@ public abstract class Peca{
 	
 	/**
 	 * 
-	 * Retorna true se o movimento for possivel
+	 * Retorna true se tomada de peca for possivel
 	 *
 	 */
-	
+
 	public boolean comidaValida(int x, int y)
 	{
 		for(Vet comida : this.comiveis)
@@ -135,14 +123,14 @@ public abstract class Peca{
 
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * 	Retorna se a peca selecionada obedece o
 	 * 	seu respectivo turno
 	 *
 	 */
-	
+
 	public boolean turno(int t)
 	{
 		if(t%2 == 0 && cor == 'p')
@@ -169,18 +157,18 @@ public abstract class Peca{
 	{
 		this.AllMoves.forEach(printMoves);
 	}
-	
+
 	/**
 	 * 
 	 * Converte as coordenadas X e Y 
 	 *
 	 */
-	
+
 	public int convCoorX()
 	{ //converte as coordenadas cartesianas em coordenadas User Space
 		return (this.getX() * Consts.tamC) + Consts.ajuste;
 	}
-	
+
 	public int convCoorY()
 	{ //converte as coordenadas cartesianas em coordenadas User Space
 		return (this.getY() * Consts.tamC) + Consts.ajuste;
@@ -216,5 +204,5 @@ public abstract class Peca{
 	 */
 
 	public abstract void AtualizaMoves(Tabuleiro tab);
-	
+
 }

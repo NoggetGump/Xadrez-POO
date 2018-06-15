@@ -43,7 +43,7 @@ public class GUI_janela extends JFrame {
 						}
 						else
 						{
-							if(a.comePeca(pecaSelecionada, temp))
+							if(a.comePecaOuRoque(pecaSelecionada, temp))
 							{
 								turno++;
 								System.out.println("\r\n<< Turno " + turno + " >>\r\n");
