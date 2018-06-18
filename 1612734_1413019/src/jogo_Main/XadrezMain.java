@@ -1,9 +1,7 @@
-
 package jogo_Main;
 
 import jogo_GUI.GUI_main;
-import tabuleiro.*;
-import pecas.*;
+import tabuleiro.Tabuleiro;
 
 public class XadrezMain {
 
