@@ -51,7 +51,7 @@ public class Vertical {
 	}
 
 	public boolean ver(ArrayList<Vet> AllMoves, ArrayList<Vet> comiveis, boolean sentido) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y POSITIVO A PARTIR DA PECA.
-	{ //RETORNA FALSE CASO NÃƒO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO. sentido = true, se movimento for positivo. 
+	{ //RETORNA FALSE CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO. sentido = true, se movimento for positivo. 
 		Vet Temp = new Vet(coorPeca);
 
 		while(addIfTrue(new Vet(Temp), Temp, AllMoves, comiveis, sentido));
@@ -62,7 +62,7 @@ public class Vertical {
 	}
 
 	public boolean allVerMov(ArrayList<Vet> AllMoves,  ArrayList<Vet> comiveis) //ATUALIZA TODOS OS MOVIMENTOS POSSIVEIS PARA EIXO Y A PARTIR DA PECA.
-	{ //RETORNA FALSE CASO NÃƒO TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
+	{ //RETORNA FALSE CASO NÃO TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
 		boolean b1 = ver(AllMoves, comiveis, true);
 		boolean b2 = ver(AllMoves, comiveis, false);
 
