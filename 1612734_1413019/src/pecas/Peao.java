@@ -42,7 +42,7 @@ public class Peao extends Peca{
 				V.addIfTrue(new Vet(Temp), null, AllMoves, null, true);
 			}
 			else
-			{	V.addIfTrue(new Vet(Temp), null, AllMoves, null, true);}
+				V.addIfTrue(new Vet(Temp), null, AllMoves, null, true);
 			D.DPPmove(new Vet(Temp2), null, comiveis);
 			D.DNPmove(new Vet(Temp2), null, comiveis);
 		}
@@ -83,15 +83,19 @@ public class Peao extends Peca{
 
 	public String nomePeca()
 	{
-		if(this.getCor() == 'b')
-		{
+		if(this.cor == 'b')
 			return "Peão Branco";
-		}
 		else
-		{
 			return "Peão Preto";
-		}
 	}
+	
+	/**
+	 * 
+	 *	Inicializa e atualiza os movimentos
+	 *	(AllMoves) e atualiza as possiveis
+	 *	tomavadas de Pecas (comiveis).
+	 *
+	 * */
 
 	public void AtualizaMoves(Tabuleiro tab)
 	{
