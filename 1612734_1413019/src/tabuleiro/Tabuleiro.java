@@ -3,15 +3,32 @@ package tabuleiro;
 import pecas.*;
 import vetor.Vet;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Tabuleiro 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.MenuElement;
+import javax.swing.MenuSelectionManager;
+
+import com.sun.javafx.collections.MappingChange.Map;
+
+import java.awt.event.ActionListener;
+
+import jogo_GUI.ActionListenerT;
+import jogo_GUI.GUI_janela;
+
+public class Tabuleiro
 {
 	private ArrayList<Casa> tab = new ArrayList<Casa>();
 	private ArrayList<Peca> pecas = new ArrayList<Peca>();
+	String peaoPromovido;
 
 	/**
 	 * 
@@ -111,20 +128,20 @@ public class Tabuleiro
 				tab.add(new Casa(i, j, addPeca.apply(new Vet(i, j))));
 		this.AtualizaMovPecas();
 	}
-	
+
 	public Tabuleiro(File x)
 	{
-	
+
 	}
-	
+
 	/**
 	 * 
-	 *	ApÃ³s a construcao do Tabuleiro,
+	 *	Após a construcao do Tabuleiro,
 	 *	a atualizacao dos movimentos das
 	 *	Pecas.
 	 * 
 	 * */
-	
+
 	public void AtualizaMovPecas()
 	{
 		for(Peca peca : pecas)
@@ -142,6 +159,13 @@ public class Tabuleiro
 	public ArrayList<Peca> getPecas()
 	{
 		return pecas;
+	}
+	
+	public Peca getPeca(Vet v)
+	{
+		int indice = v.getY()*Consts.xyFin + v.getX();
+		
+		return tab.get(indice).getPeca();
 	}
 
 	/**
@@ -178,16 +202,6 @@ public class Tabuleiro
 
 	 	return false;
 	}
-	
-	public boolean perguntaCasaPeca(int x, int y)
-	{
-		int indice = y*8 + x; // indice do ArrayList de casas (tab)
-
-		if(tab.get(indice).getO())
-			return true;
-
-	 	return false;
-	}
 
 	public boolean perguntaComivel(Vet origem, Vet destino)
 	{
@@ -218,22 +232,22 @@ public class Tabuleiro
 	}
 
 	/**
-	 * 
+	 *
 	 * 	Posiciona Peca na casa
 	 *  caso a casa esteja vazia
 	 * 
 	 * */
 
-	public boolean movePeca (Peca p, int x, int y)
+	public boolean movePeca (Peca selecionada, int x, int y)
 	{
-		if(!perguntaCasaPeca(x, y) && p.movimentoValido(x, y))
+		if(selecionada.movimentoValido(x, y))
 		{
 			int indiceDestino = 8*y + x;
-			int indiceOrigem = 8*p.getY() + p.getX();
+			int indiceOrigem = 8*selecionada.getY() + selecionada.getX();
 
-			p.setV(x, y);
+			selecionada.setV(x, y);
 			tab.get(indiceDestino).toogleO();
-			tab.get(indiceDestino).setPeca(p);
+			tab.get(indiceDestino).setPeca(selecionada);
 			tab.get(indiceOrigem).toogleO();
 			tab.get(indiceOrigem).setPeca(null);
 			return true;
@@ -241,14 +255,14 @@ public class Tabuleiro
 
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * 	Posiciona Peca na casa
 	 *  caso a casa esteja vazia
 	 * 
 	 * */
-	
+
 	public boolean comePeca(Peca selecionada, Peca comida)
 	{
 		if(selecionada.comidaValida(comida.getX(), comida.getY()))
@@ -267,5 +281,99 @@ public class Tabuleiro
 		}
 
 		return false;
+	}
+	
+	public boolean roque(Peca rei, Peca torre)
+	{
+		if(rei.movimentoValido(torre.getX(), torre.getY()))
+		{
+			int addRei = 0;
+			int addTorre = 0;
+			int assist = ((Torre)torre).roqueAssist(addRei, addTorre);
+			if(assist != -1)
+			{
+				int indiceOrigemRei = (Consts.xyFin + 1)*rei.getY() + rei.getX();
+				int indiceOrigemTorre = (Consts.xyFin + 1)*torre.getY() + torre.getX();
+				int indiceDestinoRei = (Consts.xyFin + 1)*rei.getY() + rei.getX() + addRei;
+				int indiceDestinoTorre = (Consts.xyFin + 1)*torre.getY() + torre.getX() + addTorre;
+				
+				tab.get(indiceOrigemRei).toogleO();
+				tab.get(indiceOrigemTorre).toogleO();
+				tab.get(indiceDestinoRei).toogleO();
+				tab.get(indiceDestinoTorre).toogleO();
+				tab.get(indiceDestinoRei).setPeca(rei);
+				tab.get(indiceDestinoTorre).setPeca(torre);
+				tab.get(indiceOrigemRei).setPeca(null);
+				tab.get(indiceOrigemTorre).setPeca(null);
+				rei.setX(rei.getX() + addRei);
+				torre.setX(torre.getX() + addTorre);				
+			}
+		}
+
+		return false;
+	}
+	
+	public boolean promocao(Peca peao , GUI_janela j)
+	{	
+		JPopupMenu popupMenu = new JPopupMenu("Title");
+		HashMap<String, Integer> promoMap = new HashMap<String, Integer>();
+		ActionListener actionListener = new ActionListenerT();
+		 
+		// Torre
+		JMenuItem torre = new JMenuItem("Torre");
+		torre.addActionListener(actionListener);
+		popupMenu.add(torre);
+		promoMap.put("Torre", 1);
+		// Cavalo
+		JMenuItem cavalo = new JMenuItem("Cavalo");
+		cavalo.addActionListener(actionListener);
+		popupMenu.add(cavalo);
+		promoMap.put("Cavalo", 2);
+		// Bispo
+		JMenuItem bispo = new JMenuItem("Bispo");
+		bispo.addActionListener(actionListener);
+		popupMenu.add(bispo);
+		promoMap.put("Bispo", 3);
+		// Rainha
+		JMenuItem rainha = new JMenuItem("Rainha");
+		rainha.addActionListener(actionListener);
+		popupMenu.add(rainha);
+		promoMap.put("Rainha", 4);
+
+	if(peao instanceof Peao)
+	{
+		if(peao.corP())
+		{
+			if(peao.getY() == Consts.xyFin)
+			{
+				popupMenu.show(j, peao.convCoorX(), peao.convCoorY());
+				((ActionListenerT) actionListener).refresh();
+				int escolha = promoMap.get(((ActionListenerT) actionListener).getPromo());
+				System.out.println("\tVocê escolheu promover para: " + escolha);
+				//pecas.remove(peao);
+				//pecas.add(movimentos.PromocaoPeao.Promove(peao));
+
+				return true;
+			}
+		}
+		else
+		{
+			if(peao.getY() == Consts.xyIni)
+			{	
+				popupMenu.show(j, peao.convCoorX(), peao.convCoorY());
+				int escolha = promoMap.get(((ActionListenerT) actionListener).getPromo());
+				System.out.println("\tVocê escolheu promover para: " + escolha);
+				/*int escolha = promoMap.get(rainha);
+				System.out.println("\tVocê escolheu promover para: " + escolha);*/
+				
+				//pecas.remove(peao);
+				//pecas.add(movimentos.PromocaoPeao.Promove(peao));
+				    
+				return true;
+			}
+		}
+	}
+	
+	return false;
 	}
 }
