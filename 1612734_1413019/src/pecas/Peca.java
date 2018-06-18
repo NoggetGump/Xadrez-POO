@@ -3,6 +3,7 @@ package pecas;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
@@ -38,7 +39,7 @@ public abstract class Peca{
 
 	public Peca(Peca p)
 	{
-		this.v = new Vet(p.getVet());
+		this.v = new Vet(p.getX(), p.getY());
 		this.cor = p.cor;
 	}
 	
@@ -61,11 +62,6 @@ public abstract class Peca{
 		return this.cor;
 	}
 
-	public Vet getVet()
-	{
-		return v;
-	}
-
 	public int getX()
 	{
 		return this.v.getX();
@@ -76,10 +72,18 @@ public abstract class Peca{
 		return this.v.getY();
 	}
 
+
 	public void setV(int x, int y)
 	{
 		v.set(x, y);
 	}
+	
+
+	public void setX(int x)
+	{
+		this.v.setX(x);
+	}
+
 
 	public ArrayList<Vet> getAllMoves()
 	{
@@ -133,8 +137,8 @@ public abstract class Peca{
 	
 	public boolean comidaValida(int x, int y)
 	{
-		for(Vet come : this.comiveis)
-			if(x == come.getX() && y == come.getY())
+		for(Vet comida : this.comiveis)
+			if(x == comida.getX() && y == comida.getY())
 				return true;
 
 		return false;
@@ -171,7 +175,23 @@ public abstract class Peca{
 
 	public void printAllMov()
 	{
-		this.comiveis.forEach(printMoves);
+		this.AllMoves.forEach(printMoves);
+	}
+	
+	/**
+	 * 
+	 * Converte as coordenadas X e Y 
+	 *
+	 */
+	
+	public int convCoorX()
+	{ //converte as coordenadas cartesianas em coordenadas User Space
+		return (this.getX() * Consts.tamC) + Consts.ajuste;
+	}
+	
+	public int convCoorY()
+	{ //converte as coordenadas cartesianas em coordenadas User Space
+		return (this.getY() * Consts.tamC) + Consts.ajuste;
 	}
 
 	/** <!> A PARTIR DAQUI RESIDEM AS FUNCOES ABSTRATAS <!> 
@@ -195,11 +215,11 @@ public abstract class Peca{
 	/**
 	 *
 	 * 	Importante <!>
-	 *  AllMoves nao precisa ser inicializada
+	 *  AllMoves não precisa ser inicializada
 	 *  na construcao do objeto Peca. AllMoves
 	 *  deve ser inicializada quando o tabuleiro
-	 *  estiver cheio de pecas, assim a funcao 
-	 *  podera lidar com o conflito de pecas.
+	 *  estiver cheio de pecas, assim a função 
+	 *  poderá lidar com o conflito de pecas.
 	 *   
 	 */
 
