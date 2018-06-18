@@ -33,15 +33,10 @@ public class Bispo extends Peca
 	
 	public String nomePeca()
 	{
-		if(this.getCor() == 'b')
-		{
+		if(this.cor == 'b')
 			return "Bispo Branco";
-		}
 		else
-		{
 			return "Bispo Preto";
-		}
-		
 	}
 	
 	public void AtualizaMoves(Tabuleiro tab)
