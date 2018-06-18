@@ -21,7 +21,8 @@ public class Horizontal {
 		if(sentido)
 		{
 			v.addX(1);
-			if(v.getX() <= Consts.xyFin && !tab.perguntaCasaPeca(v))
+			if(v.getX() <= Consts.xyFin
+			&& !tab.perguntaCasaPeca(v))
 			{
 				AllMoves.add(v);
 				if(Temp!=null)
@@ -29,13 +30,15 @@ public class Horizontal {
 				return true;
 			}
 			else
-				if(v.getX() <= Consts.xyFin && tab.perguntaComivel(coorPeca, v))
+				if(v.getX() <= Consts.xyFin 
+				&& tab.perguntaComivel(coorPeca, v))
 					comiveis.add(v);
 		}
 		else
 		{
 			v.addX(-1);
-			if(v.getX() >= Consts.xyIni && !tab.perguntaCasaPeca(v))
+			if(v.getX() >= Consts.xyIni 
+			&& !tab.perguntaCasaPeca(v))
 			{
 				AllMoves.add(v);
 				if(Temp!=null)
@@ -43,7 +46,9 @@ public class Horizontal {
 				return true;
 			}
 			else
-				if(v.getX() >= Consts.xyIni && tab.perguntaComivel(coorPeca, v))
+				if(comiveis != null 
+				&& v.getX() >= Consts.xyIni
+				&& tab.perguntaComivel(coorPeca, v))
 					comiveis.add(v);
 		}
 

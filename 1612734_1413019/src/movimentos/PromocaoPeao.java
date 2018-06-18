@@ -25,27 +25,27 @@ public class PromocaoPeao {
 			{
 				case 1:
 					superPeca = new Torre(x, y, cor);
-					
+
 					break;
 				case 2:
 					superPeca = new Cavalo(x, y, cor);
-					
+
 					break;
-				
+
 				case 3:
 					superPeca = new Bispo(x, y, cor);
-					
+
 					break;					
 				case 4:
 					superPeca = new Rainha(x, y, cor);
-					
+
 					break;
-					
+
 				default:
-					break;						
+					break;
 			}
 		input.close();
-		
+
 		return superPeca;
 	}
 }

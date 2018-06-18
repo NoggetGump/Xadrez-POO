@@ -11,13 +11,14 @@ import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
 
 public class GUI_janela extends JFrame {
-	
+
 	Peca pecaSelecionada;
+	boolean logicAssist = false;
 	int turno = 1;
-	
+
 		public GUI_janela(GUI_main a, Tabuleiro tab)
 		{
-			
+
 			addMouseListener(new MouseAdapter() 
 			{
 				public void mouseClicked(MouseEvent e)
@@ -25,13 +26,9 @@ public class GUI_janela extends JFrame {
 					int x = (e.getX()-4)/100;
 					int y = (e.getY()-26)/100;
 					Peca temp = tab.buscaPeca(x, y);
-					if(temp != null && temp.turno(turno)) // Se houver peca na Casa clicada e se o turno do jogador for respeitada
-					{
-						pecaSelecionada = temp;
-						a.selecPeca(pecaSelecionada);
-					}
-					else
-					if((temp == null || temp != pecaSelecionada) && pecaSelecionada != null)
+					
+					if(temp != pecaSelecionada
+					&& pecaSelecionada != null)
 					{
 						if(temp == null)
 						{
@@ -39,21 +36,28 @@ public class GUI_janela extends JFrame {
 							{
 								turno ++;
 								System.out.println("\r\n<< Turno " + turno + " >>\r\n");
-							}		
+							}
 						}
 						else
 						{
-							if(a.comePeca(pecaSelecionada, temp))
+							if(a.comePecaOuRoque(pecaSelecionada, temp))
 							{
 								turno++;
 								System.out.println("\r\n<< Turno " + turno + " >>\r\n");
 							}
 						}
-					pecaSelecionada = null;
+						pecaSelecionada = null;
 					}
+					else
+						if(temp != null
+						&& temp.turno(turno)) // Se houver peca na Casa clicada e se o turno do jogador for respeitado
+						{
+							pecaSelecionada = temp;
+							a.selecPeca(pecaSelecionada);
+						}
 				}
 			});
-			
+
 			ImageIcon img = new ImageIcon("Assets\\Chess_Icon2.png");
 			this.setIconImage(img.getImage());
 			this.setTitle("Xadrez");

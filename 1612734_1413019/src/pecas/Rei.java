@@ -10,8 +10,8 @@ import vetor.Vet;
 
 public class Rei extends Peca
 {
-	boolean jaMoveu = false;
-
+	private boolean jaMoveu = false;
+	
 	/**
 	 * 
 	 *	Construtores de Peca

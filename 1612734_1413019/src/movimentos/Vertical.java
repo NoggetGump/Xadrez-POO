@@ -29,7 +29,9 @@ public class Vertical {
 				return true;
 			}
 			else
-				if(comiveis != null && v.getY() <= Consts.xyFin && tab.perguntaComivel(coorPeca, v))
+				if(comiveis != null 
+				&& v.getY() <= Consts.xyFin 
+				&& tab.perguntaComivel(coorPeca, v))
 					comiveis.add(v);
 		}
 		else

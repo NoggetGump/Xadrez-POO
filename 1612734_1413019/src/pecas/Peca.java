@@ -72,10 +72,19 @@ public abstract class Peca{
 		return this.v.getY();
 	}
 
+	public Vet getV()
+	{
+		return this.v;
+	}
 
 	public void setV(int x, int y)
 	{
 		v.set(x, y);
+	}
+	
+	public void setV(Vet v)
+	{
+		v.set(v.getX(), v.getY());
 	}
 	
 
@@ -113,13 +122,13 @@ public abstract class Peca{
 		else
 			return false;
 	}
-	
+
 	/**
 	 * 
 	 * Retorna true se o movimento for possivel
 	 *
 	 */
-	
+
 	public boolean movimentoValido(int x, int y)
 	{
 		for(Vet move : this.AllMoves)
@@ -128,13 +137,13 @@ public abstract class Peca{
 
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * Retorna true se o movimento for possivel
 	 *
 	 */
-	
+
 	public boolean comidaValida(int x, int y)
 	{
 		for(Vet comida : this.comiveis)
