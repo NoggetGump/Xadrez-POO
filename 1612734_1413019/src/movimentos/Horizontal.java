@@ -51,7 +51,7 @@ public class Horizontal {
 	}
 
 	public boolean hor(ArrayList<Vet> AllMoves, ArrayList<Vet> comiveis, boolean sentido)//RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA UM SENTIDO DO EIXO X.
-	{ //sentido = true, se movimento for positivo. RETORNA NULL CASO NÃƒO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
+	{ //sentido = true, se movimento for positivo. RETORNA NULL CASO NÃO HAJA MOVIMENTOS POSSIVEIS NO SENTIDO ESCOLHIDO.
 		Vet Temp = new Vet(coorPeca);
 
 		while(addIfTrue(new Vet(Temp), Temp, AllMoves, comiveis, sentido));
@@ -63,7 +63,7 @@ public class Horizontal {
 	}
 
 	public boolean  allHorMov(ArrayList<Vet> AllMoves,  ArrayList<Vet> comiveis) //RETORNA TODOS OS MOVIMENTOS POSSIVEIS PARA O EIXO X.
-	{ //RETORNA FALSE CASO NÃƒO TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
+	{ //RETORNA FALSE CASO NÃO TENHA ADICIONADO NENHUM MOVIMENTO A LISTA.
 		boolean b1 = hor(AllMoves, comiveis, true);
 		boolean b2 = hor(AllMoves, comiveis, false);
 
