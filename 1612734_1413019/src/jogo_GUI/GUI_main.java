@@ -111,7 +111,7 @@ public class GUI_main extends JComponent{
 			GUI_main.p = null;
 			repaint();
 			System.out.println("\tVocê moveu " + selecionada.nomePeca() + " para a casa ( " + x + " , " + y + " )");
-			if(tab.promocao(selecionada, j)
+			if(tab.promocao(selecionada))
 				repaint();
 			return true;
 		}

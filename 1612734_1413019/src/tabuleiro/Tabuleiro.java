@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import javax.swing.JButton;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 public class Tabuleiro 
 {
 	private ArrayList<Casa> tab = new ArrayList<Casa>();
@@ -289,40 +293,36 @@ public class Tabuleiro
 				tab.get(indiceOrigemTorre).setPeca(null);
 				rei.getV().add(addRei);
 				torre.getV().add(addTorre);
-				
+
 				return true;
 			}
 		}
 
 		return false;
 	}
-	
-	public boolean promocao(Peca peao, GUI_main j)
+
+	public boolean promocao(Peca peao)
 	{
-	if(peao instanceof Peao)
-	{
+		JPopupMenu popUpMenu = new JPopupMenu("Promotion");
 		if(peao.corP())
 		{
-			if(peao.getY() == Consts.xyFin)
+			if(peao instanceof Peao
+			&& peao.getY() == Consts.xyFin)
 			{
-				pecas.remove(peao);
-				pecas.add(movimentos.PromocaoPeao.Promove(peao));
 
-				return true;
+					pecas.remove(peao);
+	
+					return true;
 			}
 		}
 		else
-		{
 			if(peao.getY() == Consts.xyIni)
 			{
 				pecas.remove(peao);
-				pecas.add(movimentos.PromocaoPeao.Promove(peao));
-				
+
 				return true;
 			}
-		}
-	}
-
-	return false;
+	
+		return false;
 	}
 }
