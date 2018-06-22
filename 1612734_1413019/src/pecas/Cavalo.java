@@ -43,6 +43,6 @@ public class Cavalo extends Peca{
 		
 		AllMoves.clear();
 		
-		lmove.Lmoves(this.v, this.AllMoves, this.comiveis);
+		lmove.Lmoves(this.AllMoves, this.comiveis);
 	}
 }
