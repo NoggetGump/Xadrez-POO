@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
+import jogo_GUI.GUI_PromoMenu;
+import jogo_GUI.GUI_main;
 
 public class Tabuleiro 
 {
@@ -163,7 +162,7 @@ public class Tabuleiro
 	 	{
 	 		if(peca.getX() == x && peca.getY() == y)
 	 		{
-	 			System.out.println(peca.nomePeca());
+	 			System.out.println(peca.nome());
 	 			return peca;
 	 		}
 	 	}
@@ -301,28 +300,42 @@ public class Tabuleiro
 		return false;
 	}
 
-	public boolean promocao(Peca peao)
+	public void promocao(Peca peao, GUI_main gm)
 	{
-		JPopupMenu popUpMenu = new JPopupMenu("Promotion");
-		if(peao.corP())
+		if(peao instanceof Peao)
 		{
-			if(peao instanceof Peao
-			&& peao.getY() == Consts.xyFin)
+			GUI_PromoMenu menu = new GUI_PromoMenu(peao, this, gm);
+			if(peao.corP())
 			{
-
-					pecas.remove(peao);
-	
-					return true;
+				if(peao.getY() == Consts.xyFin)
+				{
+					menu.addButton("Torre", Consts.torreP.getPath());
+					menu.addButton("Cavalo", Consts.cavaloP.getPath());
+					menu.addButton("Bispo", Consts.bispoP.getPath());
+					menu.addButton("Rainha", Consts.rainhaP.getPath());
+					menu.showMenu();
+				}
 			}
+			else
+				if(peao.getY() == Consts.xyIni)
+				{
+					menu.addButton("Torre", Consts.torreB.getPath());
+					menu.addButton("Cavalo", Consts.cavaloB.getPath());
+					menu.addButton("Bispo", Consts.bispoB.getPath());
+					menu.addButton("Rainha", Consts.rainhaB.getPath());
+					menu.showMenu();
+				}
 		}
-		else
-			if(peao.getY() == Consts.xyIni)
-			{
-				pecas.remove(peao);
-
-				return true;
-			}
+	}
 	
-		return false;
+	public void promovida(Peca peao, Peca promo, GUI_main gm)
+	{
+		int indice = (Consts.xyFin + 1)*peao.getY() + peao.getX();
+		
+		pecas.remove(peao);
+		pecas.add(promo);
+		tab.get(indice).setPeca(promo);
+		
+		gm.repaint();
 	}
 }

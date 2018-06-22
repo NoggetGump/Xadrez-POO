@@ -31,12 +31,9 @@ public class Bispo extends Peca
 			return Consts.bispoB.getPath();
 	}
 	
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-			return "Bispo Branco";
-		else
-			return "Bispo Preto";
+		return "Bispo";
 	}
 	
 	public void AtualizaMoves(Tabuleiro tab)

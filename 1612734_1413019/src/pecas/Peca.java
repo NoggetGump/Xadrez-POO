@@ -193,12 +193,12 @@ public abstract class Peca{
 	 *
 	 */
 	
-	public int convCoorX()
+	public int cnvrtCooX()
 	{ //converte as coordenadas cartesianas em coordenadas User Space
 		return (this.getX() * Consts.tamC) + Consts.ajuste;
 	}
 	
-	public int convCoorY()
+	public int cnvrtCooY()
 	{ //converte as coordenadas cartesianas em coordenadas User Space
 		return (this.getY() * Consts.tamC) + Consts.ajuste;
 	}
@@ -219,7 +219,7 @@ public abstract class Peca{
 	 *
 	 */
 
-	abstract public String nomePeca();
+	abstract public String nome();
 
 	/**
 	 *

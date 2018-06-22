@@ -81,12 +81,9 @@ public class Peao extends Peca{
 	 *
 	 * */
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-			return "Peão Branco";
-		else
-			return "Peão Preto";
+		return "Peao";
 	}
 	
 	/**

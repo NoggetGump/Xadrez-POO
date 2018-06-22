@@ -36,12 +36,9 @@ public class Rei extends Peca
 			return Consts.reiB.getPath();
 	}
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-			return "Rei Branco";
-		else
-			return "Rei Preto";
+		return "Rei";
 	}
 
 	public boolean getJaMoveu()

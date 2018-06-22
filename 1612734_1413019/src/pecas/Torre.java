@@ -34,16 +34,9 @@ public class Torre extends Peca
 			return Consts.torreB.getPath();
 	}
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.getCor() == 'b')
-		{
-			return "Torre Branca";
-		}
-		else
-		{
-			return "Torre Preto";
-		}
+		return "Torre";
 	}
 	
 	public boolean getJaMoveu()

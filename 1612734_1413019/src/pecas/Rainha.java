@@ -34,16 +34,9 @@ public class Rainha extends Peca
 			return Consts.rainhaB.getPath();
 	}
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-		{
-			return "Rainha Branca";
-		}
-		else
-		{
-			return "Rainha Preta";
-		}
+		return "Rainha";
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)

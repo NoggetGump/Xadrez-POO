@@ -19,12 +19,17 @@ public class GUI_main extends JComponent{
 	private static final int tamTab = 8 * Consts.tamC;
 	private static Tabuleiro tab;
 	private static Peca p = null;
+	
+	public GUI_janela getJanela()
+	{
+		return j;
+	}
 
 	private void paintPecas(Graphics2D g2)
 	{
 		for(Peca peca : tab.getPecas())
 		{
-				g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.convCoorX(), peca.convCoorY(), this);
+				g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.cnvrtCooX(), peca.cnvrtCooY(), this);
 			    g2.finalize();
 		}
 	}
@@ -57,7 +62,6 @@ public class GUI_main extends JComponent{
 	{
 	    Graphics2D g2 = (Graphics2D) g;
 	    g2.setPaint(Color.black);
-
 	    int x = 0, y = 0;
 
 	    while(y<tamTab)
@@ -84,9 +88,7 @@ public class GUI_main extends JComponent{
 	    		x = 0;
 	    	}
 	    }
-
 	    paintPecas(g2);
-
 	    highlightPeca(g2);
 	}
 
@@ -98,7 +100,7 @@ public class GUI_main extends JComponent{
 
 	public void selecPeca(Peca p)
 	{
-		System.out.println("\tVocê selecionou " + p.nomePeca());
+		System.out.println("\tVocê selecionou " + p.nome());
 		tab.AtualizaMovPeca(p);
 		GUI_main.p = p;
 		repaint();
@@ -110,14 +112,14 @@ public class GUI_main extends JComponent{
 		{
 			GUI_main.p = null;
 			repaint();
-			System.out.println("\tVocê moveu " + selecionada.nomePeca() + " para a casa ( " + x + " , " + y + " )");
-			if(tab.promocao(selecionada))
-				repaint();
+			System.out.println("\tVocê moveu " + selecionada.nome() + " para a casa ( " + x + " , " + y + " )");
+			tab.promocao(selecionada, this);
 			return true;
 		}
 		System.out.println("\tMovimento ilegal! Selecione outra peça");
 		GUI_main.p = null;
 		repaint();		// Se movimento for ilegal os movimentos possiveis são apagados e a peca é deselecionada
+
 		return false;
 	}
 
@@ -125,14 +127,10 @@ public class GUI_main extends JComponent{
 	{
 		if(tab.comePeca(selecionada, alvo))
 		{
-			System.out.println("\tVocê comeu o(a) " + alvo.nomePeca() + " inimigo(a)!");
+			System.out.println("\tVocê comeu o(a) " + alvo.nome() + " inimigo(a)!");
 			GUI_main.p = null;
 			repaint();
-			if(selecionada instanceof Peao)
-			{
-				if(tab.promocao(selecionada))
-					repaint();
-			}
+			tab.promocao(selecionada, this);
 
 			return true;
 		}

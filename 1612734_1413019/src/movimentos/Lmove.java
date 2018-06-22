@@ -8,13 +8,15 @@ import vetor.*;
 public class Lmove {
 
 	private static Tabuleiro tab;
-	
-	public Lmove(Tabuleiro tab)
+	private Vet coorPeca;
+
+	public Lmove(Tabuleiro tab, Vet v)
 	{
 		Lmove.tab = tab;
+		this.coorPeca = v;
 	}
-	
-	public boolean L1(Vet v, ArrayList<Vet> AllMoves, int Mx, int My) //
+
+	public void L1(Vet v, ArrayList<Vet> AllMoves, ArrayList<Vet> comiveis, int Mx, int My) //
 	{
 		Vet Temp = new Vet(v);
 
@@ -24,14 +26,17 @@ public class Lmove {
 		&& Temp.getY() <= Consts.xyFin
 		&& Temp.getY() >= Consts.xyIni
 		&& !tab.perguntaCasaPeca(Temp))
-		{
 			AllMoves.add(Temp);
-			return true;
-		}
-		return false;
+		else
+			if(Temp.getX() <= Consts.xyFin
+			&& Temp.getX() >= Consts.xyIni
+			&& Temp.getY() <= Consts.xyFin
+			&& Temp.getY() >= Consts.xyIni
+			&& tab.perguntaComivel(Temp, v))
+				comiveis.add(Temp);
 	}
-	
-	public boolean L2(Vet v, ArrayList<Vet> AllMoves, int Mx, int My) //
+
+	public void L2(Vet v, ArrayList<Vet> AllMoves, ArrayList<Vet> comiveis, int Mx, int My) //
 	{
 		Vet Temp = new Vet(v);
 
@@ -41,23 +46,26 @@ public class Lmove {
 		&& Temp.getY() <= Consts.xyFin
 		&& Temp.getY() >= Consts.xyIni
 		&& !tab.perguntaCasaPeca(Temp))
-		{
 			AllMoves.add(Temp);
-			return true;
-		}
-		return false;
+		else
+			if(Temp.getX() <= Consts.xyFin
+			&& Temp.getX() >= Consts.xyIni
+			&& Temp.getY() <= Consts.xyFin
+			&& Temp.getY() >= Consts.xyIni
+			&& tab.perguntaComivel(Temp, v))
+				comiveis.add(Temp);
 	}
 
-	public boolean Lmoves(Vet v, ArrayList<Vet> AllMoves) //TODOS OS MOVIMENTOS EM "L" - CAVALO
+	public boolean Lmoves(Vet v, ArrayList<Vet> AllMoves, ArrayList<Vet> comiveis) //TODOS OS MOVIMENTOS EM "L" - CAVALO
 	{
 		int Mx = 1;
 		int My = 1;
 		for(int i = 0; i < 2; i++)
 		{
-			L1(v, AllMoves, Mx, My);
-			L1(v, AllMoves, Mx, -My);
-			L2(v, AllMoves, Mx, My);
-			L2(v, AllMoves, Mx, -My);
+			L1(v, AllMoves, comiveis, Mx, My);
+			L1(v, AllMoves, comiveis, Mx, -My);
+			L2(v, AllMoves, comiveis, Mx, My);
+			L2(v, AllMoves, comiveis, Mx, -My);
 			Mx *= -1;
 			My *= -1;
 		}

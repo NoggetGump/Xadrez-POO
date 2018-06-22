@@ -32,24 +32,17 @@ public class Cavalo extends Peca{
 	}
 
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-		{
-			return "Cavalo Branco";
-		}
-		else
-		{
-			return "Cavalo Preto";
-		}
+		return "Cavalo";
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)
 	{
-		Lmove lmove = new Lmove(tab);
+		Lmove lmove = new Lmove(tab, this.v);
 		
 		AllMoves.clear();
 		
-		lmove.Lmoves(this.v, AllMoves);
+		lmove.Lmoves(this.v, this.AllMoves, this.comiveis);
 	}
 }

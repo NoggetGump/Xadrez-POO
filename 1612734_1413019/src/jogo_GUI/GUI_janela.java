@@ -26,7 +26,7 @@ public class GUI_janela extends JFrame {
 					int x = (e.getX()-4)/100;
 					int y = (e.getY()-26)/100;
 					Peca temp = tab.buscaPeca(x, y);
-					
+
 					if(temp != pecaSelecionada
 					&& pecaSelecionada != null)
 					{
