@@ -1,4 +1,4 @@
- package jogo_GUI;
+package jogo_GUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,7 +10,7 @@ import javax.swing.JComponent;
 
 import tabuleiro.*;
 import vetor.Vet;
-import pecas.Peca;
+import pecas.*;
 
 public class GUI_main extends JComponent{
 
@@ -24,7 +24,7 @@ public class GUI_main extends JComponent{
 	{
 		for(Peca peca : tab.getPecas())
 		{
-				g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.getVet().convCoorX(), peca.getVet().convCoorY(), this);
+				g2.drawImage(Toolkit.getDefaultToolkit().getImage(peca.imgPeca()), peca.convCoorX(), peca.convCoorY(), this);
 			    g2.finalize();
 		}
 	}
@@ -99,39 +99,55 @@ public class GUI_main extends JComponent{
 	public void selecPeca(Peca p)
 	{
 		System.out.println("\tVocê selecionou " + p.nomePeca());
+		tab.AtualizaMovPeca(p);
 		GUI_main.p = p;
 		repaint();
 	}
 
-	public boolean movPeca(Peca p, int x, int y)
+	public boolean movPeca(Peca selecionada, int x, int y)
 	{
-		if(tab.movePeca(p, x, y))
+		if(tab.movePeca(selecionada, x, y))
 		{
-			tab.AtualizaMovPecas();
 			GUI_main.p = null;
 			repaint();
-			System.out.println("\tVocê moveu " + p.nomePeca() + " para a casa ( " + x + " , " + y + " )");
+			System.out.println("\tVocê moveu " + selecionada.nomePeca() + " para a casa ( " + x + " , " + y + " )");
+			if(tab.promocao(selecionada))
+				repaint();
 			return true;
 		}
 		System.out.println("\tMovimento ilegal! Selecione outra peça");
 		GUI_main.p = null;
-		repaint();		// Se movimento for ilegal os movimentos possiveis são apagados e a peca é desselecionada
+		repaint();		// Se movimento for ilegal os movimentos possiveis são apagados e a peca é deselecionada
 		return false;
 	}
-	
-	public boolean comePeca(Peca selecionada, Peca comida)
+
+	public boolean comePecaOuRoque(Peca selecionada, Peca alvo)
 	{
-		if(tab.comePeca(selecionada, comida))
+		if(tab.comePeca(selecionada, alvo))
 		{
-			System.out.println("\tVocê comeu o(a) " + comida.nomePeca() + " inimigo(a)!");
-			tab.AtualizaMovPecas();
+			System.out.println("\tVocê comeu o(a) " + alvo.nomePeca() + " inimigo(a)!");
 			GUI_main.p = null;
 			repaint();
-			
+			if(selecionada instanceof Peao)
+			{
+				if(tab.promocao(selecionada))
+					repaint();
+			}
+
 			return true;
 		}
-		
+		else
+			if(selecionada instanceof Rei
+			&& tab.roque(selecionada, alvo))
+			{
+				GUI_main.p = null;
+				repaint();
+				return true;
+			}
+
+		System.out.println("Movimento ilegal");
 		repaint();
+
 		return false;
 	}
 }
