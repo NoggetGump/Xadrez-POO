@@ -34,17 +34,19 @@ public class GUI_OptionPane {
 		{
 		case 'b':
 		{
-			img = new ImageIcon("Assets\\Rainha_B.png");
+			img = new ImageIcon("Assets\\xeque_mate.png");
 			JOptionPane.showMessageDialog(null, "Vencedor:  jogador branco!", "Xeque-Mate", 0, img);
 			break;
 		}
 		case 'p':
 		{
-			img = new ImageIcon("Assets\\Rainha_P.png");
+			img = new ImageIcon("Assets\\xeque_mate.png");
 			JOptionPane.showMessageDialog(null, "Vencedor:  jogador preto!", "Xeque-Mate", 0, img);
 			break;
 		}
 		default:
+			img = new ImageIcon("Assets\\game_over.png");
+			JOptionPane.showMessageDialog(null, "Não há vencedor\r\nFim de Jogo!", "Empate", 0, img);
 			break;
 		}
 	}
