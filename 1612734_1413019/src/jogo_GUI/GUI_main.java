@@ -121,9 +121,8 @@ public class GUI_main extends JComponent{
 				int returnval = fc.showOpenDialog(getParent());
 				if(returnval == JFileChooser.APPROVE_OPTION)
 				{
-					tab.clear();
+				    tab.clear();
 					tab.carregaPartida(fc.getSelectedFile() + "");
-					//tab.printTab();
 					
 					GUI_main.tab = tab;
 					j = new GUI_janela(this, tab);
@@ -202,5 +201,11 @@ public class GUI_main extends JComponent{
 		repaint();
 
 		return false;
+	}
+	
+	public void msgXequeMate()
+	{
+		op.gameOver('p');
+		
 	}
 }
