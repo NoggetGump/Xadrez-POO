@@ -8,15 +8,15 @@ import vetor.Vet;
 
 public class Torre extends Peca
 {
-
-	boolean jaMoveu = false;
-
+	private boolean jaMoveu = false;
+	
 	/**
 	 * 
 	 *	Construtores de Peca
 	 *
 	 * */
-
+	public Torre() {}
+	
 	public Torre(int x, int y, char cor){super(x, y, cor);}
 
 	public Torre(Vet v, char cor){super(v, cor);}
@@ -35,16 +35,9 @@ public class Torre extends Peca
 			return Consts.torreB.getPath();
 	}
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.getCor() == 'b')
-		{
-			return "Torre Branca";
-		}
-		else
-		{
-			return "Torre Preto";
-		}
+		return "Torre";
 	}
 	
 	public boolean getJaMoveu()
@@ -57,30 +50,30 @@ public class Torre extends Peca
 		jaMoveu = !jaMoveu;
 	}
 
-	public int roqueAssist(int addRei, int addTorre)
+	public int roqueAssist(Vet addRei, Vet addTorre)
 	{
 		if(this.getX() == Consts.xyIni && this.getY() == Consts.xyIni)
 		{
-			addRei = -2;
-			addTorre = 2;
+			addRei.setX(-2);
+			addTorre.setX(3);
 			return 1;
 		}
 		if(this.getX() == Consts.xyFin && this.getY() == Consts.xyIni)
 		{
-			addRei = 2;
-			addTorre = -2;
+			addRei.setX(2);
+			addTorre.setX(-2);
 			return 2;
 		}
 		if(this.getX() == Consts.xyIni && this.getY() == Consts.xyFin)
 		{
-			addRei = -2;
-			addTorre = 2;
+			addRei.setX(-2);
+			addTorre.setX(3);
 			return 3;
 		}
 		if(this.getX() == Consts.xyFin && this.getY() == Consts.xyFin)
 		{
-			addRei = 2;
-			addTorre = -2;
+			addRei.setX(2);
+			addTorre.setX(-2);
 			return 4;
 		}
 		
