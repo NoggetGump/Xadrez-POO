@@ -3,39 +3,24 @@ package tabuleiro;
 import pecas.*;
 import vetor.Vet;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.MenuElement;
-import javax.swing.MenuSelectionManager;
+import jogo_GUI.GUI_PromoMenu;
+import jogo_GUI.GUI_main;
 
-import com.sun.javafx.collections.MappingChange.Map;
-
-import java.awt.event.ActionListener;
-
-import jogo_GUI.ActionListenerT;
-import jogo_GUI.GUI_janela;
-
-public class Tabuleiro
+public class Tabuleiro 
 {
 	private ArrayList<Casa> tab = new ArrayList<Casa>();
 	private ArrayList<Peca> pecas = new ArrayList<Peca>();
-	String peaoPromovido;
 
 	/**
 	 * 
 	 *	Adiciona uma peca a uma casa
 	 * 
 	 * */
-
 	private Function<Vet, Peca> addPeca = vet ->
 	{
 		int i = vet.getX();
@@ -62,12 +47,12 @@ public class Tabuleiro
 			}
 			if(i==3)
 			{
-				temp = new Rei(vet, 'p');
+				temp = new Rainha(vet, 'p');
 				pecas.add(temp);
 			}
 			if(i==4)
 			{
-				temp = new Rainha(vet, 'p');
+				temp = new Rei(vet, 'p');
 				pecas.add(temp);
 			}
 			break;
@@ -101,17 +86,17 @@ public class Tabuleiro
 			}
 			if(i==3)
 			{
-				temp = new Rei(vet, 'b');
+				temp = new Rainha(vet, 'b');
 				pecas.add(temp);
 			}
 			if(i==4)
 			{
-				temp = new Rainha(vet, 'b');
+				temp = new Rei(vet, 'b');
 				pecas.add(temp);
 			}
 			break;
 		}
-
+		
 		return temp;
 	};
 
@@ -126,12 +111,11 @@ public class Tabuleiro
 		for(int j = 0 ; j <= Consts.xyFin; j++)
 			for(int i = 0 ; i <= Consts.xyFin; i++)
 				tab.add(new Casa(i, j, addPeca.apply(new Vet(i, j))));
-		this.AtualizaMovPecas();
 	}
 
-	public Tabuleiro(File x)
+	public Tabuleiro(File arq)
 	{
-
+		
 	}
 
 	/**
@@ -142,12 +126,9 @@ public class Tabuleiro
 	 * 
 	 * */
 
-	public void AtualizaMovPecas()
+	public void AtualizaMovPeca(Peca peca)
 	{
-		for(Peca peca : pecas)
-		{
-			peca.AtualizaMoves(this);
-		}
+		peca.AtualizaMoves(this);
 	}
 
 	/**
@@ -160,11 +141,11 @@ public class Tabuleiro
 	{
 		return pecas;
 	}
-	
+
 	public Peca getPeca(Vet v)
 	{
-		int indice = v.getY()*Consts.xyFin + v.getX();
-		
+		int indice = v.getY()* (Consts.xyFin + 1) + v.getX();
+
 		return tab.get(indice).getPeca();
 	}
 
@@ -180,9 +161,11 @@ public class Tabuleiro
 	 	{
 	 		if(peca.getX() == x && peca.getY() == y)
 	 		{
+	 			System.out.println(peca.nome());
 	 			return peca;
 	 		}
 	 	}
+	 	System.out.println("Nao ha peca nesta casa");
 	 	return null;
 	}
 
@@ -196,7 +179,7 @@ public class Tabuleiro
 	public boolean perguntaCasaPeca(Vet v)
 	{
 		int indice = v.getY()*8 + v.getX(); // indice do ArrayList de casas (tab)
-		
+
 		if(tab.get(indice).getO())
 				return true;
 
@@ -205,12 +188,13 @@ public class Tabuleiro
 
 	public boolean perguntaComivel(Vet origem, Vet destino)
 	{
+		if(perguntaCasaPeca(destino))
+		{
 		int indiceO = origem.getY()*8 + origem.getX(); // indice do ArrayList de casas (tab)
 		int indiceD = destino.getY()*8 + destino.getX();
-
-		if(perguntaCasaPeca(destino))
 			if(tab.get(indiceO).getPeca().getCor() != tab.get(indiceD).getPeca().getCor())
 				return true;
+		}
 
 	 	return false;
 	}
@@ -232,7 +216,7 @@ public class Tabuleiro
 	}
 
 	/**
-	 *
+	 * 
 	 * 	Posiciona Peca na casa
 	 *  caso a casa esteja vazia
 	 * 
@@ -282,21 +266,21 @@ public class Tabuleiro
 
 		return false;
 	}
-	
+
 	public boolean roque(Peca rei, Peca torre)
 	{
 		if(rei.movimentoValido(torre.getX(), torre.getY()))
 		{
-			int addRei = 0;
-			int addTorre = 0;
+			Vet addRei = new Vet(0, 0);
+			Vet addTorre = new Vet(0, 0);
 			int assist = ((Torre)torre).roqueAssist(addRei, addTorre);
 			if(assist != -1)
 			{
 				int indiceOrigemRei = (Consts.xyFin + 1)*rei.getY() + rei.getX();
 				int indiceOrigemTorre = (Consts.xyFin + 1)*torre.getY() + torre.getX();
-				int indiceDestinoRei = (Consts.xyFin + 1)*rei.getY() + rei.getX() + addRei;
-				int indiceDestinoTorre = (Consts.xyFin + 1)*torre.getY() + torre.getX() + addTorre;
-				
+				int indiceDestinoRei = (Consts.xyFin + 1)*rei.getY() + rei.getX() + addRei.getX();
+				int indiceDestinoTorre = (Consts.xyFin + 1)*rei.getY() + torre.getX() + addTorre.getX();
+
 				tab.get(indiceOrigemRei).toogleO();
 				tab.get(indiceOrigemTorre).toogleO();
 				tab.get(indiceDestinoRei).toogleO();
@@ -305,75 +289,204 @@ public class Tabuleiro
 				tab.get(indiceDestinoTorre).setPeca(torre);
 				tab.get(indiceOrigemRei).setPeca(null);
 				tab.get(indiceOrigemTorre).setPeca(null);
-				rei.setX(rei.getX() + addRei);
-				torre.setX(torre.getX() + addTorre);				
+				rei.getV().add(addRei);
+				torre.getV().add(addTorre);
+
+				return true;
 			}
 		}
 
 		return false;
 	}
-	
-	public boolean promocao(Peca peao , GUI_janela j)
-	{	
-		JPopupMenu popupMenu = new JPopupMenu("Title");
-		HashMap<String, Integer> promoMap = new HashMap<String, Integer>();
-		ActionListener actionListener = new ActionListenerT();
-		 
-		// Torre
-		JMenuItem torre = new JMenuItem("Torre");
-		torre.addActionListener(actionListener);
-		popupMenu.add(torre);
-		promoMap.put("Torre", 1);
-		// Cavalo
-		JMenuItem cavalo = new JMenuItem("Cavalo");
-		cavalo.addActionListener(actionListener);
-		popupMenu.add(cavalo);
-		promoMap.put("Cavalo", 2);
-		// Bispo
-		JMenuItem bispo = new JMenuItem("Bispo");
-		bispo.addActionListener(actionListener);
-		popupMenu.add(bispo);
-		promoMap.put("Bispo", 3);
-		// Rainha
-		JMenuItem rainha = new JMenuItem("Rainha");
-		rainha.addActionListener(actionListener);
-		popupMenu.add(rainha);
-		promoMap.put("Rainha", 4);
 
-	if(peao instanceof Peao)
+	public void promocao(Peca peao, GUI_main gm)
 	{
-		if(peao.corP())
+		if(peao instanceof Peao)
 		{
-			if(peao.getY() == Consts.xyFin)
+			GUI_PromoMenu menu = new GUI_PromoMenu(peao, this, gm);
+			if(peao.corP())
 			{
-				popupMenu.show(j, peao.convCoorX(), peao.convCoorY());
-				((ActionListenerT) actionListener).refresh();
-				int escolha = promoMap.get(((ActionListenerT) actionListener).getPromo());
-				System.out.println("\tVocê escolheu promover para: " + escolha);
-				//pecas.remove(peao);
-				//pecas.add(movimentos.PromocaoPeao.Promove(peao));
-
-				return true;
+				if(peao.getY() == Consts.xyFin)
+				{
+					menu.addButton("Torre", Consts.torreP.getPath());
+					menu.addButton("Cavalo", Consts.cavaloP.getPath());
+					menu.addButton("Bispo", Consts.bispoP.getPath());
+					menu.addButton("Rainha", Consts.rainhaP.getPath());
+					menu.showMenu();
+				}
 			}
-		}
-		else
-		{
-			if(peao.getY() == Consts.xyIni)
-			{	
-				popupMenu.show(j, peao.convCoorX(), peao.convCoorY());
-				int escolha = promoMap.get(((ActionListenerT) actionListener).getPromo());
-				System.out.println("\tVocê escolheu promover para: " + escolha);
-				/*int escolha = promoMap.get(rainha);
-				System.out.println("\tVocê escolheu promover para: " + escolha);*/
-				
-				//pecas.remove(peao);
-				//pecas.add(movimentos.PromocaoPeao.Promove(peao));
-				    
-				return true;
-			}
+			else
+				if(peao.getY() == Consts.xyIni)
+				{
+					menu.addButton("Torre", Consts.torreB.getPath());
+					menu.addButton("Cavalo", Consts.cavaloB.getPath());
+					menu.addButton("Bispo", Consts.bispoB.getPath());
+					menu.addButton("Rainha", Consts.rainhaB.getPath());
+					menu.showMenu();
+				}
 		}
 	}
 	
-	return false;
+	public void promovida(Peca peao, Peca promo, GUI_main gm)
+	{
+		int indice = (Consts.xyFin + 1)*peao.getY() + peao.getX();
+		
+		pecas.remove(peao);
+		pecas.add(promo);
+		tab.get(indice).setPeca(promo);
+		
+		gm.repaint();
+	}
+	
+	/**
+	 * 
+	 * 	Salva uma partida em arquivo txt
+	 * 	AE: String caminho de onde o arquivo será salvo
+	 * 
+	 * */
+	public void salvaPartida(String arq)
+	{
+		String texto = "";
+		
+		for(Peca peca : pecas)
+		{
+			texto += peca.printSave() + "\r\n";
+		}
+		
+        if(Arquivo.writeFile(arq, texto))
+            System.out.println("Jogo Salvo!");
+        else
+            System.out.println("Erro ao salvar o arquivo!");
+	}
+	
+	/**
+	 * 
+	 * 	Carrega uma partida
+	 * 	AE: String caminho do arquivo txt a ser carregado
+	 * 
+	 * */
+	public void carregaPartida(String arq)
+	{
+		Arquivo r = new Arquivo();
+		r.openFile(arq);
+		r.readFile();
+	}
+	/**
+	 * 
+	 *	Adiciona uma peça ao ArrayList Pecas
+	 * 
+	 * */
+	/*public void addPeca (Peca peca, char cor, int x, int y)
+	{
+		Peca temp = null;
+		Vet v = new Vet();
+		
+		if(peca instanceof Bispo)
+		{
+			temp = new Bispo(v, cor);
+			temp.setV(x, y);
+			pecas.add(temp);
+		}
+		if(peca instanceof Cavalo)
+		{
+			temp = new Cavalo(v, cor);
+			temp.setV(x, y);
+			pecas.add(temp);
+		}
+		if(peca instanceof Peao)
+		{
+			temp = new Peao(v, cor);
+			temp.setV(x, y);
+			pecas.add(temp);
+		}
+		if(peca instanceof Rainha)
+		{
+			temp = new Rainha(v, cor);
+			temp.setV(x, y);
+			pecas.add(temp);
+		}
+		if(peca instanceof Rei)
+		{
+			temp = new Rei(v, cor);
+			temp.setV(x, y);
+			pecas.add(temp);
+		}
+		if(peca instanceof Torre)
+		{
+			temp = new Torre(v, cor);
+			temp.setV(x, y);
+			pecas.add(temp);
+		}
+	}*/
+	
+	public Peca cnvrtPeca (String nomePeca)
+	{
+		Peca temp = null;
+		
+		switch(nomePeca)
+		{
+		case "Bispo":
+		{
+			temp = new Bispo();
+			this.pecas.add(temp);
+			
+			break;
+		}
+		case "Cavalo":
+		{
+			temp = new Cavalo();
+			this.pecas.add(temp);
+			
+			break;
+		}
+		case "Peao":
+		{
+			temp = new Peao();
+			this.pecas.add(temp);
+			
+			break;
+		}
+		case "Rainha":
+		{
+			temp = new Rainha();
+			this.pecas.add(temp);
+			
+			break;
+		}
+		case "Rei":
+		{
+			temp = new Rei();
+			this.pecas.add(temp);
+			
+			break;
+		}
+		case "Torre":
+		{
+			temp = new Torre();
+			this.pecas.add(temp);
+			
+			break;
+		}
+		default:
+		{
+			break;
+		}
+		}
+		return temp;
+	}
+	
+	public void printTam()
+	{
+		System.out.println(pecas.size());
+	}
+	
+	/**
+	 * 
+	 * 	Tira todas as peças do tabuleiro
+	 * 
+	 * */
+	public void clear()
+	{
+		pecas.removeAll(pecas);
 	}
 }
