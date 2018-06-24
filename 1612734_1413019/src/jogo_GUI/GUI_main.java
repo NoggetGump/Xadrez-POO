@@ -95,7 +95,11 @@ public class GUI_main extends JComponent{
 	    paintPecas(g2);
 	    highlightPeca(g2);
 	}
-
+    /**
+     * 
+     * 	Inicializa o tabuleiro na formação inicial
+     * 
+     * */
     public void inicializaTabuleiro(Tabuleiro tab)
 	{
 		GUI_main.tab = tab;
@@ -118,17 +122,18 @@ public class GUI_main extends JComponent{
 				fc.setCurrentDirectory(new java.io.File("saves"));
 				fc.setDialogTitle("Carregar jogo - ESCOLHA O ARQUIVO DE SALVAMENTO");
 				
-				int returnval = fc.showOpenDialog(getParent());
-				if(returnval == JFileChooser.APPROVE_OPTION)
+				int returnval = fc.showOpenDialog(getParent()); // Abre caixa de mensagem
+				
+				if(returnval == JFileChooser.APPROVE_OPTION) // Se apertar abrir
 				{
-				    tab.clear();
-					tab.carregaPartida(fc.getSelectedFile() + "");
+				    tab.clear(); // Limpa as peças do tabuleiro
+					tab.carregaPartida(fc.getSelectedFile() + ""); //Chama o metodo carregar partida. Parametro = path do arquivo escolhido.
 					
 					GUI_main.tab = tab;
 					j = new GUI_janela(this, tab);
 					
 				}
-				else
+				else // Se não voltar a caixa de dialogo inicial. Podendo escolher carregar jogo salvo novamente, ou dar new game ou fechar o jogo.
 				{
 					System.out.println("Carregamento de jogo cancelado pelo usuário");
 					this.inicializaJogo(tab);
@@ -138,11 +143,11 @@ public class GUI_main extends JComponent{
 			}
 			case 1: // New Game
 			{
-				inicializaTabuleiro(tab);
+				inicializaTabuleiro(tab); // Inicializa tabuleiro nas formção inicial
 				
 				break;
 			}
-			default: // Close app
+			default: // Close app - Fecha a caixa de dialogo caso aperte o X da janela
 			{
 				System.out.println("Aplicação Encerrada!");
 				
@@ -203,9 +208,14 @@ public class GUI_main extends JComponent{
 		return false;
 	}
 	
+	/**
+	 * 
+	 * 	Exibe a mensagem de resultado da partida
+	 * 
+	 * */
 	public void msgXequeMate()
 	{
-		op.gameOver('p');
+		op.gameOver('e');
 		
 	}
 }
