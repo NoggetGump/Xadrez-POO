@@ -113,9 +113,26 @@ public class Tabuleiro
 				tab.add(new Casa(i, j, addPeca.apply(new Vet(i, j))));
 	}
 
-	public Tabuleiro(File arq)
+	public Tabuleiro(String arq)
 	{
+		Arquivo r = new Arquivo();
+		r.openFile(arq);
+		r.readFile();
+		/*
+		 * 	Leitura do arquivo provavelmente aqui
+		 * 	openfile
+		 * 	readfile
+		 * 	closefile
+		 * 	+
+		 * 	Criação de casas
+		 * 	+
+		 * 	posicionamento das peças
+		 * 
+		 * */
 		
+		for(int j = 0 ; j <= Consts.xyFin ; j++)
+			for(int i = 0 ; i <= Consts.xyFin; i++)
+				tab.add(new Casa(i, j, null));
 	}
 
 	/**
@@ -154,7 +171,6 @@ public class Tabuleiro
 	 *	Buscas
 	 * 
 	 * */
-
 	public Peca buscaPeca(int x, int y)
 	{
 	 	for(Peca peca : pecas)
@@ -175,7 +191,6 @@ public class Tabuleiro
 	 *	esta ocupada.
 	 * 
 	 * */
-
 	public boolean perguntaCasaPeca(Vet v)
 	{
 		int indice = v.getY()*8 + v.getX(); // indice do ArrayList de casas (tab)
@@ -346,14 +361,14 @@ public class Tabuleiro
 	 * */
 	public void salvaPartida(String arq)
 	{
-		String texto = "";
+		String texto = ""; // Conteudo que sera escrito no arquivo de salvamento
 		
 		for(Peca peca : pecas)
 		{
-			texto += peca.printSave() + "\r\n";
+			texto += peca.printSave() + "\r\n"; // Concatena o conteudo lido a medida que percorre ArrayList pecas
 		}
 		
-        if(Arquivo.writeFile(arq, texto))
+        if(Arquivo.writeFile(arq, texto)) // Escreve no arquivo
             System.out.println("Jogo Salvo!");
         else
             System.out.println("Erro ao salvar o arquivo!");
@@ -373,52 +388,25 @@ public class Tabuleiro
 	}
 	/**
 	 * 
-	 *	Adiciona uma peça ao ArrayList Pecas
+	 * 	Converte a string nomePeca, que contem o nome de uma peca, na instancia peca correspondente
+	 * 	e adiciona no array de pecas
+	 * 
+	 * 	[Ideia]
+	 * 		Em vez haver um construtor para as situações newgame ou loadgame
+	 * 		Caso seja escolhido loadgame
+	 * 			limpa as pecas to tabuleiro
+	 * 			e adiciona as pecas criadas nesse método
+	 * 
+	 *  Problemas:
+	 *  	Alem da String nomePeca, deveria haver: int x, int y, char cor
+	 *  	enviadas pela leitura do arquivo .txt na classe Arquivo.java
+	 *  	
+	 *  	Para assim na criação do objeto Peca chamar o construtor de Peca <Peca peca, int x, int y, char cor>
+	 *  	Porém o, ao informar x e y, o sistema lança NullPoiterException
+	 *  	Também não adianta chamar o construtor padrão Peca <Peca()>
+	 *  	e dar chamar o método setX(int x), setY(int y) ou setV(int x, int y)
 	 * 
 	 * */
-	/*public void addPeca (Peca peca, char cor, int x, int y)
-	{
-		Peca temp = null;
-		Vet v = new Vet();
-		
-		if(peca instanceof Bispo)
-		{
-			temp = new Bispo(v, cor);
-			temp.setV(x, y);
-			pecas.add(temp);
-		}
-		if(peca instanceof Cavalo)
-		{
-			temp = new Cavalo(v, cor);
-			temp.setV(x, y);
-			pecas.add(temp);
-		}
-		if(peca instanceof Peao)
-		{
-			temp = new Peao(v, cor);
-			temp.setV(x, y);
-			pecas.add(temp);
-		}
-		if(peca instanceof Rainha)
-		{
-			temp = new Rainha(v, cor);
-			temp.setV(x, y);
-			pecas.add(temp);
-		}
-		if(peca instanceof Rei)
-		{
-			temp = new Rei(v, cor);
-			temp.setV(x, y);
-			pecas.add(temp);
-		}
-		if(peca instanceof Torre)
-		{
-			temp = new Torre(v, cor);
-			temp.setV(x, y);
-			pecas.add(temp);
-		}
-	}*/
-	
 	public Peca cnvrtPeca (String nomePeca)
 	{
 		Peca temp = null;
