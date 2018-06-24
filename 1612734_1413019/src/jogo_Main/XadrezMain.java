@@ -7,8 +7,8 @@ public class XadrezMain {
 
 	public static void main(String[] args)
 	{
-		Tabuleiro tab= new Tabuleiro();
+		Tabuleiro tab = new Tabuleiro();
 		GUI_main g = new GUI_main();
-		g.inicializaTabuleiro(tab);
+		g.inicializaJogo(tab);	
 	}
 }
