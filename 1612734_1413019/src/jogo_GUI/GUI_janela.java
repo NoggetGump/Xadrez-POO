@@ -2,11 +2,11 @@ package jogo_GUI;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+
+import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 
 import pecas.Peca;
@@ -24,7 +24,6 @@ public class GUI_janela extends JFrame {
 		{
 			fc.setCurrentDirectory(new java.io.File("saves"));
 			fc.setDialogTitle("Salvar Jogo - ESCREVA O NOME DO ARQUIVO DE SALVAMENTO");
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 			addMouseListener(new MouseAdapter() 
 			{
@@ -70,6 +69,8 @@ public class GUI_janela extends JFrame {
 						// Mouse Direito
 						if(SwingUtilities.isRightMouseButton(e))
 						{
+							System.out.println("Salvar jogo?");
+							
 							int returnval = fc.showOpenDialog(getParent());
 							if(returnval == JFileChooser.APPROVE_OPTION)
 							{
@@ -77,7 +78,7 @@ public class GUI_janela extends JFrame {
 							}
 							else
 							{
-								System.out.println("Salvamento de partida cancelado pelo usuário");
+								System.out.println("Salvamento de jogo cancelado pelo usuário");
 							}
 							
 						}
