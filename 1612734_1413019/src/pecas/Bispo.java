@@ -12,10 +12,11 @@ public class Bispo extends Peca
 	 *	Construtores de Peca
 	 *
 	 * */
-
 	public Bispo(int x, int y, char cor){super(x, y, cor);}
 
 	public Bispo(Vet v, char cor){super(v , cor);}
+
+	public Bispo() {}
 
 	/**
 	 * 
@@ -31,12 +32,9 @@ public class Bispo extends Peca
 			return Consts.bispoB.getPath();
 	}
 	
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-			return "Bispo Branco";
-		else
-			return "Bispo Preto";
+		return "Bispo";
 	}
 	
 	public void AtualizaMoves(Tabuleiro tab)
