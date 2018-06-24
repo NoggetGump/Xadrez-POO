@@ -24,7 +24,9 @@ public abstract class Peca{
 	 *	Construtores de Peca.
 	 *
 	 * */
-
+	
+	public Peca(){};
+	
 	public Peca(int x, int y, char cor)
 	{
 		this.v = new Vet(x,y);
@@ -72,16 +74,29 @@ public abstract class Peca{
 		return this.v.getY();
 	}
 
+	public Vet getV()
+	{
+		return this.v;
+	}
 
 	public void setV(int x, int y)
 	{
-		v.set(x, y);
+		this.v.set(x, y);
+	}
+	
+	public void setV(Vet v)
+	{
+		this.v.set(v.getX(), v.getY());
 	}
 	
 
 	public void setX(int x)
 	{
 		this.v.setX(x);
+	}
+	public void setCor(char cor)
+	{
+		this.cor = cor;
 	}
 
 
@@ -113,13 +128,13 @@ public abstract class Peca{
 		else
 			return false;
 	}
-	
+
 	/**
 	 * 
 	 * Retorna true se o movimento for possivel
 	 *
 	 */
-	
+
 	public boolean movimentoValido(int x, int y)
 	{
 		for(Vet move : this.AllMoves)
@@ -128,13 +143,13 @@ public abstract class Peca{
 
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * Retorna true se o movimento for possivel
 	 *
 	 */
-	
+
 	public boolean comidaValida(int x, int y)
 	{
 		for(Vet comida : this.comiveis)
@@ -184,14 +199,24 @@ public abstract class Peca{
 	 *
 	 */
 	
-	public int convCoorX()
+	public int cnvrtCooX()
 	{ //converte as coordenadas cartesianas em coordenadas User Space
 		return (this.getX() * Consts.tamC) + Consts.ajuste;
 	}
 	
-	public int convCoorY()
+	public int cnvrtCooY()
 	{ //converte as coordenadas cartesianas em coordenadas User Space
 		return (this.getY() * Consts.tamC) + Consts.ajuste;
+	}
+	
+	/**
+	 * 
+	 * 	Retorna a string do nome da peça + sua pocição no tabuleiro
+	 * 
+	 * */
+	public String printSave()
+	{
+		return this.nome() + " " + this.cor + " " + Integer.toString(this.getX()) + " " + Integer.toString(this.getY()) + " ";
 	}
 
 	/** <!> A PARTIR DAQUI RESIDEM AS FUNCOES ABSTRATAS <!> 
@@ -210,7 +235,7 @@ public abstract class Peca{
 	 *
 	 */
 
-	abstract public String nomePeca();
+	abstract public String nome();
 
 	/**
 	 *
