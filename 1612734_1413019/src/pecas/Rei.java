@@ -10,14 +10,15 @@ import vetor.Vet;
 
 public class Rei extends Peca
 {
-	boolean jaMoveu = false;
-
+	private boolean jaMoveu = false;
+	
 	/**
 	 * 
 	 *	Construtores de Peca
 	 *
 	 * */
-
+	public Rei() {}
+	
 	public Rei(int x, int y, char cor){super(x, y, cor);}
 
 	public Rei(Vet v, char cor){super(v, cor);}
@@ -36,12 +37,9 @@ public class Rei extends Peca
 			return Consts.reiB.getPath();
 	}
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-			return "Rei Branco";
-		else
-			return "Rei Preto";
+		return "Rei";
 	}
 
 	public boolean getJaMoveu()
