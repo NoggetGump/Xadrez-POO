@@ -13,7 +13,8 @@ public class Peao extends Peca{
 	 *	Construtores de Peca.
 	 *
 	 * */
-
+	public Peao() {}
+	
 	public Peao(int x, int y, char cor){super(x, y, cor);}
 
 	public Peao(Vet v, char cor){super(v, cor);}
@@ -81,12 +82,9 @@ public class Peao extends Peca{
 	 *
 	 * */
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-			return "Peão Branco";
-		else
-			return "Peão Preto";
+		return "Peao";
 	}
 	
 	/**
