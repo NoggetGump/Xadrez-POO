@@ -16,7 +16,6 @@ public class GUI_OptionPane {
 		ImageIcon img = new ImageIcon("Assets\\Chess_Icon2.png");
 		
 		resposta = JOptionPane.showConfirmDialog(null,"Deseja carregar um jogo salvo?", "Xadrez", 0, 0, img);
-		System.out.println(resposta);
 		
 		return resposta;
 	}
