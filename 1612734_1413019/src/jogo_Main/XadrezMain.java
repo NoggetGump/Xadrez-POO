@@ -9,6 +9,7 @@ public class XadrezMain {
 	{
 		Tabuleiro tab = new Tabuleiro();
 		GUI_main g = new GUI_main();
-		g.inicializaJogo(tab);	
+		g.inicializaJogo(tab);
+		//g.msgXequeMate();
 	}
 }
