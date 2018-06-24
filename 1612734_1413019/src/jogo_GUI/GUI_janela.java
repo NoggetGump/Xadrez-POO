@@ -71,12 +71,12 @@ public class GUI_janela extends JFrame {
 						{
 							System.out.println("Salvar jogo?");
 							
-							int returnval = fc.showOpenDialog(getParent());
-							if(returnval == JFileChooser.APPROVE_OPTION)
+							int returnval = fc.showOpenDialog(getParent()); // Abre caixa de mensagem se mouse 2 for clicado
+							if(returnval == JFileChooser.APPROVE_OPTION) // Se apertar abrir
 							{
-								tab.salvaPartida(fc.getSelectedFile() + ".txt");	
+								tab.salvaPartida(fc.getSelectedFile() + ".txt"); // salva partida no path escolhido ao apertar abrir
 							}
-							else
+							else // Se não fecha a caixa de mensagem e cancela o salvamento
 							{
 								System.out.println("Salvamento de jogo cancelado pelo usuário");
 							}
