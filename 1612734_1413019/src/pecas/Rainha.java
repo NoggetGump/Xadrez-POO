@@ -16,6 +16,8 @@ public class Rainha extends Peca
 	 *
 	 * */
 
+	public Rainha() {}
+	
 	public Rainha(int x, int y, char cor){super(x, y, cor);}
 	
 	public Rainha(Vet v, char cor){super(v, cor);}
@@ -34,16 +36,9 @@ public class Rainha extends Peca
 			return Consts.rainhaB.getPath();
 	}
 
-	public String nomePeca()
+	public String nome()
 	{
-		if(this.cor == 'b')
-		{
-			return "Rainha Branca";
-		}
-		else
-		{
-			return "Rainha Preta";
-		}
+		return "Rainha";
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)
