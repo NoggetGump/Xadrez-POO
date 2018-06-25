@@ -44,12 +44,11 @@ public class Arquivo {
 			int x = Integer.parseInt(sc.next());
 			int y = Integer.parseInt(sc.next());
 		
-			temp = tab.cnvrtPeca(peca);
+			temp = tab.cnvrtPeca(peca, x, y, cor);
 			temp.setCor(cor);
-			System.out.println(temp.nome() + " " + temp.getCor() + " ");
+			//System.out.println(temp.nome() + " " + temp.getCor() + " " + x + " " + y);
 			
 		}	
-		tab.printTam();
 		
 		sc.close();
 	}
