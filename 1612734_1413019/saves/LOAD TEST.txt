@@ -1,5 +1,0 @@
-Rainha p 3 4 
-Peao b 4 3 
-Torre p 7 7 
-
-
