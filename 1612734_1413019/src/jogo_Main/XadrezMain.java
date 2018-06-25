@@ -10,6 +10,6 @@ public class XadrezMain {
 		Tabuleiro tab = new Tabuleiro();
 		GUI_main g = new GUI_main();
 		g.inicializaJogo(tab);
-		//g.msgXequeMate();
+		//g.msgXequeMate(); // Isso aqui é pra testar a mensagem de Xeque-Mate ou empate
 	}
 }
