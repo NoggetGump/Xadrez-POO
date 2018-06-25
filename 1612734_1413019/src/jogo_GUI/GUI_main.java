@@ -138,7 +138,6 @@ public class GUI_main extends JComponent{
 					System.out.println("Carregamento de jogo cancelado pelo usuário");
 					this.inicializaJogo(tab);
 				}
-				
 				break;
 			}
 			case 1: // New Game
