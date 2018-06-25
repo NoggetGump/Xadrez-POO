@@ -126,7 +126,7 @@ public class GUI_main extends JComponent{
 				
 				if(returnval == JFileChooser.APPROVE_OPTION) // Se apertar abrir
 				{
-				    tab.clear(); // Limpa as peças do tabuleiro
+				    tab.clear(); // Limpa as peças do tabuleiro para carregar as do arquivo
 					tab.carregaPartida(fc.getSelectedFile() + ""); //Chama o metodo carregar partida. Parametro = path do arquivo escolhido.
 					
 					GUI_main.tab = tab;
