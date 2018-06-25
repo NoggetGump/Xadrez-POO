@@ -20,15 +20,8 @@ import jogo_GUI.GUI_PromoMenu;
 import jogo_GUI.GUI_janela;
 import jogo_GUI.GUI_main;
 
-import pecas.Bispo;
-import pecas.Cavalo;
-import pecas.Peao;
-import pecas.Peca;
-import pecas.Rainha;
-import pecas.Rei;
-import pecas.Torre;
-import tabuleiro.Consts;
-import tabuleiro.Tabuleiro;
+import pecas.*;
+import tabuleiro.*;
 import vetor.Vet;
 
 public class Facade implements Observador{
@@ -49,12 +42,11 @@ public class Facade implements Observador{
 	{
 		inicializaJogo();
 	}
-	   /**
+	  /**
      * 
      * 	Inicializa jogo com JOptionPane
      * 	Para carregar jogo salvo
      * 	ou Iniciar novo jogo
-		
      * 
      * */
 	public void inicializaJogo()
