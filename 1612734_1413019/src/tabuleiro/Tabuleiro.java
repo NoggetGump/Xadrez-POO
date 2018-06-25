@@ -374,6 +374,10 @@ public class Tabuleiro
             System.out.println("Erro ao salvar o arquivo!");
 	}
 	
+	public void addPeca(Peca peca)
+	{
+		this.pecas.add(peca);
+	}
 	/**
 	 * 
 	 * 	Carrega uma partida
@@ -389,68 +393,53 @@ public class Tabuleiro
 	/**
 	 * 
 	 * 	Converte a string nomePeca, que contem o nome de uma peca, na instancia peca correspondente
-	 * 	e adiciona no array de pecas
-	 * 
-	 * 	[Ideia]
-	 * 		Em vez haver um construtor para as situações newgame ou loadgame
-	 * 		Caso seja escolhido loadgame
-	 * 			limpa as pecas to tabuleiro
-	 * 			e adiciona as pecas criadas nesse método
-	 * 
-	 *  Problemas:
-	 *  	Alem da String nomePeca, deveria haver: int x, int y, char cor
-	 *  	enviadas pela leitura do arquivo .txt na classe Arquivo.java
-	 *  	
-	 *  	Para assim na criação do objeto Peca chamar o construtor de Peca <Peca peca, int x, int y, char cor>
-	 *  	Porém o, ao informar x e y, o sistema lança NullPoiterException
-	 *  	Também não adianta chamar o construtor padrão Peca <Peca()>
-	 *  	e dar chamar o método setX(int x), setY(int y) ou setV(int x, int y)
-	 * 
+	 *
 	 * */
-	public Peca cnvrtPeca (String nomePeca)
+	public Peca cnvrtPeca (String nomePeca, int x, int y, char cor)
 	{
 		Peca temp = null;
+		Vet v = new Vet(x, y);
 		
 		switch(nomePeca)
 		{
 		case "Bispo":
 		{
-			temp = new Bispo();
+			temp = new Bispo(v, cor);
 			this.pecas.add(temp);
 			
 			break;
 		}
 		case "Cavalo":
 		{
-			temp = new Cavalo();
+			temp = new Cavalo(v, cor);
 			this.pecas.add(temp);
 			
 			break;
 		}
 		case "Peao":
 		{
-			temp = new Peao();
+			temp = new Peao(v, cor);
 			this.pecas.add(temp);
 			
 			break;
 		}
 		case "Rainha":
 		{
-			temp = new Rainha();
+			temp = new Rainha(v, cor);
 			this.pecas.add(temp);
 			
 			break;
 		}
 		case "Rei":
 		{
-			temp = new Rei();
+			temp = new Rei(v, cor);
 			this.pecas.add(temp);
 			
 			break;
 		}
 		case "Torre":
 		{
-			temp = new Torre();
+			temp = new Torre(v, cor);
 			this.pecas.add(temp);
 			
 			break;
@@ -460,12 +449,21 @@ public class Tabuleiro
 			break;
 		}
 		}
+		
 		return temp;
 	}
 	
 	public void printTam()
 	{
 		System.out.println(pecas.size());
+	}
+	
+	public void printPecas()
+	{
+		for(Peca peca : this.pecas)
+		{
+			System.out.println(peca.nome() + " " + peca.getCor() + " " + peca.getX() + " " + peca.getY());
+		}
 	}
 	
 	/**
