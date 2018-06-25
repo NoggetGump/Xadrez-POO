@@ -46,10 +46,8 @@ public class Arquivo {
 		
 			temp = tab.cnvrtPeca(peca, x, y, cor);
 			temp.setCor(cor);
-			//System.out.println(temp.nome() + " " + temp.getCor() + " " + x + " " + y);
 			
 		}	
-		
 		sc.close();
 	}
  
