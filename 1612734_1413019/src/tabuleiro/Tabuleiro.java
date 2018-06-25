@@ -450,6 +450,8 @@ public class Tabuleiro
 		}
 		}
 		
+		System.out.println(temp.nome() + " " + temp.getCor() + " " + temp.getX() + " " + temp.getY()); // printa peca criada
+		
 		return temp;
 	}
 	
