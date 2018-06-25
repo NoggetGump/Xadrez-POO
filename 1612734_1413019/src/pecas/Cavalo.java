@@ -31,7 +31,6 @@ public class Cavalo extends Peca{
 			return Consts.cavaloB.getPath();
 	}
 
-
 	public String nome()
 	{
 		return "Cavalo";
@@ -40,9 +39,10 @@ public class Cavalo extends Peca{
 	public void AtualizaMoves(Tabuleiro tab)
 	{
 		Lmove lmove = new Lmove(tab, this.v);
-		
+
 		AllMoves.clear();
-		
+		comiveis.clear();
+
 		lmove.Lmoves(this.AllMoves, this.comiveis);
 	}
 }

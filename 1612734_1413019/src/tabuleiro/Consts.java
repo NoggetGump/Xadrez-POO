@@ -8,6 +8,11 @@ public final class Consts
 	public static final int xyFin = 7;
 	public static final int tamC= 100;
 	public static final int ajuste = 17;
+
+	public static final int movLegal = 0;
+	public static final int  xeque = 1;
+	public static final int  movIlegal = -1;
+
 	public static final File root = new File(System.getProperty("user.dir"));
 	public static final File assets = new File(root, "Assets");
 	public static final File torreP = new File(assets, "Torre_P.png");

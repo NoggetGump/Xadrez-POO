@@ -84,7 +84,6 @@ public class Rei extends Peca
 			R.roqueEsquerdaB(this, temp, AllMoves);
 			temp.set(Consts.xyFin, Consts.xyFin);
 			R.roqueDireitaB(this, temp, AllMoves);
-			this.printAllMov();
 		}
 	}
 }

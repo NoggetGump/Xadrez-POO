@@ -2,7 +2,6 @@ package pecas;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
-
 import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
 import vetor.Vet;
@@ -14,6 +13,7 @@ public abstract class Peca{
 	 * 	para serem acessada somente dentro do mesmo pacote.
 	 *
 	 * */
+
 	Vet v; //Vetor coordenada x e y.
 	char cor; //Cor preta "p" ou branca "b".
 	ArrayList<Vet> AllMoves = new ArrayList<Vet>(); //Lista com todos os movimentos de determinada peca
@@ -72,7 +72,7 @@ public abstract class Peca{
 		return this.v.getY();
 	}
 
-	public Vet getV()
+	private Vet getV()
 	{
 		return this.v;
 	}
@@ -81,18 +81,16 @@ public abstract class Peca{
 	{
 		v.set(x, y);
 	}
-	
+
 	public void setV(Vet v)
 	{
 		v.set(v.getX(), v.getY());
 	}
-	
 
 	public void setX(int x)
 	{
 		this.v.setX(x);
 	}
-
 
 	public ArrayList<Vet> getAllMoves()
 	{
@@ -106,7 +104,7 @@ public abstract class Peca{
 
 	public void atualizaPos(Vet vet)
 	{
-		this.v.set(vet.getX(), vet.getY());
+		this.v.add(vet);
 	}
 
 	/**
@@ -187,6 +185,26 @@ public abstract class Peca{
 		this.AllMoves.forEach(printMoves);
 	}
 	
+	public boolean checaXeque(Peca p)
+	{
+		for(Vet v : comiveis)
+			if(v.equals(p.getV()))
+				return true;
+
+		return false;
+	}
+	
+	/**
+	 * 
+	 * 	Retorna a string do nome da peça + sua pocição no tabuleiro
+	 * 
+	 * */
+	
+	public String printSave()
+	{
+		return this.nome() + " " + this.cor + " " + Integer.toString(this.getX()) + " " + Integer.toString(this.getY()) + " ";
+	}
+	
 	/**
 	 * 
 	 * Converte as coordenadas X e Y 
@@ -233,5 +251,10 @@ public abstract class Peca{
 	 */
 
 	public abstract void AtualizaMoves(Tabuleiro tab);
+
+	public void setCor(char cor) {
+		this.cor = cor;
+		
+	}
 	
 }

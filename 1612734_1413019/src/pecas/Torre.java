@@ -76,7 +76,7 @@ public class Torre extends Peca
 			return 4;
 		}
 		
-		return -1;
+		return Consts.movIlegal;
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)

@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import jogo_Main.Facade;
 import pecas.Bispo;
 import pecas.Cavalo;
 import pecas.Peca;
@@ -23,16 +24,14 @@ public class GUI_PromoMenu implements ActionListener
 	private HashMap<String, Integer> promoMap;
 	private Peca peao;
 	private Peca promo = null;
-	private Tabuleiro tab;
-	private GUI_main gm;
+	private Facade facade;
 
-    public GUI_PromoMenu(Peca peao, Tabuleiro tab, GUI_main gm)
+    public GUI_PromoMenu(Peca peao, Tabuleiro tab, Facade facade)
     {
     	popup = new JPopupMenu("Menu de Promocao");
     	promoMap = new HashMap<String, Integer>();
     	this.peao = peao;
-    	this.tab = tab;
-    	this.gm = gm;
+    	this.facade = facade;
 
     	promoMap.put("Torre", 1);
     	promoMap.put("Cavalo", 2);
@@ -77,12 +76,12 @@ public class GUI_PromoMenu implements ActionListener
 				break;
 		}
 
-		tab.promovida(peao, promo, gm);
+		facade.getTab().promovida(peao, promo);
     }
 
     public void showMenu()
     {
-    	popup.show(gm.getJanela(), peao.cnvrtCooX(), peao.cnvrtCooY());
+    	popup.show(facade.getJanela(), peao.cnvrtCooX(), peao.cnvrtCooY());
     }
 
 }

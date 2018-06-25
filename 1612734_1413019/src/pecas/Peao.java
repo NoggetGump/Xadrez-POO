@@ -77,7 +77,6 @@ public class Peao extends Peca{
 	/**
 	 * 
 	 *	Retorna o nome da peca. 
-	 *	<!> DEBUG ONLY <!>
 	 *
 	 * */
 
