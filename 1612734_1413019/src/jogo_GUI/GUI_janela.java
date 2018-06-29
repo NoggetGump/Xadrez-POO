@@ -10,35 +10,12 @@ import javax.swing.SwingUtilities;
 import jogo_Main.Facade;
 import pecas.Peca;
 import tabuleiro.Consts;
-import tabuleiro.Tabuleiro;
 
+@SuppressWarnings("serial")
 public class GUI_janela extends JFrame {
 
-		public GUI_janela(Tabuleiro tab, GUI_main gm, Facade facade)
+		public GUI_janela(Facade facade, GUI_main gm)
 		{
-
-			addMouseListener(new MouseAdapter() 
-			{
-				public void mouseClicked(MouseEvent e)
-				{
-					// Mouse Esquerdo
-					if(SwingUtilities.isLeftMouseButton(e))
-					{
-						int x = (e.getX()-4)/100;
-						int y = (e.getY()-26)/100;
-						Peca temp = tab.buscaPeca(x, y);
-					
-						facade.logicaJanelaE(x, y, temp);
-					}
-					else
-						// Mouse Direito
-						if(SwingUtilities.isRightMouseButton(e))
-						{
-							facade.logicaJanelaD();
-						}							
-				}
-			});
-
 			ImageIcon img = new ImageIcon("Assets\\Chess_Icon2.png");
 			this.setIconImage(img.getImage());
 			this.setTitle("Xadrez");
@@ -49,5 +26,27 @@ public class GUI_janela extends JFrame {
 		    setResizable(false);
 		    setVisible(true);
 			System.out.println("Janela inicializada com sucesso!\r\n");
+
+			addMouseListener(new MouseAdapter()
+			{
+				public void mouseClicked(MouseEvent e)
+				{
+					// Mouse Esquerdo
+					if(SwingUtilities.isLeftMouseButton(e))
+					{
+						int x = (e.getX()-4)/100;
+						int y = (e.getY()-26)/100;
+						Peca temp = facade.buscaPecaTab(x, y);
+
+						facade.logicaJanelaE(x, y, temp);
+					}
+					else
+						// Mouse Direito
+						if(SwingUtilities.isRightMouseButton(e))
+						{
+							facade.logicaJanelaD();
+						}							
+				}
+			});
 		}
 }

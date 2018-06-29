@@ -20,7 +20,7 @@ public class Roque {
 		this.tab = tab;
 		coorPeca = v;
 	}
-	
+
 	private boolean condicaoRoque(Peca rei, Peca torre)
 	{
 		if( torre instanceof Torre
@@ -36,7 +36,7 @@ public class Roque {
 		if(!tab.perguntaCasaPeca(temp))
 			return;
 
-		Peca torre = tab.getPeca(temp);
+		Peca torre = tab.getPeca(Tabuleiro.geraIndice(temp));;
 
 		temp.addX(1);
 		if(!tab.perguntaCasaPeca(temp))
@@ -57,7 +57,7 @@ public class Roque {
 		if(!tab.perguntaCasaPeca(temp))
 			return;
 
-		Peca torre = tab.getPeca(temp);
+		Peca torre = tab.getPeca(Tabuleiro.geraIndice(temp));
 
 		temp.addX(-1);
 		if(!tab.perguntaCasaPeca(temp))
@@ -74,7 +74,7 @@ public class Roque {
 		if(!tab.perguntaCasaPeca(temp))
 			return;
 		
-		Peca torre = tab.getPeca(temp);
+		Peca torre = tab.getPeca(Tabuleiro.geraIndice(temp));
 		
 		temp.addX(-1);
 		if(!tab.perguntaCasaPeca(temp))
@@ -91,7 +91,7 @@ public class Roque {
 		if(!tab.perguntaCasaPeca(temp))
 			return;
 
-		Peca torre = tab.getPeca(temp);
+		Peca torre = tab.getPeca(Tabuleiro.geraIndice(temp));
 
 		temp.addX(1);
 		if(!tab.perguntaCasaPeca(temp))

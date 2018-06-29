@@ -4,20 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ImageObserver;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 
 import jogo_GUI.GUI_OptionPane;
 import jogo_GUI.GUI_PromoMenu;
-import jogo_GUI.GUI_janela;
 import jogo_GUI.GUI_main;
 
 import pecas.*;
@@ -25,80 +20,99 @@ import tabuleiro.*;
 import vetor.Vet;
 
 public class Facade implements Observador{
+	
 	private static final int tamY = 2 * Consts.tamC;
 	private static final int tamTab = 8 * Consts.tamC;
-
 	private static Tabuleiro tab = null;
 	private static GUI_main gm = null;
-	private static GUI_janela j = null;
+	private Arquivo arquivo = null;
+	private Peca selecionada = null;
+	private Integer turno = 1;
 	GUI_OptionPane op = new GUI_OptionPane();
 	JFileChooser fc = new JFileChooser();
-	private Scanner sc;
-
-	private Peca selecionada = null;
-	private int turnos = 1;
 
 	public Facade()
 	{
 		inicializaJogo();
 	}
-	  /**
-     * 
-     * 	Inicializa jogo com JOptionPane
-     * 	Para carregar jogo salvo
-     * 	ou Iniciar novo jogo
-     * 
+	
+	 /**
+     * 	Inicializa jogo com JOptionPane para carregar jogo salvo
+     * 	ou Iniciar novo jogo.
      * */
+
 	public void inicializaJogo()
 	{
 		switch(op.loadGame())
 		{
 			case 0: // Load Game
 			{
-				Facade.gm = new GUI_main(this); // Inicializa tabuleiro na formcao inicial
 				tab = Tabuleiro.getTabuleiro(false);
-				j = new GUI_janela(tab, gm, this);
 				tab.addObs(this);
-				
+				Facade.gm = new GUI_main(this);
+				arquivo = new Arquivo(this);
+
 				fc.setCurrentDirectory(new java.io.File("saves"));
 				fc.setDialogTitle("Carregar jogo - ESCOLHA O ARQUIVO DE SALVAMENTO");
-				int returnval = fc.showOpenDialog(j.getParent()); // Abre caixa de mensagem
+				int returnval = fc.showOpenDialog(gm.getJanela().getParent());
 
-				if(returnval == JFileChooser.APPROVE_OPTION) // Se apertar abrir
+				if(returnval == JFileChooser.APPROVE_OPTION)
 				{
-					this.carregaPartida(fc.getSelectedFile() + ""); //Chama o metodo carregar partida. Parametro = path do arquivo escolhido
-					tab.AtualizaMovPecas(); // Inicializa tabuleiro nas formção inicial	
+					arquivo.carregaPartida(fc.getSelectedFile() + "");
+					tab.AtualizaMovPecas();
 				}
 				else
 				{
-					System.out.println("Carregamento de jogo cancelado pelo usuário");
-					tab.AtualizaMovPecas(); // Inicializa tabuleiro na formção inicial
-					;
+					System.out.println("Carregamento de jogo cancelado pelo usuario");
+					gm.getJanela().dispatchEvent(new WindowEvent(gm.getJanela(), WindowEvent.WINDOW_CLOSING));
 				}
 				break;
 			}
 			case 1:
-			{				Facade.gm = new GUI_main(this); // Inicializa tabuleiro nas formção inicial
+			{
 				tab = Tabuleiro.getTabuleiro(true);
-				j = new GUI_janela(tab, gm, this);
 				tab.addObs(this);
 				tab.AtualizaMovPecas();
+				Facade.gm = new GUI_main(this);
+				arquivo = new Arquivo(this);
 
 				break;
 			}
-			default: // Close app - Fecha a caixa de dialogo caso aperte o X da janela
+			default:
 			{
-				System.out.println("Aplicação Encerrada!");
+				System.out.println("Aplicaï¿½ï¿½o Encerrada!");
 				
 				break;
 			}
 		}
 	}
 
-	public GUI_janela getJanela()
+	/**
+	 * Geters
+	 */
+
+	public GUI_main getGM()
 	{
-		return j;
+		return gm;
 	}
+
+	public Integer getTurno()
+	{
+		return this.turno;
+	}
+	
+	/**
+	 * Seters
+	 */
+
+	public void setTurno(Integer turno)
+	{
+		this.turno = turno;
+	}
+
+	/**
+	 * Desenha as pecas no tabuleiro.
+	 */
 
 	private void paintPecas(Graphics2D g2, ImageObserver io)
 	{
@@ -108,6 +122,11 @@ public class Facade implements Observador{
 			    g2.finalize();
 		}
 	}
+
+	/**
+	 * Marca as casas para salientar: peca selecionada do turno
+	 * e movimentos possiveis, incluindo movimentos de tomada de peca.
+	 */
 
     private void highlightPeca(Graphics2D g2)
     {
@@ -131,6 +150,10 @@ public class Facade implements Observador{
 		    g2.finalize();
     	}
     }
+
+	/**
+	 * Desenha tudo que o jogo contem. Chamada pela GUI_main.
+	 */
 
     public void paintAll(Graphics g, ImageObserver io)
 	{
@@ -166,29 +189,42 @@ public class Facade implements Observador{
 	    highlightPeca(g2);
 	}
 
+	/**
+	 * Chama a possivel movimentacao de pecas no controlador Tabuleiro(observado).
+	 */
+
 	public void movPeca(Peca selecionada, int x, int y)
 	{
 		if(tab.movePeca(selecionada, x, y, this))
 		{
-			turnos++;
-			System.out.println("\r\n<< Turno " + turnos + " >>\r\n");
+			turno++;
+			System.out.println("\r\n<< Turno " + turno + " >>\r\n");
 		}
 	}
+
+	/**
+	 * Chama a tomada de peca no controlador Tabuleiro(observado).
+	 */
 
 	public void comePecaOuRoque(Peca selecionada, Peca alvo)
 	{
 		if(tab.comePeca(selecionada, alvo, this))
 		{
-			turnos++;
-			System.out.println("\r\n<< Turno " + turnos + " >>\r\n");
+			turno++;
+			System.out.println("\r\n<< Turno " + turno + " >>\r\n");
 		}
 	}
-	
+
+	/**
+	 * Cuida da logica da promocao, e chama a criacao de um menu
+	 * com o objetivo do usuario escolher para qual peca o peao sera promovido.
+	 */
+
 	public void promocao(Peca peao)
 	{
 		if(peao instanceof Peao)
 		{
-			GUI_PromoMenu menu = new GUI_PromoMenu(peao, tab, this);
+			GUI_PromoMenu menu = new GUI_PromoMenu(peao, this);
 			if(peao.corP())
 			{
 				if(peao.getY() == Consts.xyFin)
@@ -211,7 +247,22 @@ public class Facade implements Observador{
 				}
 		}
 	}
-	
+
+	/**
+	 * Chama a promocao de peao
+	 * no controlador Tabuleiro(observado).
+	 */
+
+	public void promove(Peca peao, Peca promo)
+	{
+		tab.promovida(peao, promo);
+	}
+
+	/**
+	 * Cuida da logica da janela assim que a mesma dispara um evento de clique
+	 * do botao esquerdo do mouse.
+	 */
+
 	public void logicaJanelaE(int x, int y, Peca temp){
 		if(temp != selecionada
 		&& selecionada != null)
@@ -224,168 +275,70 @@ public class Facade implements Observador{
 		}
 		else
 			if(temp != null
-			&& temp.turno(turnos)) // Se houver peca na Casa clicada e se o turno do jogador for respeitado
+			&& temp.turno(turno)) // Se houver peca na Casa clicada e se o turno do jogador for respeitado
 			{
 				selecionada = temp;
 				System.out.println("\tVoce selecionou " + selecionada.nome());
 				gm.repaint();
 			}
 	}
-	
-	
+
+	/**
+	 * Cuida da logica da janela assim que a mesma dispara um evento de clique
+	 * do do botao direito do mouse.
+	 */
+
 	public void logicaJanelaD()
 	{
 		System.out.println("Salvar jogo?");
 		
-		int returnval = fc.showOpenDialog(j.getParent()); // Abre caixa de mensagem se mouse 2 for clicado
-		if(returnval == JFileChooser.APPROVE_OPTION) // Se apertar abrir
+		int returnval = fc.showOpenDialog(gm.getJanela().getParent());
+		if(returnval == JFileChooser.APPROVE_OPTION)
 		{
-			Facade.salvaPartida(fc.getSelectedFile() + ".txt"); // salva partida no path escolhido ao apertar abrir
+			arquivo.salvaPartida(fc.getSelectedFile() + ".txt");
 		}
-		else // Se não fecha a caixa de mensagem e cancela o salvamento
+		else
 		{
-			System.out.println("Salvamento de jogo cancelado pelo usuário");
+			System.out.println("Salvamento de jogo cancelado pelo usuï¿½rio");
 		}
 	}
-	private static void salvaPartida(String arq)
-	{
-		String texto = ""; // Conteudo que sera escrito no arquivo de salvamento
 
-		for(Peca peca : tab.getPecas())
-		{
-			texto += peca.printSave() + "\r\n"; // Concatena o conteudo lido a medida que percorre ArrayList pecas
-		}
-		
-        if(writeFile(arq, texto)) // Escreve no arquivo
-            System.out.println("Jogo Salvo!");
-        else
-            System.out.println("Erro ao salvar o arquivo!");
-	}
-	
-	public void carregaPartida(String arq)
-	{
-		openFile(arq);
-		readFile(tab);
-	}
-	
 	/**
-	 * 
-	 * 	Lê o arquivo e retorna o conteudo
-	 * 
-	 * */
-	public void openFile(String path)
-	{
-		try {
-			sc = new Scanner(new File(path));
-			
-		}
-		catch(Exception e){
-			System.out.println("Erro! Arquivo não encontrado!");
-		}
-	}
-	
-	public void readFile(Tabuleiro tab)
-	{
-		
-		while(sc.hasNext())
-		{	
-			Peca temp = null;
-			
-			String peca = sc.next();
-			String c = sc.next();
-			char cor = c.charAt(0);
-			int x = Integer.parseInt(sc.next());
-			int y = Integer.parseInt(sc.next());
-
-			temp = cnvrtPeca(peca, x, y, cor);
-			temp.setCor(cor);
-
-		}
-		sc.close();
-	}
-	
-	public Peca cnvrtPeca (String nomePeca, int x, int y, char cor)
-	{
-		Peca temp = null;
-		Vet v = new Vet(x, y);
-		
-		switch(nomePeca)
-		{
-		case "Bispo":
-		{
-			temp = new Bispo(v, cor);
-			tab.addPeca(temp);
-			
-			break;
-		}
-		case "Cavalo":
-		{
-			temp = new Cavalo(v, cor);
-			tab.addPeca(temp);
-			
-			break;
-		}
-		case "Peao":
-		{
-			temp = new Peao(v, cor);
-			tab.addPeca(temp);
-			
-			break;
-		}
-		case "Rainha":
-		{
-			temp = new Rainha(v, cor);
-			tab.addPeca(temp);
-			
-			break;
-		}
-		case "Rei":
-		{
-			temp = new Rei(v, cor);
-			tab.addPeca(temp);
-			
-			break;
-		}
-		case "Torre":
-		{
-			temp = new Torre(v, cor);
-			tab.addPeca(temp);
-			
-			break;
-		}
-		default:
-		{
-			break;
-		}
-		}
-		
-		System.out.println(temp.nome() + " " + temp.getCor() + " " + temp.getX() + " " + temp.getY()); // printa peca criada
-		
-		return temp;
-}
-	
-	public static boolean writeFile(String path,String text){
-   	
-       try {
-       	
-           FileWriter arq = new FileWriter(path);
-           PrintWriter gravarArq = new PrintWriter(arq);
-           gravarArq.println(text);
-           gravarArq.close();
-           return true;
-           
-       }catch(IOException e){
-           System.out.println(e.getMessage());
-           return false;
-       }
-	}
+	 * FunÃ§Ã£o do observador, que assim que notificado,
+	 * emite o sinal para GUI_main redesenhar o tabuleiro.
+	 */
 
 		public void notifyObs()
 	{
 		gm.repaint();
 	}
-	
-	public Tabuleiro getTab() {
-		return tab;
+
+	/**
+	 * Chama getPeca, dada uma coordenada (x, y).
+	 * Evita a passagem por referencia do Tabuleiro.
+	 */
+
+	public Peca buscaPecaTab(int x, int y)
+	{
+		return tab.getPeca(Tabuleiro.geraIndice(x, y));
+	}
+
+	/**
+	 * Chama a addPeca de Tabuleiro, dado um objeto peca ja criado.
+	 * Evita a passagem por referencia do Tabuleiro.
+	 */
+	public void addPecaTab(Peca peca)
+	{
+		tab.addPeca(peca);
+	}
+
+	/**
+	 * Chama a addPeca de Tabuleiro, dado um objeto peca ja criado.
+	 * Evita a passagem por referencia do Tabuleiro.
+	 */
+
+	public List<Peca> getPecasTab()
+	{
+		return tab.getPecas();
 	}
 }

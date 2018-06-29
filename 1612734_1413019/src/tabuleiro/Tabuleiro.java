@@ -3,8 +3,9 @@ package tabuleiro;
 import pecas.*;
 import vetor.Vet;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -34,6 +35,7 @@ implements Observavel
 		pecas.add(p);
 		tab.get(indice).setPeca(p);
 		tab.get(indice).toogleO();
+		notifyTds();
 	}
 
 	private Function<Vet, Peca> addInicial = vet ->
@@ -123,26 +125,24 @@ implements Observavel
 	 * 
 	 * */
 
-	private Tabuleiro(boolean n)
+	private Tabuleiro(boolean newGame)
 	{
-		for(int j = 0 ; j <= Consts.xyFin; j++)
-			for(int i = 0 ; i <= Consts.xyFin; i++)
-				tab.add(new Casa(i, j, addInicial.apply(new Vet(i, j))));
+		if(newGame)
+			for(int j = 0 ; j <= Consts.xyFin; j++)
+				for(int i = 0 ; i <= Consts.xyFin; i++)
+					tab.add(new Casa(i, j, addInicial.apply(new Vet(i, j))));
+		else
+			for(int j = 0 ; j <= Consts.xyFin; j++)
+				for(int i = 0 ; i <= Consts.xyFin; i++)
+					tab.add(new Casa(i, j, null));
 	}
-
-	private Tabuleiro()
-	{}
 
 	public void addObs(Observador obs)
 	{
 		observadores.add(obs);
 	}
 	/**
-	 * 
-	 *	Atualiza a construcao do Tabuleiro,
-	 *	a atualizacao dos movimentos das
-	 *	Pecas.
-	 * 
+	 *	Atualiza os movimentos das pecas.
 	 * */
 
 	public void AtualizaMovPecas()
@@ -150,66 +150,43 @@ implements Observavel
 		for(Peca peca : pecas)
 			peca.AtualizaMoves(this);
 	}
-
+	
 	/**
-	 * 
-	 *	Geters
-	 * 
+	 * Duas funcoes que geram um indice de casa
+	 * dadas as coordenadas (x, y), ou um Vet.
 	 * */
-
-	public static Tabuleiro getTabuleiro(boolean i)
+	
+	public static int geraIndice(int x, int y)
 	{
-		if(tabuleiro == null && i)
-			tabuleiro = new Tabuleiro(true);
-		else
-			if(tabuleiro == null)
-				tabuleiro = new Tabuleiro();
-
-		return tabuleiro;
+		int indice = y* (Consts.xyFin + 1) + x;
+		
+		return indice;
 	}
-
-	public ArrayList<Peca> getPecas()
-	{
-		return pecas;
-	}
-
-	public Peca getPeca(Vet v)
+	
+	public static int geraIndice(Vet v)
 	{
 		int indice = v.getY()* (Consts.xyFin + 1) + v.getX();
-
-		return tab.get(indice).getPeca();
+		
+		return indice;
 	}
 
 	/**
-	 * 
-	 *	Buscas
-	 * 
+	 *	Pergunta se a casa na localizacao (x, y) esta ocupada.
 	 * */
 
-	public Peca buscaPeca(int x, int y)
+	public boolean perguntaCasaPeca(int x, int y)
 	{
-	 	for(Peca peca : pecas)
-	 	{
-	 		if(peca.getX() == x && peca.getY() == y)
-	 		{
-	 			System.out.println(peca.nome());
-	 			return peca;
-	 		}
-	 	}
-	 	System.out.println("Nao ha peca nesta casa");
-	 	return null;
+		int indice = geraIndice(x, y); // indice do ArrayList de casas (tab)
+
+		if(tab.get(indice).getO())
+				return true;
+
+	 	return false;
 	}
-
-	/**
-	 * 
-	 *	Pergunta se a casa na localizacao Vet v
-	 *	esta ocupada.
-	 * 
-	 * */
-
+	
 	public boolean perguntaCasaPeca(Vet v)
 	{
-		int indice = v.getY()*8 + v.getX(); // indice do ArrayList de casas (tab)
+		int indice = geraIndice(v); // indice do ArrayList de casas (tab)
 
 		if(tab.get(indice).getO())
 				return true;
@@ -217,13 +194,38 @@ implements Observavel
 	 	return false;
 	}
 
+	public boolean perguntaCasaPeca(int indice)
+	{
+		if(tab.get(indice).getO())
+				return true;
+
+	 	return false;
+	}
+
+	/**
+	 *	Pergunta se duas pecas nas localizacoes (x1, y1) e (x2, y2) tem a mesma cor.
+	 * */
+	
+	public boolean mesmaCor(Vet a, Vet b)
+	{
+		int indiceA = geraIndice(a);
+		int indiceB = geraIndice(b);
+		
+		if(tab.get(indiceA).getPeca().getCor() != tab.get(indiceB).getPeca().getCor())
+			return true;
+					
+		return false;
+	}
+	
+	/**
+	 *	Pergunta se a casa destino eh comivel por uma peca da casa origem.
+	 * */
+
 	public boolean perguntaComivel(Vet origem, Vet destino)
 	{
 		if(perguntaCasaPeca(destino))
 		{
-		int indiceO = origem.getY()*8 + origem.getX(); // indice do ArrayList de casas (tab)
-		int indiceD = destino.getY()*8 + destino.getX();
-			if(tab.get(indiceO).getPeca().getCor() != tab.get(indiceD).getPeca().getCor())
+			if(mesmaCor(origem, destino))
 				return true;
 		}
 
@@ -231,9 +233,32 @@ implements Observavel
 	}
 
 	/**
-	 * 
+	 *	Geters
+	 * */
+
+	public static Tabuleiro getTabuleiro(boolean newGame)
+	{
+		if(tabuleiro == null)
+			tabuleiro = new Tabuleiro(newGame);
+
+		return tabuleiro;
+	}
+
+	public List<Peca> getPecas()
+	{
+		return Collections.unmodifiableList(pecas);
+	}
+
+	public Peca getPeca(int indice)
+	{
+		if(perguntaCasaPeca(indice))
+			return tab.get(indice).getPeca();
+		
+		return null;
+	}
+
+	/**
 	 * Printer das Casas em Tab DEBUG ONLY!
-	 *
 	 * */
 
     public Consumer<Casa> printCasas = (c) ->
@@ -245,6 +270,10 @@ implements Observavel
 	{
 		this.tab.forEach(printCasas);
 	}
+	
+	/**
+	 * Cuida da logica do Xeque a cada movimento ou tomada de Peca.
+	 * */
 
 	public int xeque(Peca selecionada)
 	{
@@ -254,7 +283,7 @@ implements Observavel
 				if(!peca.corP()
 				&& peca.checaXeque(ReiP))
 				{
-					System.out.println("Movimento Ilegal, seu Rei está em cheque!");
+					System.out.println("Movimento Ilegal, seu Rei estï¿½ em cheque!");
 					return Consts.movIlegal;
 				}
 				else
@@ -270,7 +299,7 @@ implements Observavel
 				if(peca.corP()
 				&& peca.checaXeque(ReiB))
 				{
-					System.out.println("Movimento Ilegal, seu Rei está em cheque!");
+					System.out.println("Movimento Ilegal, seu Rei estï¿½ em cheque!");
 					return Consts.movIlegal;
 				}
 				else
@@ -285,11 +314,7 @@ implements Observavel
 	}
 
 	/**
-	 * 
-	 * 	Posiciona Peca na casa
-	 *  caso o movimento seja valido
-	 * @return 
-	 *
+	 * 	Posiciona Peca na casa caso o movimento seja valido
 	 * */
 
 	public boolean movePeca (Peca selecionada, int x, int y, Facade facade)
@@ -331,10 +356,7 @@ implements Observavel
 	}
 
 	/**
-	 * 
 	 * 	Come Peca caso seja possivel
-	 * @return 
-	 * 
 	 * */
 
 	public boolean comePeca(Peca selecionada, Peca alvo, Facade facade)
@@ -377,16 +399,20 @@ implements Observavel
 		}
 		else
 			if(selecionada instanceof Rei)
-			{
-				this.roque(selecionada, alvo);
-				notifyTds();
-				return true;
-			}
-		
+				if(this.roque(selecionada, alvo))
+				{
+					notifyTds();
+					return true;
+				}
+
 		return false;
 	}
+	
+	/**
+	 * 	Cuida da logica do roque.
+	 * */
 
-	public void roque(Peca rei, Peca torre)
+	public boolean roque(Peca rei, Peca torre)
 	{
 		if(rei.movimentoValido(torre.getX(), torre.getY()))
 		{
@@ -412,8 +438,14 @@ implements Observavel
 				torre.atualizaPos(addTorre);
 				notifyTds();
 			}
+			return true;
 		}
+		return false;
 	}
+	
+	/**
+	 * 	Efetua a promocao.
+	 * */
 
 	public void promovida(Peca peao, Peca promo)
 	{
@@ -422,7 +454,6 @@ implements Observavel
 		pecas.remove(peao);
 		tab.get(indice).setPeca(promo);
 		pecas.add(promo);
-		notifyTds();
 	}
 
 	public void notifyTds()

@@ -26,7 +26,7 @@ public class GUI_PromoMenu implements ActionListener
 	private Peca promo = null;
 	private Facade facade;
 
-    public GUI_PromoMenu(Peca peao, Tabuleiro tab, Facade facade)
+    public GUI_PromoMenu(Peca peao, Facade facade)
     {
     	popup = new JPopupMenu("Menu de Promocao");
     	promoMap = new HashMap<String, Integer>();
@@ -76,12 +76,11 @@ public class GUI_PromoMenu implements ActionListener
 				break;
 		}
 
-		facade.getTab().promovida(peao, promo);
+		facade.promove(peao, promo);
     }
 
     public void showMenu()
     {
-    	popup.show(facade.getJanela(), peao.cnvrtCooX(), peao.cnvrtCooY());
+    	popup.show(facade.getGM().getJanela(), peao.cnvrtCooX(), peao.cnvrtCooY());
     }
-
 }
