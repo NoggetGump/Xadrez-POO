@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 
 import jogo_Main.Facade;
 
+@SuppressWarnings("serial")
 public class GUI_main extends JComponent{
 
 	Facade facade;
