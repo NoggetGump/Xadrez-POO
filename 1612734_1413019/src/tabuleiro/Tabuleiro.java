@@ -2,6 +2,7 @@ package tabuleiro;
 
 import pecas.*;
 import vetor.Vet;
+import vetor.VetUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,10 +18,10 @@ public class Tabuleiro
 implements Observavel
 {
 	private static Tabuleiro tabuleiro = null;
-	private ArrayList<Casa> tab = new ArrayList<>();
-	private ArrayList<Peca> pecas = new ArrayList<>();
-	private Rei ReiB;
-	private Rei ReiP;
+	private ArrayList<Casa> tab = new ArrayList<>(64);
+	private ArrayList<Peca> pecas = new ArrayList<>(16);
+	private Rei ReiB = null;
+	private Rei ReiP = null;
 	private ArrayList<Observador> observadores = new ArrayList<>();
 
 	/**
@@ -28,14 +29,17 @@ implements Observavel
 	 *	Adiciona uma peca a uma casa
 	 * 
 	 * */
-	
 	public void addPeca(Peca p)
 	{
-		int indice = 8*p.getY() + p.getX();
+		int indice = geraIndice(p.getX(), p.getY());
 		pecas.add(p);
 		tab.get(indice).setPeca(p);
 		tab.get(indice).toogleO();
-		notifyTds();
+		if(p instanceof Rei)
+			if(p.corP())
+				ReiP = (Rei)p;
+			else
+				ReiB = (Rei)p;
 	}
 
 	private Function<Vet, Peca> addInicial = vet ->
@@ -74,7 +78,6 @@ implements Observavel
 				ReiP = (Rei) temp;
 			}
 			break;
-
 		case 1:
 			temp = new Peao(vet, 'p');
 			pecas.add(temp);
@@ -85,7 +88,6 @@ implements Observavel
 			temp = new Peao(vet, 'b');
 			pecas.add(temp);
 			break;
-
 		case 7:
 			if(i==0||i==7)
 			{
@@ -124,13 +126,15 @@ implements Observavel
 	 *	Construtor Tabuleiro
 	 * 
 	 * */
-
 	private Tabuleiro(boolean newGame)
 	{
 		if(newGame)
+		{
 			for(int j = 0 ; j <= Consts.xyFin; j++)
 				for(int i = 0 ; i <= Consts.xyFin; i++)
 					tab.add(new Casa(i, j, addInicial.apply(new Vet(i, j))));
+			AtualizaMovPecas();
+		}
 		else
 			for(int j = 0 ; j <= Consts.xyFin; j++)
 				for(int i = 0 ; i <= Consts.xyFin; i++)
@@ -141,28 +145,54 @@ implements Observavel
 	{
 		observadores.add(obs);
 	}
+
+	/**
+	 * Reseta o tabuleiro.
+	 */
+	public void resetaJogo(boolean newGame)
+	{
+		tab.clear();
+		pecas.clear();
+		notifyTds();
+		ReiB = null;
+		ReiP = null;
+		if(newGame)
+		{
+			for(int j = 0 ; j <= Consts.xyFin; j++)
+				for(int i = 0 ; i <= Consts.xyFin; i++)
+					tab.add(new Casa(i, j, addInicial.apply(new Vet(i, j))));
+			AtualizaMovPecas();
+		}
+		else
+			for(int j = 0 ; j <= Consts.xyFin; j++)
+				for(int i = 0 ; i <= Consts.xyFin; i++)
+					tab.add(new Casa(i, j, null));
+	}
+
 	/**
 	 *	Atualiza os movimentos das pecas.
 	 * */
-
 	public void AtualizaMovPecas()
 	{
 		for(Peca peca : pecas)
 			peca.AtualizaMoves(this);
 	}
-	
+
 	/**
-	 * Duas funcoes que geram um indice de casa
-	 * dadas as coordenadas (x, y), ou um Vet.
+	 * Funcao que gera um indice de casa
+	 * dadas as coordenadas (x, y).
 	 * */
-	
 	public static int geraIndice(int x, int y)
 	{
 		int indice = y* (Consts.xyFin + 1) + x;
 		
 		return indice;
 	}
-	
+
+	/**
+	 * Funcao que gera um indice de casa
+	 * dado um Vet.
+	 * */
 	public static int geraIndice(Vet v)
 	{
 		int indice = v.getY()* (Consts.xyFin + 1) + v.getX();
@@ -173,7 +203,6 @@ implements Observavel
 	/**
 	 *	Pergunta se a casa na localizacao (x, y) esta ocupada.
 	 * */
-
 	public boolean perguntaCasaPeca(int x, int y)
 	{
 		int indice = geraIndice(x, y); // indice do ArrayList de casas (tab)
@@ -183,7 +212,10 @@ implements Observavel
 
 	 	return false;
 	}
-	
+
+	/**
+	 *	Pergunta se a casa na localizacao Vet(x, y) esta ocupada.
+	 * */
 	public boolean perguntaCasaPeca(Vet v)
 	{
 		int indice = geraIndice(v); // indice do ArrayList de casas (tab)
@@ -194,6 +226,9 @@ implements Observavel
 	 	return false;
 	}
 
+	/**
+	 *	Pergunta se a casa na localizacao (indice) esta ocupada.
+	 * */
 	public boolean perguntaCasaPeca(int indice)
 	{
 		if(tab.get(indice).getO())
@@ -203,14 +238,14 @@ implements Observavel
 	}
 
 	/**
-	 *	Pergunta se duas pecas nas localizacoes (x1, y1) e (x2, y2) tem a mesma cor.
+	 *	Pergunta se duas pecas nas localizacoes (Vet a) e (Vet b) tem a mesma cor.
 	 * */
 	
 	public boolean mesmaCor(Vet a, Vet b)
 	{
 		int indiceA = geraIndice(a);
 		int indiceB = geraIndice(b);
-		
+
 		if(tab.get(indiceA).getPeca().getCor() != tab.get(indiceB).getPeca().getCor())
 			return true;
 					
@@ -270,45 +305,263 @@ implements Observavel
 	{
 		this.tab.forEach(printCasas);
 	}
+
+	/**
+	 * Checa se o rei tem movimentos possiveis
+	 */
+	private boolean reiMovPoss(char cor)
+	{
+		List<Vet> reiMoves;
+		if(cor == Consts.branca)
+		{
+			reiMoves = ReiB.getAllMoves();
+			if(reiMoves != null)
+				for(Peca peca : pecas)
+					if(peca.corP())
+						for(Vet move : reiMoves)
+							if(!peca.checaCheque(move))
+								return true;
+		}
+		else
+		{
+			reiMoves = ReiP.getAllMoves();
+			if(reiMoves != null)
+				for(Peca peca : pecas)
+					if(!peca.corP())
+						for(Vet move : reiMoves)
+							if(peca.checaCheque(move))
+							{
+								return true;
+							}
+		}
+
+		return false;
+	}
 	
 	/**
-	 * Cuida da logica do Xeque a cada movimento ou tomada de Peca.
+	 * Facilita a concepção do método "jogadaDefensiva".
 	 * */
+	private boolean jogadaDefensivaAssist(Peca atacante, Peca defensora, Peca rei)
+	{
+		for(Vet comivel : defensora.getComiveis())
+			if(comivel.getX() == atacante.getX() && comivel.getY() == atacante.getY())
+				return true;
+		
+		if(atacante instanceof Peao
+		|| atacante instanceof Cavalo
+		|| atacante instanceof Rei
+		|| defensora instanceof Rei
+		|| defensora.getAllMoves().isEmpty())
+			return false;
 
-	public int xeque(Peca selecionada)
+		if(atacante.getX() == rei.getX())
+		{
+			if(atacante.getY() > rei.getY())
+			{
+				for(Vet movDefesa : defensora.getAllMoves())
+				{
+					if(movDefesa.getX() == atacante.getX()
+					&& movDefesa.getY() > rei.getY()
+					&& movDefesa.getY() < atacante.getY())
+						return true;
+				}
+			}
+			else
+			{
+				for(Vet movDefesa : defensora.getAllMoves())
+				{
+					if(movDefesa.getX() == atacante.getX()
+					&& movDefesa.getY() < rei.getY()
+					&& movDefesa.getY() > atacante.getY())
+						return true;
+				}
+			}
+		}
+		else if(atacante.getX() > rei.getX())
+		{
+			if(atacante.getY() == rei.getY())
+			{
+				for(Vet movDefesa : defensora.getAllMoves())
+				{
+					if(movDefesa.getY() == atacante.getY()
+					&& movDefesa.getX() > rei.getX()
+					&& movDefesa.getX() < atacante.getX())
+						return true;
+				}
+			}
+			else if( atacante.getY() > rei.getY())
+			{
+				Vet temp = new Vet(rei.getX(), rei.getY());
+				VetUtil.movePP(temp);
+				for(Vet movDefesa : defensora.getAllMoves())
+				{
+					while(temp.getX()!= atacante.getX())
+					{
+						if(movDefesa.getX() == temp.getX()
+						&& movDefesa.getY() == temp.getY())
+							return true;
+						VetUtil.movePP(temp);
+					}
+					temp.set(rei.getX(), rei.getY());
+					VetUtil.movePP(temp);
+				}
+			}
+			else
+			{
+				Vet temp = new Vet(rei.getX(), rei.getY());
+				VetUtil.movePN(temp);
+				for(Vet movDefesa : defensora.getAllMoves())
+				{
+					while(temp.getX()!= atacante.getX())
+					{
+						if(movDefesa.getX() == temp.getX()
+						&& movDefesa.getY() == temp.getY())
+							return true;
+						VetUtil.movePN(temp);
+					}
+					temp.set(rei.getX(), rei.getY());
+					VetUtil.movePN(temp);
+				}
+			}
+		}
+		else
+		{
+			if(atacante.getY() == rei.getY())
+			{
+				for(Vet moveDefesa : defensora.getAllMoves())
+				{
+					if(moveDefesa.getY() == atacante.getY()
+					&& moveDefesa.getX() < rei.getX()
+					&& moveDefesa.getX() > atacante.getX())
+						return true;
+				}
+			}
+			else if( atacante.getY() > rei.getY())
+			{
+				Vet temp = new Vet(rei.getX(), rei.getY());
+				VetUtil.moveNP(temp);
+				for(Vet movDefesa : defensora.getAllMoves())
+				{
+					while(temp.getX()!= atacante.getX())
+					{
+						if(movDefesa.getX() == temp.getX()
+						&& movDefesa.getY() == temp.getY())
+							return true;
+						VetUtil.moveNP(temp);
+					}
+					temp.set(rei.getX(), rei.getY());
+					VetUtil.moveNP(temp);
+				}
+			}
+			else
+			{
+				Vet temp = new Vet(rei.getX(), rei.getY());
+				VetUtil.moveNN(temp);
+				for(Vet movDefesa : defensora.getAllMoves())
+				{
+					while(temp.getX()!= atacante.getX())
+					{
+						if(movDefesa.getX() == temp.getX()
+						&& movDefesa.getY() == temp.getY())
+							return true;
+						VetUtil.moveNN(temp);
+					}
+					temp.set(rei.getX(), rei.getY());
+					VetUtil.moveNN(temp);
+				}
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Checa se a peca atacando o rei eh comivel
+	 * ou se sua rota até o rei é interceptável. 
+	 * */
+	private boolean jogadaDefensiva(Peca atacante)
+	{
+		if(atacante.corP())
+		{
+			for(Peca defensora : pecas)
+				if(!defensora.corP()
+				&& jogadaDefensivaAssist(atacante, defensora, ReiB))
+					return true;
+		}
+		else
+		{
+			for(Peca defensora : pecas)
+				if(defensora.corP()
+				&& jogadaDefensivaAssist(atacante, defensora, ReiP))
+					return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Cuida da logica do Cheque-Mate,
+	 * assim que o rei entra em estado de cheque.
+	 * */
+	private boolean chequeMate(Peca selecionada, char cor)
+	{
+		if(reiMovPoss(cor))
+			return false;
+		
+		if(jogadaDefensiva(selecionada))
+			return false;
+
+		return true;
+	}
+	
+	/**
+	 * Cuida da logica do Cheque a cada movimento ou tomada de Peca.
+	 * */
+	public int Cheque(Peca selecionada)
 	{
 		if(selecionada.corP())
 		{
 			for(Peca peca : pecas)
+			{
 				if(!peca.corP()
-				&& peca.checaXeque(ReiP))
+				&& peca.checaCheque(new Vet(ReiP.getX(), ReiP.getY())))
 				{
-					System.out.println("Movimento Ilegal, seu Rei estï¿½ em cheque!");
+					System.out.println("Movimento Ilegal, Rei Preto seria alvo!");
 					return Consts.movIlegal;
 				}
 				else
 					if(peca.corP()
-					&& peca.checaXeque(ReiB))
+					&& peca.checaCheque(new Vet(ReiB.getX(), ReiB.getY())))
 					{
-						System.out.println("Pecas Brancas em Xeque");
-						return Consts.xeque;
+						if(chequeMate(selecionada, ReiB.getCor()))
+						{
+							return Consts.chequeMatePreto;
+						}
+						System.out.println("Pecas Brancas em Cheque.");
+						return Consts.cheque;
 					}
+			}
 		}
 		else
 			for(Peca peca : pecas)
+			{
 				if(peca.corP()
-				&& peca.checaXeque(ReiB))
+				&& peca.checaCheque(new Vet(ReiB.getX(), ReiB.getY())))
 				{
-					System.out.println("Movimento Ilegal, seu Rei estï¿½ em cheque!");
+					System.out.println("Movimento Ilegal, Rei Branco seria alvo!");
 					return Consts.movIlegal;
 				}
 				else
 					if(!peca.corP()
-					&& peca.checaXeque(ReiP))
+					&& peca.checaCheque(new Vet(ReiP.getX(), ReiP.getY())))
 					{
-						System.out.println("Pecas Pretas em Xeque");
-						return Consts.xeque;
+						if(chequeMate(selecionada, ReiP.getCor()))
+						{
+							return Consts.chequeMateBranco;
+						}
+						System.out.println("Pecas Pretas em Cheque.");
+						return Consts.cheque;
 					}
+			}
 
 		return Consts.movLegal;
 	}
@@ -321,6 +574,7 @@ implements Observavel
 	{
 		int xOriginal = selecionada.getX();
 		int yOriginal = selecionada.getY();
+		int validadeMov;
 
 		if(selecionada.movimentoValido(x, y))
 			{
@@ -333,7 +587,8 @@ implements Observavel
 				tab.get(indiceOrigem).toogleO();
 				tab.get(indiceOrigem).setPeca(null);
 				this.AtualizaMovPecas();
-				if(xeque(selecionada) == Consts.movIlegal)
+				validadeMov = Cheque(selecionada);
+				if(validadeMov == Consts.movIlegal)
 				{
 					selecionada.setV(xOriginal, yOriginal);
 					tab.get(indiceDestino).toogleO();
@@ -345,12 +600,28 @@ implements Observavel
 
 					return false;
 				}
-				System.out.println("\tVocÃª moveu " + selecionada.nome() + " para a casa ( " + x + " , " + y + " )");
+				else 
+				{
+					notifyTds();
+					if(validadeMov == Consts.chequeMatePreto)
+					{
+						facade.chequeMate(Consts.preta);
+						return false;
+					}
+					else if(validadeMov == Consts.chequeMateBranco)
+					{
+						facade.chequeMate(Consts.branca);
+						return false;
+					}
+				}
+
+				System.out.println("\tVoce moveu " + selecionada.nome() + " para a casa ( " + x + " , " + y + " )");
 				facade.promocao(selecionada);
 				notifyTds();
-				
+
 				return true;
 			}
+		System.out.println("Movimento Ilegal! Selecione outra peca.");
 		
 		return false;
 	}
@@ -365,6 +636,7 @@ implements Observavel
 		int yOriginal = selecionada.getY();
 		int xAlvo = alvo.getX();
 		int yAlvo = alvo.getY();
+		int validadeMov;
 
 		if(selecionada.comidaValida(xAlvo, yAlvo))
 		{
@@ -377,7 +649,8 @@ implements Observavel
 			tab.get(indiceOrigem).toogleO();
 			tab.get(indiceOrigem).setPeca(null);
 			this.AtualizaMovPecas();
-			if(xeque(selecionada) == Consts.movIlegal)
+			validadeMov = Cheque(selecionada);
+			if(validadeMov == Consts.movIlegal)
 			{
 				selecionada.setV(xOriginal, yOriginal);
 				pecas.add(alvo);
@@ -389,12 +662,27 @@ implements Observavel
 
 				return false;
 			}
+			else 
+			{
+				notifyTds();
+				if(validadeMov == Consts.chequeMatePreto)
+				{
+					facade.chequeMate(Consts.preta);
+					return false;
+				}
+				else if(validadeMov == Consts.chequeMateBranco)
+				{
+					facade.chequeMate(Consts.branca);
+					return false;
+				}
+			}
+
 			System.out.println("\tVoce comeu o(a) " + alvo.nome() + " inimigo(a)!");
 			alvo = null;
 			notifyTds();
 			facade.promocao(selecionada);
 			notifyTds();
-			
+
 			return true;
 		}
 		else
@@ -404,6 +692,7 @@ implements Observavel
 					notifyTds();
 					return true;
 				}
+		System.out.println("Movimento Ilegal! Selecione outra peca.");
 
 		return false;
 	}
@@ -458,6 +747,7 @@ implements Observavel
 
 	public void notifyTds()
 	{
+		System.out.println("notificacao");
 		for(Observador obs : observadores)
 			obs.notifyObs();
 	}

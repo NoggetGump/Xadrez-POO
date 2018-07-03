@@ -1,6 +1,8 @@
 package pecas;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 import tabuleiro.Consts;
 import tabuleiro.Tabuleiro;
@@ -8,10 +10,8 @@ import vetor.Vet;
 
 public abstract class Peca{
 	/**
-	 * 
 	 * 	Variaveis propositalmente sem modificador 
 	 * 	para serem acessada somente dentro do mesmo pacote.
-	 *
 	 * */
 
 	Vet v; //Vetor coordenada x e y.
@@ -20,9 +20,7 @@ public abstract class Peca{
 	ArrayList<Vet> comiveis = new ArrayList<Vet>(8); //LIsta com todas as coordenadas onde ha uma peca a ser comida
 
 	/**
-	 * 
 	 *	Construtores de Peca.
-	 *
 	 * */
 
 	public Peca(int x, int y, char cor)
@@ -50,13 +48,21 @@ public abstract class Peca{
 		
 		return false;
 	}
+	
+	/**
+	 * 	Compara as coordenadas da peça com a de um Vet qualquer.
+	 */
+	public boolean comparaCoor(Vet b)
+	{
+		if(this.getX() == b.getX() && this.getY() == b.getY())
+			return true;
+
+		return false;
+	}
 
 	/**
-	 * 
 	 * 	Getters e Setters de Peca.
-	 *
 	 */
-
 	public char getCor()
 	{
 		return this.cor;
@@ -70,11 +76,6 @@ public abstract class Peca{
 	public int getY()
 	{
 		return this.v.getY();
-	}
-
-	private Vet getV()
-	{
-		return this.v;
 	}
 
 	public void setV(int x, int y)
@@ -91,15 +92,20 @@ public abstract class Peca{
 	{
 		this.v.setX(x);
 	}
-
-	public ArrayList<Vet> getAllMoves()
+	
+	public void setCor(char cor)
 	{
-		return this.AllMoves;
+		this.cor = cor;
 	}
 
-	public ArrayList<Vet> getComiveis()
+	public List<Vet> getAllMoves()
 	{
-		return comiveis;
+		return Collections.unmodifiableList(AllMoves);
+	}
+
+	public List<Vet> getComiveis()
+	{
+		return Collections.unmodifiableList(comiveis);
 	}
 
 	public void atualizaPos(Vet vet)
@@ -108,9 +114,7 @@ public abstract class Peca{
 	}
 
 	/**
-	 * 
 	 * Retorna true se a cor for preta
-	 *
 	 */
 
 	public boolean corP()
@@ -122,9 +126,7 @@ public abstract class Peca{
 	}
 
 	/**
-	 * 
 	 * Retorna true se o movimento for possivel
-	 *
 	 */
 
 	public boolean movimentoValido(int x, int y)
@@ -137,9 +139,7 @@ public abstract class Peca{
 	}
 
 	/**
-	 * 
 	 * Retorna true se o movimento for possivel
-	 *
 	 */
 
 	public boolean comidaValida(int x, int y)
@@ -152,10 +152,8 @@ public abstract class Peca{
 	}
 	
 	/**
-	 * 
 	 * 	Retorna se a peca selecionada obedece o
 	 * 	seu respectivo turno
-	 *
 	 */
 	
 	public boolean turno(int t)
@@ -170,12 +168,10 @@ public abstract class Peca{
 	}
 
 	/**
-	 * 
 	 * Printer dos movimentos de Peca. Somente para DEBUG ONLY!
-	 *
 	 */
 
-    public Consumer<Vet> printMoves = (v) -> 
+    private Consumer<Vet> printMoves = (v) -> 
     { //para testar se os movimentos possiveis estavam sendo inicializados corretamente
         System.out.print("(" +v.getX() + "," + v.getY() + ")" + "\t");
     };
@@ -184,20 +180,23 @@ public abstract class Peca{
 	{
 		this.AllMoves.forEach(printMoves);
 	}
-	
-	public boolean checaXeque(Peca p)
+
+	/**
+	 * Checa se a casa do rei, ou possivel movimento do rei
+	 * estah sendo ameacado.
+	 */
+
+	public boolean checaCheque(Vet reiPos)
 	{
 		for(Vet v : comiveis)
-			if(v.equals(p.getV()))
+			if(v.equals(reiPos))
 				return true;
 
 		return false;
 	}
 	
-	/**
-	 * 
+	/** 
 	 * 	Retorna a string do nome da peça + sua pocição no tabuleiro
-	 * 
 	 * */
 	
 	public String printSave()
@@ -206,9 +205,7 @@ public abstract class Peca{
 	}
 	
 	/**
-	 * 
 	 * Converte as coordenadas X e Y 
-	 *
 	 */
 	
 	public int cnvrtCooX()
@@ -220,41 +217,31 @@ public abstract class Peca{
 	{ //converte as coordenadas cartesianas em coordenadas User Space
 		return (this.getY() * Consts.tamC) + Consts.ajuste;
 	}
+	
+	//<!> A PARTIR DAQUI RESIDEM AS FUNCOES ABSTRATAS <!>
 
-	/** <!> A PARTIR DAQUI RESIDEM AS FUNCOES ABSTRATAS <!> 
-	 * 
+	/**
 	 * 	Retorna o path correto para
 	 *  a imagem da respectiva peca.
-	 *
 	 */
 
 	abstract public String imgPeca();
 
 	/**
-	 * 
 	 *	Teste para saber se o click do mouse
 	 *	retorna a peca correta.
-	 *
 	 */
 
 	abstract public String nome();
 
 	/**
-	 *
-	 * 	Importante <!>
-	 *  AllMoves nÃ£o precisa ser inicializada
-	 *  na construcao do objeto Peca. AllMoves
-	 *  deve ser inicializada quando o tabuleiro
-	 *  estiver cheio de pecas, assim a funÃ§Ã£o 
-	 *  poderÃ¡ lidar com o conflito de pecas.
-	 *   
+	 * 	<!> Importante <!>
+	 *  AtualizaMoves nao eh chama na construcao
+	 *  do objeto Peca. AllMoves deve ser chamada
+	 *  quando o tabuleiro estiver cheio de pecas,
+	 *  assim a funcao poderah lidar com o conflito
+	 *  de pecas.
 	 */
 
 	public abstract void AtualizaMoves(Tabuleiro tab);
-
-	public void setCor(char cor) {
-		this.cor = cor;
-		
-	}
-	
 }

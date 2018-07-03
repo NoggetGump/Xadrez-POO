@@ -20,7 +20,7 @@ import tabuleiro.*;
 import vetor.Vet;
 
 public class Facade implements Observador{
-	
+
 	private static final int tamY = 2 * Consts.tamC;
 	private static final int tamTab = 8 * Consts.tamC;
 	private static Tabuleiro tab = null;
@@ -35,13 +35,24 @@ public class Facade implements Observador{
 	{
 		inicializaJogo();
 	}
-	
+
 	 /**
      * 	Inicializa jogo com JOptionPane para carregar jogo salvo
      * 	ou Iniciar novo jogo.
      * */
+	private void newGame()
+	{
+		tab = Tabuleiro.getTabuleiro(true);
+		tab.addObs(this);
+		Facade.gm = new GUI_main(this);
+		arquivo = new Arquivo(this);
+	}
 
-	public void inicializaJogo()
+	 /**
+     * 	Inicializa jogo com JOptionPane para carregar jogo salvo
+     * 	ou Iniciar novo jogo.
+     * */
+	private void inicializaJogo()
 	{
 		switch(op.loadGame())
 		{
@@ -51,12 +62,52 @@ public class Facade implements Observador{
 				tab.addObs(this);
 				Facade.gm = new GUI_main(this);
 				arquivo = new Arquivo(this);
-
 				fc.setCurrentDirectory(new java.io.File("saves"));
 				fc.setDialogTitle("Carregar jogo - ESCOLHA O ARQUIVO DE SALVAMENTO");
-				int returnval = fc.showOpenDialog(gm.getJanela().getParent());
+				if(fc.showOpenDialog(gm.getJanela().getParent()) == JFileChooser.APPROVE_OPTION)
+				{
+					arquivo.carregaPartida(fc.getSelectedFile() + "");
+					gm.repaint();
+					tab.AtualizaMovPecas();
+					System.out.println("<< Turno " + turno + ">>");
+				}
+				else
+				{
+					System.out.println("Carregamento de jogo cancelado pelo usuario");
+					gm.getJanela().dispatchEvent(new WindowEvent(gm.getJanela(), WindowEvent.WINDOW_CLOSING));
+				}
+				break;
+			}
+			case 1:
+			{
+				newGame();
+				System.out.println("<< Turno 1 >>");
+				break;
+			}
+			default:
+			{
+				System.out.println("Aplicacao Encerrada!");
+				break;
+			}
+		}
+	}
 
-				if(returnval == JFileChooser.APPROVE_OPTION)
+	/**
+	 * Reseta o jogo.
+	 */
+	private void resetaJogoTab()
+	{
+		turno = 1;
+		arquivo = new Arquivo(this);
+		selecionada = null;
+		switch(op.loadGame())
+		{
+			case 0: // Load Game
+			{
+				tab.resetaJogo(false);
+				fc.setCurrentDirectory(new java.io.File("saves"));
+				fc.setDialogTitle("Carregar jogo - ESCOLHA O ARQUIVO DE SALVAMENTO");
+				if(fc.showOpenDialog(gm.getJanela().getParent()) == JFileChooser.APPROVE_OPTION)
 				{
 					arquivo.carregaPartida(fc.getSelectedFile() + "");
 					tab.AtualizaMovPecas();
@@ -70,27 +121,21 @@ public class Facade implements Observador{
 			}
 			case 1:
 			{
-				tab = Tabuleiro.getTabuleiro(true);
-				tab.addObs(this);
-				tab.AtualizaMovPecas();
-				Facade.gm = new GUI_main(this);
-				arquivo = new Arquivo(this);
-
+				tab.resetaJogo(true);
 				break;
 			}
 			default:
 			{
-				System.out.println("Aplica��o Encerrada!");
-				
+				System.out.println("Aplicacao Encerrada!");
 				break;
 			}
 		}
+		gm.repaint();
 	}
 
 	/**
 	 * Geters
 	 */
-
 	public GUI_main getGM()
 	{
 		return gm;
@@ -104,7 +149,6 @@ public class Facade implements Observador{
 	/**
 	 * Seters
 	 */
-
 	public void setTurno(Integer turno)
 	{
 		this.turno = turno;
@@ -113,7 +157,6 @@ public class Facade implements Observador{
 	/**
 	 * Desenha as pecas no tabuleiro.
 	 */
-
 	private void paintPecas(Graphics2D g2, ImageObserver io)
 	{
 		for(Peca peca : tab.getPecas())
@@ -127,7 +170,6 @@ public class Facade implements Observador{
 	 * Marca as casas para salientar: peca selecionada do turno
 	 * e movimentos possiveis, incluindo movimentos de tomada de peca.
 	 */
-
     private void highlightPeca(Graphics2D g2)
     {
     	if(selecionada!=null)
@@ -154,7 +196,6 @@ public class Facade implements Observador{
 	/**
 	 * Desenha tudo que o jogo contem. Chamada pela GUI_main.
 	 */
-
     public void paintAll(Graphics g, ImageObserver io)
 	{
 	    Graphics2D g2 = (Graphics2D) g;
@@ -192,7 +233,6 @@ public class Facade implements Observador{
 	/**
 	 * Chama a possivel movimentacao de pecas no controlador Tabuleiro(observado).
 	 */
-
 	public void movPeca(Peca selecionada, int x, int y)
 	{
 		if(tab.movePeca(selecionada, x, y, this))
@@ -200,12 +240,16 @@ public class Facade implements Observador{
 			turno++;
 			System.out.println("\r\n<< Turno " + turno + " >>\r\n");
 		}
+		else
+		{
+			selecionada = null;
+			gm.repaint();
+		}
 	}
 
 	/**
 	 * Chama a tomada de peca no controlador Tabuleiro(observado).
 	 */
-
 	public void comePecaOuRoque(Peca selecionada, Peca alvo)
 	{
 		if(tab.comePeca(selecionada, alvo, this))
@@ -213,13 +257,17 @@ public class Facade implements Observador{
 			turno++;
 			System.out.println("\r\n<< Turno " + turno + " >>\r\n");
 		}
+		else
+		{
+			selecionada = null;
+			gm.repaint();
+		}
 	}
 
 	/**
 	 * Cuida da logica da promocao, e chama a criacao de um menu
 	 * com o objetivo do usuario escolher para qual peca o peao sera promovido.
 	 */
-
 	public void promocao(Peca peao)
 	{
 		if(peao instanceof Peao)
@@ -252,17 +300,30 @@ public class Facade implements Observador{
 	 * Chama a promocao de peao
 	 * no controlador Tabuleiro(observado).
 	 */
-
 	public void promove(Peca peao, Peca promo)
 	{
 		tab.promovida(peao, promo);
 	}
 
 	/**
+	 * Encerra o jogo (Game Over).
+	 * Cria um novo jogo, caso o usuario deseje.
+	 */
+	public void chequeMate(char cor)
+	{
+		if(GUI_OptionPane.gameOver(cor) == 0)
+			resetaJogoTab();
+		else
+		{
+			System.out.println("Aplicacao Encerrada!");
+			gm.getJanela().dispatchEvent(new WindowEvent(gm.getJanela(), WindowEvent.WINDOW_CLOSING));
+		}
+	}
+
+	/**
 	 * Cuida da logica da janela assim que a mesma dispara um evento de clique
 	 * do botao esquerdo do mouse.
 	 */
-
 	public void logicaJanelaE(int x, int y, Peca temp){
 		if(temp != selecionada
 		&& selecionada != null)
@@ -287,11 +348,12 @@ public class Facade implements Observador{
 	 * Cuida da logica da janela assim que a mesma dispara um evento de clique
 	 * do do botao direito do mouse.
 	 */
-
 	public void logicaJanelaD()
 	{
 		System.out.println("Salvar jogo?");
 		
+		fc.setApproveButtonText("Save");
+		fc.setApproveButtonMnemonic('S');
 		int returnval = fc.showOpenDialog(gm.getJanela().getParent());
 		if(returnval == JFileChooser.APPROVE_OPTION)
 		{
@@ -304,10 +366,9 @@ public class Facade implements Observador{
 	}
 
 	/**
-	 * Função do observador, que assim que notificado,
+	 * Funcao do observador, que assim que notificado,
 	 * emite o sinal para GUI_main redesenhar o tabuleiro.
 	 */
-
 		public void notifyObs()
 	{
 		gm.repaint();
@@ -317,7 +378,6 @@ public class Facade implements Observador{
 	 * Chama getPeca, dada uma coordenada (x, y).
 	 * Evita a passagem por referencia do Tabuleiro.
 	 */
-
 	public Peca buscaPecaTab(int x, int y)
 	{
 		return tab.getPeca(Tabuleiro.geraIndice(x, y));
@@ -336,7 +396,6 @@ public class Facade implements Observador{
 	 * Chama a addPeca de Tabuleiro, dado um objeto peca ja criado.
 	 * Evita a passagem por referencia do Tabuleiro.
 	 */
-
 	public List<Peca> getPecasTab()
 	{
 		return tab.getPecas();

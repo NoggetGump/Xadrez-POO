@@ -158,7 +158,7 @@ public class Arquivo {
 	
 	public void salvaPartida(String arq)
 	{
-		String texto = facade.getTurno().toString() + "\n"; // Conteudo que sera escrito no arquivo de salvamento
+		String texto = facade.getTurno().toString() + "\r\n"; // Conteudo que sera escrito no arquivo de salvamento
 
 		for(Peca peca : facade.getPecasTab())
 		{

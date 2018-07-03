@@ -9,7 +9,7 @@ public class Vet {
 	public Vet(){
 		v = new int[2];
 	}
-	
+
 	public boolean equals(Vet b)
 	{
 		if(this.getX() == b.getX() && this.getY() == b.getY())
