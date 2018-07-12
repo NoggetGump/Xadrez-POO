@@ -651,11 +651,7 @@ implements Observavel
 				tab.get(indiceOrigem).toogleO();
 				tab.get(indiceOrigem).setPeca(null);
 				this.AtualizaMovPecas();
-				if(empate())
-				{
-					facade.chequeMate(Consts.empate);
-					return false;
-				}
+
 				validadeMov = Cheque(selecionada);
 				if(validadeMov == Consts.movIlegal)
 				{
@@ -669,7 +665,7 @@ implements Observavel
 
 					return false;
 				}
-				else 
+				else
 				{
 					notifyTds();
 					if(validadeMov == Consts.chequeMatePreto)
@@ -682,6 +678,12 @@ implements Observavel
 						facade.chequeMate(Consts.branca);
 						return false;
 					}
+				}
+				if(validadeMov != Consts.cheque
+				&& empate())
+				{
+					facade.chequeMate(Consts.empate);
+					return false;
 				}
 
 				System.out.println("\tVoce moveu " + selecionada.nome() + " para a casa ( " + x + " , " + y + " )");
@@ -714,20 +716,23 @@ implements Observavel
 
 			selecionada.setV(xAlvo, yAlvo);
 			pecas.remove(alvo);
+			if(alvo.corP())
+				pecasP.remove(alvo);
+			else
+				pecasB.remove(alvo);
 			tab.get(indiceDestino).setPeca(selecionada);
 			tab.get(indiceOrigem).toogleO();
 			tab.get(indiceOrigem).setPeca(null);
 			this.AtualizaMovPecas();
-			if(empate())
-			{
-				facade.chequeMate(Consts.empate);
-				return false;
-			}
 			validadeMov = Cheque(selecionada);
 			if(validadeMov == Consts.movIlegal)
 			{
 				selecionada.setV(xOriginal, yOriginal);
 				pecas.add(alvo);
+				if(alvo.corP())
+					pecasP.add(alvo);
+				else
+					pecasB.add(alvo);
 				tab.get(indiceDestino).setPeca(alvo);
 				tab.get(indiceOrigem).toogleO();
 				tab.get(indiceOrigem).setPeca(selecionada);
@@ -749,6 +754,12 @@ implements Observavel
 					facade.chequeMate(Consts.branca);
 					return false;
 				}
+			}
+			if(validadeMov != Consts.cheque
+			&& empate())
+			{
+				facade.chequeMate(Consts.empate);
+				return false;
 			}
 
 			System.out.println("\tVoce comeu o(a) " + alvo.nome() + " inimigo(a)!");
@@ -788,7 +799,18 @@ implements Observavel
 		else if(noMoves(pecasP)
 		&& !reiMovPoss(ReiP))
 			return true;
+		else 
+			if(somaPontos(pecasB))
+				return true;
+		else
+			if(somaPontos(pecasP))
+				return true;
+			
+		return false;
+	}
 
+	private boolean somaPontos(ArrayList<Peca> pecasX) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
