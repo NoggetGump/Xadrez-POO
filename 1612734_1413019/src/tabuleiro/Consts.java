@@ -14,9 +14,10 @@ public final class Consts
 	public static final int chequeMateBranco = 2;
 	public static final int chequeMatePreto = 3;
 	public static final int movIlegal = -1;
-	
+
 	public static final char branca = 'b';
 	public static final char preta = 'p';
+	public static final char empate = 'e';
 
 	public static final File root = new File(System.getProperty("user.dir"));
 	public static final File assets = new File(root, "Assets");

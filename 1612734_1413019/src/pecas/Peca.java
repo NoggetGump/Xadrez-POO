@@ -40,7 +40,7 @@ public abstract class Peca{
 		this.v = new Vet(p.getX(), p.getY());
 		this.cor = p.cor;
 	}
-	
+
 	public boolean equals(Peca p)
 	{
 		if(this != p)
@@ -48,7 +48,7 @@ public abstract class Peca{
 		
 		return false;
 	}
-	
+
 	/**
 	 * 	Compara as coordenadas da peça com a de um Vet qualquer.
 	 */
@@ -92,7 +92,7 @@ public abstract class Peca{
 	{
 		this.v.setX(x);
 	}
-	
+
 	public void setCor(char cor)
 	{
 		this.cor = cor;
@@ -150,12 +150,12 @@ public abstract class Peca{
 
 		return false;
 	}
-	
+
 	/**
 	 * 	Retorna se a peca selecionada obedece o
 	 * 	seu respectivo turno
 	 */
-	
+
 	public boolean turno(int t)
 	{
 		if(t%2 == 0 && cor == 'p')
@@ -183,7 +183,7 @@ public abstract class Peca{
 
 	/**
 	 * Checa se a casa do rei, ou possivel movimento do rei
-	 * estah sendo ameacado.
+	 * estah sendo ameacado. Retorna True em caso positivo.
 	 */
 
 	public boolean checaCheque(Vet reiPos)
@@ -194,7 +194,7 @@ public abstract class Peca{
 
 		return false;
 	}
-	
+
 	/** 
 	 * 	Retorna a string do nome da peça + sua pocição no tabuleiro
 	 * */

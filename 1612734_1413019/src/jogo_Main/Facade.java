@@ -307,11 +307,12 @@ public class Facade implements Observador{
 
 	/**
 	 * Encerra o jogo (Game Over).
+	 * Resultado eh uma cor ou empate.
 	 * Cria um novo jogo, caso o usuario deseje.
 	 */
-	public void chequeMate(char cor)
+	public void chequeMate(char resultado)
 	{
-		if(GUI_OptionPane.gameOver(cor) == 0)
+		if(GUI_OptionPane.gameOver(resultado) == 0)
 			resetaJogoTab();
 		else
 		{
