@@ -691,6 +691,7 @@ implements Observavel
 				((Rei)selecionada).toogleJaMoveu();
 			if(selecionada instanceof Torre)
 				((Torre)selecionada).toogleJaMoveu();
+			this.AtualizaMovPecas();
 			facade.promocao(selecionada);
 			notifyTds();
 
@@ -772,6 +773,7 @@ implements Observavel
 			if(selecionada instanceof Torre)
 				((Torre)selecionada).toogleJaMoveu();
 			alvo = null;
+			this.AtualizaMovPecas();
 			notifyTds();
 			facade.promocao(selecionada);
 			notifyTds();
