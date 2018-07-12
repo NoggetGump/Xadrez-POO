@@ -9,16 +9,16 @@ import vetor.Vet;
 public class Torre extends Peca
 {
 	private boolean jaMoveu = false;
-	
+	public float valor = 1;
 	/**
 	 * 
 	 *	Construtores de Peca
 	 *
 	 * */
 
-	public Torre(int x, int y, char cor){super(x, y, cor);}
+	public Torre(int x, int y, char cor){super(x, y, cor, 1f);}
 
-	public Torre(Vet v, char cor){super(v, cor);}
+	public Torre(Vet v, char cor){super(v, cor, 1f);}
 
 	/**
 	 * 

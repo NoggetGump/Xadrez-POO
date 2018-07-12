@@ -6,16 +6,16 @@ import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
 public class Cavalo extends Peca{
-
+	public float valor = 0.5f;
 	/**
 	 * 
 	 *	Construtores de Peca
 	 *
 	 * */
 
-	public Cavalo(int x, int y, char cor){super(x, y, cor);}
+	public Cavalo(int x, int y, char cor){super(x, y, cor, 0.5f);}
 
-	public Cavalo(Vet v, char cor){super(v, cor);}
+	public Cavalo(Vet v, char cor){super(v, cor, 0.5f);}
 
 	/**
 	 * 

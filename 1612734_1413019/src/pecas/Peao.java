@@ -14,9 +14,9 @@ public class Peao extends Peca{
 	 *
 	 * */
 
-	public Peao(int x, int y, char cor){super(x, y, cor);}
+	public Peao(int x, int y, char cor){super(x, y, cor, 0);}
 
-	public Peao(Vet v, char cor){super(v, cor);}
+	public Peao(Vet v, char cor){super(v, cor, 0);}
 
 	/**
 	 * 

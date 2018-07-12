@@ -9,16 +9,16 @@ import vetor.Vet;
 
 public class Rainha extends Peca
 {
-
+	public float valor = 1;
 	/**
 	 * 
 	 *	Construtores de Peca
 	 *
 	 * */
 
-	public Rainha(int x, int y, char cor){super(x, y, cor);}
+	public Rainha(int x, int y, char cor){super(x, y, cor, 1f);}
 	
-	public Rainha(Vet v, char cor){super(v, cor);}
+	public Rainha(Vet v, char cor){super(v, cor, 1f);}
 	
 	/**
 	 * 

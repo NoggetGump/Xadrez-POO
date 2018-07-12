@@ -641,57 +641,61 @@ implements Observavel
 		int validadeMov;
 
 		if(selecionada.movimentoValido(x, y))
+		{
+			int indiceDestino = (Consts.xyFin + 1)*y + x;
+			int indiceOrigem = (Consts.xyFin + 1)*yOriginal + xOriginal;
+
+			selecionada.setV(x, y);
+			tab.get(indiceDestino).toogleO();
+			tab.get(indiceDestino).setPeca(selecionada);
+			tab.get(indiceOrigem).toogleO();
+			tab.get(indiceOrigem).setPeca(null);
+			this.AtualizaMovPecas();
+
+			validadeMov = Cheque(selecionada);
+			if(validadeMov == Consts.movIlegal)
 			{
-				int indiceDestino = (Consts.xyFin + 1)*y + x;
-				int indiceOrigem = (Consts.xyFin + 1)*yOriginal + xOriginal;
-
-				selecionada.setV(x, y);
+				selecionada.setV(xOriginal, yOriginal);
 				tab.get(indiceDestino).toogleO();
-				tab.get(indiceDestino).setPeca(selecionada);
+				tab.get(indiceDestino).setPeca(null);
 				tab.get(indiceOrigem).toogleO();
-				tab.get(indiceOrigem).setPeca(null);
+				tab.get(indiceOrigem).setPeca(selecionada);
 				this.AtualizaMovPecas();
+				System.out.println("\tMovimento ilegal! Selecione outra peca");
 
-				validadeMov = Cheque(selecionada);
-				if(validadeMov == Consts.movIlegal)
-				{
-					selecionada.setV(xOriginal, yOriginal);
-					tab.get(indiceDestino).toogleO();
-					tab.get(indiceDestino).setPeca(null);
-					tab.get(indiceOrigem).toogleO();
-					tab.get(indiceOrigem).setPeca(selecionada);
-					this.AtualizaMovPecas();
-					System.out.println("\tMovimento ilegal! Selecione outra peca");
-
-					return false;
-				}
-				else
-				{
-					notifyTds();
-					if(validadeMov == Consts.chequeMatePreto)
-					{
-						facade.chequeMate(Consts.preta);
-						return false;
-					}
-					else if(validadeMov == Consts.chequeMateBranco)
-					{
-						facade.chequeMate(Consts.branca);
-						return false;
-					}
-				}
-				if(validadeMov != Consts.cheque
-				&& empate())
-				{
-					facade.chequeMate(Consts.empate);
-					return false;
-				}
-
-				System.out.println("\tVoce moveu " + selecionada.nome() + " para a casa ( " + x + " , " + y + " )");
-				facade.promocao(selecionada);
-				notifyTds();
-
-				return true;
+				return false;
 			}
+			else
+			{
+				notifyTds();
+				if(validadeMov == Consts.chequeMatePreto)
+				{
+					facade.chequeMate(Consts.preta);
+					return false;
+				}
+				else if(validadeMov == Consts.chequeMateBranco)
+				{
+					facade.chequeMate(Consts.branca);
+					return false;
+				}
+			}
+			if(validadeMov != Consts.cheque
+			&& empate())
+			{
+				facade.chequeMate(Consts.empate);
+				return false;
+			}
+
+			System.out.println("\tVoce moveu " + selecionada.nome() + " para a casa ( " + x + " , " + y + " )");
+			if(selecionada instanceof Rei)
+				((Rei)selecionada).toogleJaMoveu();
+			if(selecionada instanceof Torre)
+				((Torre)selecionada).toogleJaMoveu();
+			facade.promocao(selecionada);
+			notifyTds();
+
+			return true;
+		}
 		System.out.println("Movimento Ilegal! Selecione outra peca.");
 		
 		return false;
@@ -763,6 +767,10 @@ implements Observavel
 			}
 
 			System.out.println("\tVoce comeu o(a) " + alvo.nome() + " inimigo(a)!");
+			if(selecionada instanceof Rei)
+				((Rei)selecionada).toogleJaMoveu();
+			if(selecionada instanceof Torre)
+				((Torre)selecionada).toogleJaMoveu();
 			alvo = null;
 			notifyTds();
 			facade.promocao(selecionada);
@@ -770,13 +778,12 @@ implements Observavel
 
 			return true;
 		}
-		else
-			if(selecionada instanceof Rei)
-				if(this.roque(selecionada, alvo))
-				{
-					notifyTds();
-					return true;
-				}
+		else if(selecionada instanceof Rei)
+			if(this.roque(selecionada, alvo))
+			{
+				notifyTds();
+				return true;
+			}
 		System.out.println("Movimento Ilegal! Selecione outra peca.");
 
 		return false;
@@ -799,7 +806,7 @@ implements Observavel
 		else if(noMoves(pecasP)
 		&& !reiMovPoss(ReiP))
 			return true;
-		else 
+		else
 			if(somaPontos(pecasB))
 				return true;
 		else
@@ -810,7 +817,13 @@ implements Observavel
 	}
 
 	private boolean somaPontos(ArrayList<Peca> pecasX) {
-		// TODO Auto-generated method stub
+		float soma = 0.0f;
+		
+		for(Peca p : pecasX)
+			soma = soma + p.valor;
+		if(soma<1.5)
+			return true;
+		
 		return false;
 	}
 

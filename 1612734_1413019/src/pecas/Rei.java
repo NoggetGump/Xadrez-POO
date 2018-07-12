@@ -11,16 +11,16 @@ import vetor.Vet;
 public class Rei extends Peca
 {
 	private boolean jaMoveu = false;
-	
+	public float valor = 0;
 	/**
 	 * 
 	 *	Construtores de Peca
 	 *
 	 * */
 
-	public Rei(int x, int y, char cor){super(x, y, cor);}
+	public Rei(int x, int y, char cor){super(x, y, cor, 0f);}
 
-	public Rei(Vet v, char cor){super(v, cor);}
+	public Rei(Vet v, char cor){super(v, cor, 0f);}
 
 	/**
 	 * 
@@ -48,7 +48,10 @@ public class Rei extends Peca
 
 	public void toogleJaMoveu()
 	{
-		jaMoveu = !jaMoveu;
+		if(jaMoveu)
+			return;
+		else
+			jaMoveu = true;
 	}
 
 	public void AtualizaMoves(Tabuleiro tab)

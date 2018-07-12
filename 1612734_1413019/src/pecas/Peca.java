@@ -18,21 +18,23 @@ public abstract class Peca{
 	char cor; //Cor preta "p" ou branca "b".
 	ArrayList<Vet> AllMoves = new ArrayList<Vet>(); //Lista com todos os movimentos de determinada peca
 	ArrayList<Vet> comiveis = new ArrayList<Vet>(8); //LIsta com todas as coordenadas onde ha uma peca a ser comida
-
+	public float valor;
 	/**
 	 *	Construtores de Peca.
 	 * */
 
-	public Peca(int x, int y, char cor)
+	public Peca(int x, int y, char cor, float valor)
 	{
 		this.v = new Vet(x,y);
 		this.cor = cor;
+		this.valor = valor;
 	}
 
-	public Peca(Vet v, char cor)
+	public Peca(Vet v, char cor, float valor)
 	{
 		this.v = new Vet(v);
 		this.cor = cor;
+		this.valor = valor;
 	}
 
 	public Peca(Peca p)
