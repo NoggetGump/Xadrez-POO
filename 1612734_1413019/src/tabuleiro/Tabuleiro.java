@@ -167,6 +167,8 @@ implements Observavel
 	{
 		tab.clear();
 		pecas.clear();
+		pecasB.clear();
+		pecasP.clear();
 		notifyTds();
 		ReiB = null;
 		ReiP = null;
@@ -682,6 +684,7 @@ implements Observavel
 			if(validadeMov != Consts.cheque
 			&& empate())
 			{
+
 				facade.chequeMate(Consts.empate);
 				return false;
 			}

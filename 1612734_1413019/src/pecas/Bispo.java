@@ -6,8 +6,7 @@ import tabuleiro.Tabuleiro;
 import vetor.Vet;
 
 public class Bispo extends Peca
-{	
-	public float valor = 0.5f;
+{
 	/**
 	 *
 	 *	Construtores de Peca
@@ -16,7 +15,7 @@ public class Bispo extends Peca
 
 	public Bispo(int x, int y, char cor){super(x, y, cor, 0.5f);}
 
-	public Bispo(Vet v, char cor){super(v , cor, 0.5f);}
+	public Bispo(Vet v, char cor){super(v , cor, 1.0f);}
 
 	/**
 	 * 

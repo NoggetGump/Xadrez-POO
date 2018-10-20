@@ -16,7 +16,7 @@ public class Torre extends Peca
 	 *
 	 * */
 
-	public Torre(int x, int y, char cor){super(x, y, cor, 1f);}
+	public Torre(int x, int y, char cor){super(x, y, cor, 1.5f);}
 
 	public Torre(Vet v, char cor){super(v, cor, 1f);}
 
@@ -46,7 +46,10 @@ public class Torre extends Peca
 	
 	public void toogleJaMoveu()
 	{
-		jaMoveu = !jaMoveu;
+		if(jaMoveu)
+			return;
+		else
+			jaMoveu = true;
 	}
 
 	public int roqueAssist(Vet addRei, Vet addTorre)
