@@ -2,3 +2,5 @@
 /RemoteSystemsTempFiles/
 /.recommenders/
 /bin/
+/.classpath/
+/.project/
