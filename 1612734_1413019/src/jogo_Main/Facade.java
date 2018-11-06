@@ -48,10 +48,6 @@ public class Facade implements Observador{
 		arquivo = new Arquivo(this);
 	}
 
-	 /**
-     * 	Inicializa jogo com JOptionPane para carregar jogo salvo
-     * 	ou Iniciar novo jogo.
-     * */
 	private void inicializaJogo()
 	{
 		switch(op.loadGame())

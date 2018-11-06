@@ -334,7 +334,7 @@ implements Observavel
 	}
 	
 	/**
-	 * Facilita a concepção do método MovPoss
+	 * Facilita a concepï¿½ï¿½o do mï¿½todo MovPoss
 	 */
 	private boolean reiMovPossAssist(Peca ReiX, Vet move)
 	{
@@ -363,7 +363,7 @@ implements Observavel
 	}
 
 	/**
-	 * Checa se o rei pode comer a peça atacante
+	 * Checa se o rei pode comer a peï¿½a atacante
 	 */
 	private boolean reiTomadaPoss(Peca ReiX, Peca comivel)
 	{
@@ -406,7 +406,7 @@ implements Observavel
 	}
 
 	/**
-	 * Facilita a concepção do método "interceptaAtacante".
+	 * Facilita a concepï¿½ï¿½o do mï¿½todo "interceptaAtacante".
 	 * */
 	private boolean interceptaAtacanteAssist(Peca atacante, Peca defensora, Peca rei)
 	{
@@ -551,7 +551,7 @@ implements Observavel
 	
 	/**
 	 * Checa se a peca atacando o rei eh comivel
-	 * ou se sua rota até o rei é interceptável. 
+	 * ou se sua rota atï¿½ o rei ï¿½ interceptï¿½vel. 
 	 * */
 	private boolean interceptaAtacante(Peca atacante)
 	{
@@ -878,6 +878,12 @@ implements Observavel
 		pecas.remove(peao);
 		tab.get(indice).setPeca(promo);
 		pecas.add(promo);
+		if(promo.corP())
+			pecasP.add(promo);
+		else
+			pecasB.add(promo);
+		System.out.println("peca promovida para" + promo.nome());
+		notifyTds();
 	}
 
 	public void notifyTds()

@@ -15,7 +15,6 @@ import pecas.Cavalo;
 import pecas.Peca;
 import pecas.Rainha;
 import pecas.Torre;
-import tabuleiro.Tabuleiro;
 
 public class GUI_PromoMenu implements ActionListener
 {
